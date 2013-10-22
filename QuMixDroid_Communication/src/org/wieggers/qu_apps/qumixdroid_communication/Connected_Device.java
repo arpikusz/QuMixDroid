@@ -16,10 +16,10 @@ public class Connected_Device {
 	private SendThread mSendThread;
 	private ReceiveThread mReceiveThread;
 
-	private Socket mSocket;
-	
+	private Socket mSocket;	
 	private String mRemoteIp;
 	private int mPort;	
+	
 	private LinkedBlockingQueue<byte[]> mQueue;
 			
 	private boolean mRunning;
@@ -49,6 +49,10 @@ public class Connected_Device {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void Stop() {
+		mRunning = false;
 	}
 	
 	public void AddListener(IDeviceListener listener) {
