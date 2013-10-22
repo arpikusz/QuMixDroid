@@ -8,7 +8,6 @@ import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.locks.Lock;
 
 public class Connected_Device {
 
@@ -17,7 +16,6 @@ public class Connected_Device {
 	private SendThread mSendThread;
 	private ReceiveThread mReceiveThread;
 
-	@SuppressWarnings("unused")
 	private Socket mSocket;
 	
 	private String mRemoteIp;
