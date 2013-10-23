@@ -72,7 +72,7 @@ public enum Qu16_Channels {
 	Unknown_6F(0x6F);
 		
 	@SuppressWarnings("unused")
-	private int mValue;
+	int mValue;
 	
 	Qu16_Channels(int value) {
 		mValue = value;

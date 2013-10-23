@@ -7,13 +7,15 @@ import org.wieggers.qu_apps.qumixdroid_communication.IDeviceListener;
 
 public class Qu16_Mixer implements IDeviceListener {
 	
-	private Connected_Device mDevice;
-	private LinkedList<IMixerListener> mListeners;
-	private Object mListenerLock;
+	Connected_Device mDevice;
+	LinkedList<IMixerListener> mListeners;
+	Object mListenerLock;
 
 	public Qu16_Mixer(String remoteIp, int port, boolean demoMode) {
 		
 		mListenerLock = new Object();
+		mListeners = new LinkedList<IMixerListener>();
+		
 		
 		if (!demoMode) {
 			mDevice = new Connected_Device(remoteIp, port);
