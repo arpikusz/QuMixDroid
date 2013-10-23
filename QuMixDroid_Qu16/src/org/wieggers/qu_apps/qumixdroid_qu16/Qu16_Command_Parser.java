@@ -5,14 +5,14 @@ import java.util.LinkedList;
 
 class Qu16_Command_Parser {
 	
-	LinkedList<IParserListener> mListeners;
-	Object mListenerLock;
+	private LinkedList<IParserListener> mListeners;
+	private Object mListenerLock;
 
-	parse_mode_enum mParseMode;
-	parse_state_enum mState = parse_state_enum.next_command;
+	private parse_mode_enum mParseMode;
+	private parse_state_enum mState = parse_state_enum.next_command;
 	
-	byte[] current_command = new byte[2048];
-	int current_command_length = 0;
+	private byte[] current_command = new byte[2048];
+	private int current_command_length = 0;
 
 	/**
 	 * Construct a parser object, capable of processing individual commands for the Qu-16
@@ -113,7 +113,7 @@ class Qu16_Command_Parser {
 		}
 	}
 	
-	enum parse_state_enum
+	private enum parse_state_enum
 	{
 		next_command,
 		in_sysex_command,

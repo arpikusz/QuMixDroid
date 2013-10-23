@@ -11,21 +11,21 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class Connected_Device {
 
-	StartThread mStartThread;
+	private StartThread mStartThread;
 	@SuppressWarnings("unused")
-	SendThread mSendThread;
-	ReceiveThread mReceiveThread;
+	private SendThread mSendThread;
+	private ReceiveThread mReceiveThread;
 
-	Socket mSocket;	
-	String mRemoteIp;
-	int mPort;	
+	private Socket mSocket;	
+	private String mRemoteIp;
+	private int mPort;	
 	
-	LinkedBlockingQueue<byte[]> mQueue;
+	private LinkedBlockingQueue<byte[]> mQueue;
 			
-	boolean mRunning;
+	private boolean mRunning;
 	
-	LinkedList<IDeviceListener> mListeners;
-	Object mListenerLock;
+	private LinkedList<IDeviceListener> mListeners;
+	private Object mListenerLock;
 	
 	public Connected_Device(String remoteIp, int port) {
 		mRemoteIp = remoteIp;

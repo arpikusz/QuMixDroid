@@ -14,7 +14,8 @@ public enum Qu16_Buses {
 	FX1(0x10),
 	FX2(0x11);
 
-	int mValue;
+	@SuppressWarnings("unused")
+	private int mValue;
 	Qu16_Buses(int value) {
 		mValue = value;
 	}

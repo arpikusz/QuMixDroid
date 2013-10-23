@@ -30,7 +30,8 @@ public enum Qu16_GEQ_Frequenxcies {
 	f12500(0x1A),
 	f16000(0x1B);
 	
-	int mValue;
+	@SuppressWarnings("unused")
+	private int mValue;
 	
 	Qu16_GEQ_Frequenxcies(int value) {
 		mValue = value;
