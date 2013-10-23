@@ -8,7 +8,7 @@ class Qu16_Command_Parser {
 	private LinkedList<IParserListener> mListeners;
 	private Object mListenerLock;
 
-	private parse_mode_enum mParseMode;
+	private Qu16_Command_Direction mCommandDirection;
 	private parse_state_enum mState = parse_state_enum.next_command;
 	
 	private byte[] current_command = new byte[2048];
@@ -16,10 +16,10 @@ class Qu16_Command_Parser {
 
 	/**
 	 * Construct a parser object, capable of processing individual commands for the Qu-16
-	 * @param parseMode	2 Modes, because commands are differen when sent to, or received from the Qu-16
+	 * @param commandDirection	2 Modes, because commands are different when sent to, or received from the Qu-16
 	 */
-	public Qu16_Command_Parser(parse_mode_enum parseMode) {
-		mParseMode = parseMode;
+	public Qu16_Command_Parser(Qu16_Command_Direction commandDirection) {
+		mCommandDirection = commandDirection;
 		
 		mListenerLock = new Object();
 		mListeners = new LinkedList<IParserListener>();
@@ -30,9 +30,9 @@ class Qu16_Command_Parser {
 	 * @param data 		Network data buffer 
 	 * @param length	Network data buffer length
 	 */
-	public void Parse (byte[] data, int length)
+	public void Parse (byte[] data)
 	{
-		for (int i = 0; i < length; ++i) {
+		for (int i = 0; i < data.length; ++i) {
 			boolean command_complete = false;
 			byte d = data [i];
 			current_command [current_command_length] = d;
@@ -57,11 +57,11 @@ class Qu16_Command_Parser {
 				}
 				break;
 			case in_channel_command:
-				switch (mParseMode) {
+				switch (mCommandDirection) {
 				case from_qu_16:
 					command_complete = (current_command_length == 11);
 					break;
-				case from_qu_pad:
+				case to_qu_16:
 					command_complete = (current_command_length == 8);
 					break;
 				}
@@ -82,7 +82,7 @@ class Qu16_Command_Parser {
 						byte[] command = Arrays.copyOfRange(current_command, 0, current_command_length);
 						
 						for (IParserListener listener : mListeners) {
-							listener.SingleCommand(command);
+							listener.singleCommand(command);
 						}
 					}
 				}
@@ -120,10 +120,4 @@ class Qu16_Command_Parser {
 		in_mute_command,
 		in_channel_command
 	}
-}
-
-enum parse_mode_enum
-{
-	from_qu_16,
-	from_qu_pad
 }

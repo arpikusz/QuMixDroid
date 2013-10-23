@@ -53,6 +53,9 @@ public class Connected_Device {
 	
 	public void Stop() {
 		mRunning = false;
+		synchronized (mListenerLock) {
+			mListeners.clear();
+		}		
 	}
 	
 	public void AddListener(IDeviceListener listener) {

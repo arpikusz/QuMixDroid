@@ -71,10 +71,13 @@ public enum Qu16_Channels {
 	Unknown_6E(0x6E),
 	Unknown_6F(0x6F);
 		
-	@SuppressWarnings("unused")
-	private int mValue;
+	private byte mValue;
+	
+	public byte getValue() {
+		return mValue;
+	}
 	
 	Qu16_Channels(int value) {
-		mValue = value;
+		mValue = (byte) value;
 	}
 }

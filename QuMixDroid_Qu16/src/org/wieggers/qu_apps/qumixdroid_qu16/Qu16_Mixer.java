@@ -5,18 +5,30 @@ import java.util.LinkedList;
 import org.wieggers.qu_apps.qumixdroid_communication.Connected_Device;
 import org.wieggers.qu_apps.qumixdroid_communication.IDeviceListener;
 
-public class Qu16_Mixer implements IDeviceListener {
+/**
+ * Qu16_Mixer is a "virtual" mixer which holds an active "scene" in memory, corresponding with the Qu-16 it is connected to
+ * @author george wieggers
+ *
+ */
+public class Qu16_Mixer implements IDeviceListener, IParserListener {
 	
 	private Connected_Device mDevice;
+	private Qu16_Command_Parser mParser;
 	private LinkedList<IMixerListener> mListeners;
 	private Object mListenerLock;
-
+		
+	/**
+	 * Construct a "virtual" mixer
+	 * @param remoteIp	IP address of Qu-16
+	 * @param port		Port of Qu-16
+	 * @param demoMode	The virtual mixer can be initialized with some fake data, so the app can be used in demo mode
+	 */
 	public Qu16_Mixer(String remoteIp, int port, boolean demoMode) {
 		
 		mListenerLock = new Object();
 		mListeners = new LinkedList<IMixerListener>();
-		
-		
+		mParser = new Qu16_Command_Parser(Qu16_Command_Direction.from_qu_16);
+				
 		if (!demoMode) {
 			mDevice = new Connected_Device(remoteIp, port);
 		} else {
@@ -27,6 +39,9 @@ public class Qu16_Mixer implements IDeviceListener {
 	public void Stop() {
 		if (mDevice != null) {
 			mDevice.Stop();
+		}
+		synchronized (mListenerLock) {
+			mListeners.clear();
 		}
 	}
 
@@ -45,7 +60,8 @@ public class Qu16_Mixer implements IDeviceListener {
 
 	@Override
 	public void receivedMessage(byte[] message) {
-		// TODO Auto-generated method stub
+		if (mParser != null)
+			mParser.Parse(message);
 		
 	}
 
@@ -57,5 +73,11 @@ public class Qu16_Mixer implements IDeviceListener {
 			}
 		}
 
+	}
+
+	@Override
+	public void singleCommand(byte[] data) {
+
+		
 	}
 }

@@ -78,10 +78,13 @@ public enum Qu16_Commands {
 	Unknown_5A(0x5A),
 	Unknown_6B(0x6B);
 	
-	@SuppressWarnings("unused")
-	private int mValue;
+	private byte mValue;
+	
+	public byte getValue() {
+		return mValue;
+	}
 	
 	Qu16_Commands(int value) {
-		mValue = value;
+		mValue = (byte) value;
 	}	
 }
