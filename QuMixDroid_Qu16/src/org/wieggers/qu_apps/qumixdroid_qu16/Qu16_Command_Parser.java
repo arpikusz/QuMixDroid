@@ -30,7 +30,7 @@ class Qu16_Command_Parser {
 	 * @param data 		Network data buffer 
 	 * @param length	Network data buffer length
 	 */
-	public void Parse (byte[] data)
+	public void parse (byte[] data)
 	{
 		for (int i = 0; i < data.length; ++i) {
 			boolean command_complete = false;
@@ -97,7 +97,7 @@ class Qu16_Command_Parser {
 	 * External listeners can subscribe to events using this method
 	 * @param listener
 	 */
-	public void AddListener(IParserListener listener) {
+	public void addListener(IParserListener listener) {
 		synchronized (mListenerLock) {
 			mListeners.add(listener);
 		}
@@ -107,7 +107,7 @@ class Qu16_Command_Parser {
 	 * External listeners can remove themselves from the listener list
 	 * @param listener
 	 */
-	public void RemoveListener(IParserListener listener) {
+	public void removeListener(IParserListener listener) {
 		synchronized (mListenerLock) {
 			mListeners.remove(listener);
 		}

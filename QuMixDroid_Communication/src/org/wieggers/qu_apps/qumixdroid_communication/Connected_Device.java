@@ -42,7 +42,7 @@ public class Connected_Device {
 		mStartThread.start();
 	}
 	
-	public void Send(byte[] message) {
+	public void send(byte[] message) {
 		try {
 			mQueue.put(message);
 		} catch (InterruptedException e) {
@@ -51,26 +51,26 @@ public class Connected_Device {
 		}
 	}
 	
-	public void Stop() {
+	public void stop() {
 		mRunning = false;
 		synchronized (mListenerLock) {
 			mListeners.clear();
 		}		
 	}
 	
-	public void AddListener(IDeviceListener listener) {
+	public void addListener(IDeviceListener listener) {
 		synchronized (mListenerLock) {
 			mListeners.add(listener);
 		}
 	}
 	
-	public void RemoveListener(IDeviceListener listener) {
+	public void removeListener(IDeviceListener listener) {
 		synchronized (mListenerLock) {
 			mListeners.remove(listener);
 		}
 	}
 	
-	class StartThread extends Thread {
+	private class StartThread extends Thread {
 		public void run() {
 			try {
 				mSocket = new Socket(mRemoteIp, mPort);
@@ -89,7 +89,7 @@ public class Connected_Device {
 		}
 	}
 	
-	class ReceiveThread extends Thread {
+	private class ReceiveThread extends Thread {
 		public void run() {
 			byte[] buffer = new byte[2048];
 			try {
@@ -114,7 +114,7 @@ public class Connected_Device {
 	}
 
 	
-	class SendThread extends Thread {
+	private class SendThread extends Thread {
 		public void run() {
 			try {
 				OutputStream socketOutputStream = mSocket.getOutputStream();

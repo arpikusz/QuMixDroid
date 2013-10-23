@@ -36,22 +36,22 @@ public class Qu16_Mixer implements IDeviceListener, IParserListener {
 		}
 	}
 	
-	public void Stop() {
+	public void stop() {
 		if (mDevice != null) {
-			mDevice.Stop();
+			mDevice.stop();
 		}
 		synchronized (mListenerLock) {
 			mListeners.clear();
 		}
 	}
 
-	public void AddListener(IMixerListener listener) {
+	public void addListener(IMixerListener listener) {
 		synchronized (mListenerLock) {
 			mListeners.add(listener);
 		}
 	}
 	
-	public void RemoveListener(IMixerListener listener) {
+	public void removeListener(IMixerListener listener) {
 		synchronized (mListenerLock) {
 			mListeners.remove(listener);
 		}
@@ -61,7 +61,7 @@ public class Qu16_Mixer implements IDeviceListener, IParserListener {
 	@Override
 	public void receivedMessage(byte[] message) {
 		if (mParser != null)
-			mParser.Parse(message);
+			mParser.parse(message);
 		
 	}
 

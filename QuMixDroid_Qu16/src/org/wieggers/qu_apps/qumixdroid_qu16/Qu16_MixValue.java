@@ -1,13 +1,18 @@
 package org.wieggers.qu_apps.qumixdroid_qu16;
 
+import java.util.LinkedList;
+
 public class Qu16_MixValue {
 	private Qu16_Commands mCommand;
 	private Qu16_Channels mChannel;
 	private Qu16_Buses mBus;
 	private Qu16_GEQ_Frequenxcies mFreq;
-	private byte mValue;
-	
+	private byte mValue;	
 	private mixValueMode mMode;
+	
+	private LinkedList<IMixValueListener> mListeners;
+	private Object mListenerLock;
+
 	
 	public Qu16_MixValue(Qu16_Commands command, Qu16_Channels channel, Qu16_Buses bus, byte value) {
 		mCommand = command;
@@ -15,6 +20,9 @@ public class Qu16_MixValue {
 		mBus = bus;
 		mValue = value;
 		mMode = mixValueMode.channelValue;
+		
+		mListeners = new LinkedList<IMixValueListener>();
+		mListenerLock = new Object();
 	}
 	
 	public Qu16_MixValue(Qu16_Commands command, Qu16_Channels channel, Qu16_GEQ_Frequenxcies freq, byte value) {
@@ -66,6 +74,33 @@ public class Qu16_MixValue {
 		
 		
 		return null;
+	}
+	
+	public byte getValue() {
+		return mValue;
+	}
+	
+	public void setValue(byte value) {
+		if (mValue != value) {
+			mValue = value;
+			synchronized (mListenerLock) {
+				for (IMixValueListener listener : mListeners) {
+					listener.valueChanged(value);
+				}
+			}
+		}
+	}
+	
+	public void addListener(IMixValueListener listener) {
+		synchronized (mListenerLock) {
+			mListeners.add(listener);
+		}
+	}
+	
+	public void removeListener(IMixValueListener listener) {
+		synchronized (mListenerLock) {
+			mListeners.remove(listener);
+		}
 	}
 	
 	private enum mixValueMode {
