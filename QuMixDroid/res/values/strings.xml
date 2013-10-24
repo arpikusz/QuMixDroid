@@ -5,5 +5,9 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_login">QuMixDroid</string>
+    <string name="connect_to_qu_16">Connect to Qu16 mixer</string>
+    <string name="connect_ip_address">IP address</string>
+    <string name="try_demo_mode">Don\'t connect, try the app in demo mode.</string>
+    <string name="demo_mode">Start demo mode</string>
 
 </resources>
