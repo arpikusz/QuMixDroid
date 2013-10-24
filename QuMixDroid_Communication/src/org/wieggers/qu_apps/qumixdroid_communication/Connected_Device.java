@@ -3,8 +3,9 @@ package org.wieggers.qu_apps.qumixdroid_communication;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.SocketAddress;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -33,13 +34,7 @@ public class Connected_Device {
 		mQueue = new LinkedBlockingQueue<byte[]>();
 		
 		mListeners = new LinkedList<IDeviceListener>();
-		mListenerLock = new Object();
-		
-		mStartThread = new StartThread();		
-		mSendThread = new SendThread();
-		mReceiveThread = new ReceiveThread();
-		
-		mStartThread.start();
+		mListenerLock = new Object();		
 	}
 	
 	public void send(byte[] message) {
@@ -49,6 +44,14 @@ public class Connected_Device {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void start() {
+		mStartThread = new StartThread();		
+		mSendThread = new SendThread();
+		mReceiveThread = new ReceiveThread();
+		
+		mStartThread.start();		
 	}
 	
 	public void stop() {
@@ -73,18 +76,18 @@ public class Connected_Device {
 	private class StartThread extends Thread {
 		public void run() {
 			try {
-				mSocket = new Socket(mRemoteIp, mPort);
+				SocketAddress address = new InetSocketAddress(mRemoteIp, mPort);
+				mSocket = new Socket();
+				mSocket.connect(address, 1000);
 				mRunning = true;
 				
 				mStartThread.start();
 				mReceiveThread.start();
 				
-			} catch (UnknownHostException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception ex) {
+				for (IDeviceListener listener : mListeners) {
+					listener.errorOccurred(ex);
+				}
 			}
 		}
 	}

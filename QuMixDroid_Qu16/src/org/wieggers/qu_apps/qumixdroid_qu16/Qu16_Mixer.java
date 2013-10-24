@@ -28,6 +28,9 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 	private LinkedList<IMixerListener> mListeners;
 	private Object mListenerLock;
 	private HashMap<String, Qu16_MixValue> mMixValues;
+	private Boolean mDemoMode;
+	private String mRemoteIp;
+	private int mRemotePort;
 		
 	/**
 	 * Construct a "virtual" mixer
@@ -36,22 +39,32 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 	 * @param demoMode	The virtual mixer can be initialized with some fake data, so the app can be used in demo mode
 	 * @throws IOException 
 	 */
-	public Qu16_Mixer(Context context, String remoteIp, int port, boolean demoMode) throws IOException {
+	public Qu16_Mixer(Context context, String remoteIp, int port, boolean demoMode) {
 		
 		mListenerLock = new Object();
 		mListeners = new LinkedList<IMixerListener>();
 		mParser = new Qu16_Command_Parser(Qu16_Command_Direction.from_qu_16);
 		mMixValues = new HashMap<String, Qu16_MixValue>();
 		
+		mRemoteIp = remoteIp;
+		mRemotePort = port;
+		mDemoMode = demoMode;
+		
 		//AssetManager assetManager = context.getAssets();
 		//readScene(assetManager.open("qu16_init_scene.txt"));
 		
-		if (!demoMode) {
-			mDevice = new Connected_Device(remoteIp, port);
+	}
+	
+	public void start() {
+		if (!mDemoMode) {
+			mDevice = new Connected_Device(mRemoteIp, mRemotePort);
+			mDevice.addListener(this);;
+			mDevice.start();
 		} else {
 			mDevice = null;
-		}
+		}		
 	}
+	
 	
 	public void stop() {
 		if (mDevice != null) {
@@ -86,10 +99,9 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 	public void errorOccurred(Exception exception) {
 		synchronized (mListenerLock) {
 			for (IMixerListener listener : mListeners) {
-				listener.equals(exception);
+				listener.errorOccurred(exception);
 			}
 		}
-
 	}
 
 	@Override
