@@ -1,5 +1,7 @@
 package org.wieggers.qu_apps.qumixdroid;
 
+import java.io.IOException;
+
 import org.wieggers.qu_apps.qumixdroid_qu16.IMixerListener;
 import org.wieggers.qu_apps.qumixdroid_qu16.Qu16_Mixer;
 
@@ -7,6 +9,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends Activity implements IMixerListener {
@@ -25,6 +29,23 @@ public class MainActivity extends Activity implements IMixerListener {
 		Intent intent = getIntent();
 		mRemoteIp = intent.getStringExtra("address");
 		mDemoMode = intent.getBooleanExtra("demo", false);
+		
+		Button button = (Button) findViewById(R.id.button1);
+		button.setOnClickListener(new Button.OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				if (mMixer != null) {
+					try {
+						mMixer.writeScene(null);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		
 	}
 
 	@Override
@@ -64,6 +85,12 @@ public class MainActivity extends Activity implements IMixerListener {
 			public void run() {
 				Toast toast = Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT);
 				toast.show();
+				
+				if (mMixer != null) {
+					mMixer.stop();
+					mMixer = null;
+				}
+				
 				finish();
 			}
 		});

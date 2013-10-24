@@ -11,7 +11,7 @@ class Qu16_Command_Parser {
 	private Qu16_Command_Direction mCommandDirection;
 	private parse_state_enum mState = parse_state_enum.next_command;
 	
-	private byte[] current_command = new byte[2048];
+	private byte[] current_command = new byte[4000];
 	private int current_command_length = 0;
 
 	/**
@@ -70,7 +70,7 @@ class Qu16_Command_Parser {
 				command_complete = (current_command_length == 4);
 				break;
 			case in_sysex_command:
-				if (d == 0XF7)
+				if (d == (byte) 0xF7)
 					command_complete = true;
 				break;
 			}

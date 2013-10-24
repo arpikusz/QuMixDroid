@@ -12,8 +12,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class Connected_Device {
 
-	private StartThread mStartThread;
 	@SuppressWarnings("unused")
+	private static final String mTag = "Connected_Device";
+	
+	private StartThread mStartThread;
 	private SendThread mSendThread;
 	private ReceiveThread mReceiveThread;
 
@@ -47,9 +49,12 @@ public class Connected_Device {
 	}
 	
 	public void start() {
-		mStartThread = new StartThread();		
+		mStartThread = new StartThread();
+		mStartThread.setName("startThread: " + mRemoteIp);
 		mSendThread = new SendThread();
+		mSendThread.setName("sendThread: " + mRemoteIp);
 		mReceiveThread = new ReceiveThread();
+		mReceiveThread.setName("receiveThread: " + mRemoteIp);
 		
 		mStartThread.start();		
 	}
@@ -81,7 +86,7 @@ public class Connected_Device {
 				mSocket.connect(address, 1000);
 				mRunning = true;
 				
-				mStartThread.start();
+				mSendThread.start();
 				mReceiveThread.start();
 				
 			} catch (Exception ex) {
@@ -100,12 +105,15 @@ public class Connected_Device {
 				while (mRunning) {
 					int bytesRead = socketInputStream.read(buffer, 0, 2048);
 					if (bytesRead != -1) {
-						byte[] msg = Arrays.copyOfRange(buffer, 0,  bytesRead);
+						
+						byte[] msg = Arrays.copyOfRange(buffer, 0, bytesRead);
+							
+						//Log.d(mTag, Arrays.toString(msg));
 						synchronized (mListenerLock) {
 							for (IDeviceListener listener : mListeners) {
 								listener.receivedMessage(msg);
 							}
-						}
+						}						
 					}
 				}
 			} catch (IOException e) {

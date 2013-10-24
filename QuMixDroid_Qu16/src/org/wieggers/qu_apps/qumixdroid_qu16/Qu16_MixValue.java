@@ -20,9 +20,7 @@ public class Qu16_MixValue {
 		mBus = bus;
 		mValue = value;
 		mMode = mixValueMode.channelValue;
-		
-		mListeners = new LinkedList<IMixValueListener>();
-		mListenerLock = new Object();
+		init();		
 	}
 	
 	public Qu16_MixValue(Qu16_Commands command, Qu16_Channels channel, Qu16_GEQ_Frequenxcies freq, byte value) {
@@ -31,24 +29,33 @@ public class Qu16_MixValue {
 		mFreq = freq;
 		mValue = value;
 		mMode = mixValueMode.geqFreqValue;	
+		init();
 	}
 	
 	public Qu16_MixValue(Qu16_Channels channel, byte value) {
 		mChannel = channel;
 		mValue = value;
 		mMode = mixValueMode.muteValue;
+		init();
 	}
 	
 	public Qu16_MixValue(Object origin, Qu16_Command_Direction direction, byte[] data) {
-		setCommand(origin, direction, data, true);		
+		init();
+		setCommand(origin, direction, data, true);
+	}
+	
+	private void init()
+	{
+		mListeners = new LinkedList<IMixValueListener>();
+		mListenerLock = new Object();	
 	}
 	
 	public static String getKey(byte[] data) {
-		switch ((int) data[0]) {
-		case 0xB0: // channel_command
-			return "chn_" + Byte.toString(data[2]) + "_" + Byte.toString(data[5]) + "_" + Byte.toString(data[11]);
-		case 0x90: // mute command
-			return "mute_" + Byte.toString(data[1]);			
+		switch (data[0]) {
+		case (byte) 0xB0: // channel_command
+			return Byte.toString(data[2]) + ", " + Byte.toString(data[5]) + ", " + Byte.toString(data[11]);
+		case (byte) 0x90: // mute command
+			return Byte.toString(data[1]) + ", 0, 0";			
 		}
 		
 		return null;
@@ -123,8 +130,8 @@ public class Qu16_MixValue {
 	}
 	
 	private void setCommand(Object origin, Qu16_Command_Direction direction, byte[] data, Boolean fromConstructor) {
-		switch ((int) data[0]) {
-		case 0xB0:
+		switch (data[0]) {
+		case (byte) 0xB0:
 			switch (direction) {
 			case to_qu_16:
 				mChannel = Qu16_Channels.fromValue(data[2]);
@@ -154,7 +161,7 @@ public class Qu16_MixValue {
 				break;
 			}
 			break;
-		case 0x90:
+		case (byte) 0x90:
 			mChannel = Qu16_Channels.fromValue(data[2]);
 			mMode = mixValueMode.muteValue;
 			setValue(origin, data[2]);

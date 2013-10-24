@@ -15,6 +15,7 @@ import org.wieggers.qu_apps.qumixdroid_communication.Connected_Device;
 import org.wieggers.qu_apps.qumixdroid_communication.IDeviceListener;
 
 import android.content.Context;
+import android.util.Log;
 
 /**
  * Qu16_Mixer is a "virtual" mixer which holds an active "scene" in memory, corresponding with the Qu-16 it is connected to
@@ -22,6 +23,11 @@ import android.content.Context;
  *
  */
 public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserListener {
+
+	//Request all settings: F0-00-00-1A-50-11-01-00-7F-10-01-F7
+	//Request metering?   : F0-00-00-1A-50-11-01-00-00-12-01-F7
+
+	private static final String mTag = "Qu16_Mixer";
 	
 	private Connected_Device mDevice;
 	private Qu16_Command_Parser mParser;
@@ -43,7 +49,10 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 		
 		mListenerLock = new Object();
 		mListeners = new LinkedList<IMixerListener>();
+
 		mParser = new Qu16_Command_Parser(Qu16_Command_Direction.from_qu_16);
+		mParser.addListener(this);
+		
 		mMixValues = new HashMap<String, Qu16_MixValue>();
 		
 		mRemoteIp = remoteIp;
@@ -58,8 +67,11 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 	public void start() {
 		if (!mDemoMode) {
 			mDevice = new Connected_Device(mRemoteIp, mRemotePort);
-			mDevice.addListener(this);;
+			mDevice.addListener(this);
 			mDevice.start();
+			mDevice.send(new byte[] {
+					(byte) 0xF0, 0x00, 0x00, 0x1A, 0x50, 0x11, 0x01, 0x00, 0x7F, 0x10, 0x01, (byte) 0xF7 // request all current mixer settings on startup
+				});
 		} else {
 			mDevice = null;
 		}		
@@ -107,12 +119,17 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 	@Override
 	public void singleCommand(byte[] data) {
 
+		Log.d(mTag, "Received: " + Arrays.toString(data));
+		
 		String key = Qu16_MixValue.getKey(data);
-		if (!mMixValues.containsKey(key)) {
-			Qu16_MixValue newValue = new Qu16_MixValue(this, Qu16_Command_Direction.from_qu_16, data);
-			mMixValues.put(key, newValue);
-		} else {
-			mMixValues.get(key).setCommand(this, Qu16_Command_Direction.from_qu_16, data);
+		if (key != null) {
+			if (!mMixValues.containsKey(key)) {
+				Qu16_MixValue newValue = new Qu16_MixValue(this, Qu16_Command_Direction.from_qu_16, data);
+				newValue.addListener(this);
+				mMixValues.put(key, newValue);
+			} else {
+				mMixValues.get(key).setCommand(this, Qu16_Command_Direction.from_qu_16, data);
+			}
 		}
 	}
 
@@ -146,16 +163,25 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 	
 	public void writeScene(OutputStream os) throws IOException
 	{
-		BufferedWriter w = new BufferedWriter(new OutputStreamWriter(os));
+		BufferedWriter w = null;
+		if (os != null) {
+			w = new BufferedWriter(new OutputStreamWriter(os));
+		}
 		
 		for (HashMap.Entry<String, Qu16_MixValue> mixValue : mMixValues.entrySet()) {
-			byte[] singleCmd = mixValue.getValue().getCommand(Qu16_Command_Direction.from_qu_16);
+			//byte[] singleCmd = mixValue.getValue().getCommand(Qu16_Command_Direction.from_qu_16);
 			
-			String line = Arrays.toString(singleCmd);
-			line = line.replaceAll("[\\[|\\]| ]", ""); // [1, 2, 3, 4] ==> 1,2,3,4
+			//String line = Arrays.toString(singleCmd);
+			//line = line.replaceAll("[\\[|\\]| ]", ""); // [1, 2, 3, 4] ==> 1,2,3,4
 			
-			w.write(line);
-			w.write("\n");
+			String line = mixValue.getKey() + ", " + mixValue.getValue().getValue();
+			
+			Log.d(mTag, "Scene line:" + line);
+			
+			if (w != null) {
+				w.write(line);
+				w.write("\n");
+			}
 		}		
 	}
 }
