@@ -23,4 +23,13 @@ public enum Qu16_Buses {
 	Qu16_Buses(int value) {
 		mValue = (byte) value;
 	}
+	
+	public static Qu16_Buses fromValue(byte value) {
+		for (Qu16_Buses bus : Qu16_Buses.values()) {
+			if (bus.mValue == value) {
+				return bus;
+			}
+		}
+		throw new IllegalArgumentException ("Cannot convert " + Byte.toString(value) + " to bus");
+	}
 }

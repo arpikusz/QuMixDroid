@@ -80,4 +80,13 @@ public enum Qu16_Channels {
 	Qu16_Channels(int value) {
 		mValue = (byte) value;
 	}
+	
+	public static Qu16_Channels fromValue(byte value) {
+		for (Qu16_Channels channel : Qu16_Channels.values()) {
+			if (channel.mValue == value) {
+				return channel;
+			}
+		}
+		throw new IllegalArgumentException ("Cannot convert " + Byte.toString(value) + " to channel");
+	}
 }

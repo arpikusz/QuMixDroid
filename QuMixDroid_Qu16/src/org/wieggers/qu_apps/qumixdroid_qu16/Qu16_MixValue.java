@@ -39,6 +39,25 @@ public class Qu16_MixValue {
 		mMode = mixValueMode.muteValue;
 	}
 	
+	public Qu16_MixValue(Qu16_Command_Direction direction, byte[] data) {
+		setCommand(direction, data, true);		
+	}
+	
+	public static String getKey(byte[] data) {
+		switch ((int) data[0]) {
+		case 0xB0: // channel_command
+			return "chn_" + Byte.toString(data[2]) + "_" + Byte.toString(data[5]) + "_" + Byte.toString(data[11]);
+		case 0x90: // mute command
+			return "mute_" + Byte.toString(data[1]);			
+		}
+		
+		return null;
+	}
+	
+	public void setCommand(Qu16_Command_Direction direction, byte[] data) {
+		setCommand(direction, data, false);
+	}
+
 	public byte[] getCommand(Qu16_Command_Direction direction) {
 		
 		switch (mMode) {
@@ -100,6 +119,45 @@ public class Qu16_MixValue {
 	public void removeListener(IMixValueListener listener) {
 		synchronized (mListenerLock) {
 			mListeners.remove(listener);
+		}
+	}
+	
+	private void setCommand(Qu16_Command_Direction direction, byte[] data, Boolean fromConstructor) {
+		switch ((int) data[0]) {
+		case 0xB0:
+			switch (direction) {
+			case to_qu_16:
+				mChannel = Qu16_Channels.fromValue(data[2]);
+				mCommand = Qu16_Commands.fromValue(data[4]);
+
+				if (mCommand == Qu16_Commands.GEQ) {
+					mMode = mixValueMode.geqFreqValue;
+					mFreq = Qu16_GEQ_Frequenxcies.fromValue(data[8]);
+				} else {
+					mMode = mixValueMode.channelValue;
+					mBus = Qu16_Buses.fromValue(data[8]);
+				}
+				setValue(data[6]);
+				break;
+			case from_qu_16:
+				mChannel = Qu16_Channels.fromValue(data[2]);
+				mCommand = Qu16_Commands.fromValue(data[5]);
+
+				if (mCommand == Qu16_Commands.GEQ) {
+					mMode = mixValueMode.geqFreqValue;
+					mFreq = Qu16_GEQ_Frequenxcies.fromValue(data[11]);
+				} else {
+					mMode = mixValueMode.channelValue;
+					mBus = Qu16_Buses.fromValue(data[11]);
+				}
+				setValue(data[8]);
+				break;
+			}
+			break;
+		case 0x90:
+			mChannel = Qu16_Channels.fromValue(data[2]);
+			mMode = mixValueMode.muteValue;
+			setValue(data[2]);
 		}
 	}
 	

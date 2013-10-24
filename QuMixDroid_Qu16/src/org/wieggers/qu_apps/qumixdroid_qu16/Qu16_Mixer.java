@@ -1,5 +1,6 @@
 package org.wieggers.qu_apps.qumixdroid_qu16;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import org.wieggers.qu_apps.qumixdroid_communication.Connected_Device;
@@ -16,6 +17,7 @@ public class Qu16_Mixer implements IDeviceListener, IParserListener {
 	private Qu16_Command_Parser mParser;
 	private LinkedList<IMixerListener> mListeners;
 	private Object mListenerLock;
+	private HashMap<String, Qu16_MixValue> mMixValues;
 		
 	/**
 	 * Construct a "virtual" mixer
@@ -28,6 +30,7 @@ public class Qu16_Mixer implements IDeviceListener, IParserListener {
 		mListenerLock = new Object();
 		mListeners = new LinkedList<IMixerListener>();
 		mParser = new Qu16_Command_Parser(Qu16_Command_Direction.from_qu_16);
+		mMixValues = new HashMap<String, Qu16_MixValue>();
 				
 		if (!demoMode) {
 			mDevice = new Connected_Device(remoteIp, port);
@@ -78,6 +81,12 @@ public class Qu16_Mixer implements IDeviceListener, IParserListener {
 	@Override
 	public void singleCommand(byte[] data) {
 
-		
+		String key = Qu16_MixValue.getKey(data);
+		if (!mMixValues.containsKey(key)) {
+			Qu16_MixValue newValue = new Qu16_MixValue(Qu16_Command_Direction.from_qu_16, data);
+			mMixValues.put(key, newValue);
+		} else {
+			mMixValues.get(key).setCommand(Qu16_Command_Direction.from_qu_16, data);
+		}
 	}
 }

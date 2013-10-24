@@ -40,4 +40,12 @@ public enum Qu16_GEQ_Frequenxcies {
 		mValue = (byte) value;
 	}	
 
+	public static Qu16_GEQ_Frequenxcies fromValue(byte value) {
+		for (Qu16_GEQ_Frequenxcies freq : Qu16_GEQ_Frequenxcies.values()) {
+			if (freq.mValue == value) {
+				return freq;
+			}
+		}
+		throw new IllegalArgumentException ("Cannot convert " + Byte.toString(value) + " to GEQ frequency");
+	}
 }

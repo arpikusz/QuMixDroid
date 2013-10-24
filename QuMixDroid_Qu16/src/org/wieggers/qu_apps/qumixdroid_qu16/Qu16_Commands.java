@@ -87,4 +87,13 @@ public enum Qu16_Commands {
 	Qu16_Commands(int value) {
 		mValue = (byte) value;
 	}	
+	
+	public static Qu16_Commands fromValue(byte value) {
+		for (Qu16_Commands command : Qu16_Commands.values()) {
+			if (command.mValue == value) {
+				return command;
+			}
+		}
+		throw new IllegalArgumentException ("Cannot convert " + Byte.toString(value) + " to command");
+	}
 }
