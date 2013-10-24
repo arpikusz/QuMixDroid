@@ -39,8 +39,8 @@ public class Qu16_MixValue {
 		mMode = mixValueMode.muteValue;
 	}
 	
-	public Qu16_MixValue(Qu16_Command_Direction direction, byte[] data) {
-		setCommand(direction, data, true);		
+	public Qu16_MixValue(Object origin, Qu16_Command_Direction direction, byte[] data) {
+		setCommand(origin, direction, data, true);		
 	}
 	
 	public static String getKey(byte[] data) {
@@ -54,8 +54,8 @@ public class Qu16_MixValue {
 		return null;
 	}
 	
-	public void setCommand(Qu16_Command_Direction direction, byte[] data) {
-		setCommand(direction, data, false);
+	public void setCommand(Object origin, Qu16_Command_Direction direction, byte[] data) {
+		setCommand(origin, direction, data, false);
 	}
 
 	public byte[] getCommand(Qu16_Command_Direction direction) {
@@ -99,12 +99,12 @@ public class Qu16_MixValue {
 		return mValue;
 	}
 	
-	public void setValue(byte value) {
+	public void setValue(Object origin, byte value) {
 		if (mValue != value) {
 			mValue = value;
 			synchronized (mListenerLock) {
 				for (IMixValueListener listener : mListeners) {
-					listener.valueChanged(value);
+					listener.valueChanged(this, origin, value);
 				}
 			}
 		}
@@ -122,7 +122,7 @@ public class Qu16_MixValue {
 		}
 	}
 	
-	private void setCommand(Qu16_Command_Direction direction, byte[] data, Boolean fromConstructor) {
+	private void setCommand(Object origin, Qu16_Command_Direction direction, byte[] data, Boolean fromConstructor) {
 		switch ((int) data[0]) {
 		case 0xB0:
 			switch (direction) {
@@ -137,7 +137,7 @@ public class Qu16_MixValue {
 					mMode = mixValueMode.channelValue;
 					mBus = Qu16_Buses.fromValue(data[8]);
 				}
-				setValue(data[6]);
+				setValue(origin, data[6]);
 				break;
 			case from_qu_16:
 				mChannel = Qu16_Channels.fromValue(data[2]);
@@ -150,14 +150,14 @@ public class Qu16_MixValue {
 					mMode = mixValueMode.channelValue;
 					mBus = Qu16_Buses.fromValue(data[11]);
 				}
-				setValue(data[8]);
+				setValue(origin, data[8]);
 				break;
 			}
 			break;
 		case 0x90:
 			mChannel = Qu16_Channels.fromValue(data[2]);
 			mMode = mixValueMode.muteValue;
-			setValue(data[2]);
+			setValue(origin, data[2]);
 		}
 	}
 	

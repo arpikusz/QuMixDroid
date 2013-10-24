@@ -11,7 +11,7 @@ import org.wieggers.qu_apps.qumixdroid_communication.IDeviceListener;
  * @author george wieggers
  *
  */
-public class Qu16_Mixer implements IDeviceListener, IParserListener {
+public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserListener {
 	
 	private Connected_Device mDevice;
 	private Qu16_Command_Parser mParser;
@@ -83,10 +83,20 @@ public class Qu16_Mixer implements IDeviceListener, IParserListener {
 
 		String key = Qu16_MixValue.getKey(data);
 		if (!mMixValues.containsKey(key)) {
-			Qu16_MixValue newValue = new Qu16_MixValue(Qu16_Command_Direction.from_qu_16, data);
+			Qu16_MixValue newValue = new Qu16_MixValue(this, Qu16_Command_Direction.from_qu_16, data);
 			mMixValues.put(key, newValue);
 		} else {
-			mMixValues.get(key).setCommand(Qu16_Command_Direction.from_qu_16, data);
+			mMixValues.get(key).setCommand(this, Qu16_Command_Direction.from_qu_16, data);
 		}
+	}
+
+	@Override
+	public void valueChanged(Qu16_MixValue sender, Object origin, byte value) {
+		if (origin != this) {
+			if (mDevice != null) {
+				mDevice.send(sender.getCommand(Qu16_Command_Direction.to_qu_16));
+			}
+		}
+		
 	}
 }
