@@ -194,10 +194,13 @@ public class Fader extends View {
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent e) {
+		return super.onTouchEvent(e);
+		
+		/*
 		if (!isEnabled())
 			return false;
+		
 
-		/*
 		switch (e.getAction()) {
 		case MotionEvent.ACTION_DOWN:
 			startX = (int)e.getX ();
