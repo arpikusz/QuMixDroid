@@ -161,7 +161,7 @@ public class Qu16_MixValue {
 			}
 			break;
 		case (byte) 0x90:
-			mChannel = Qu16_Channels.fromValue(data[2]);
+			mChannel = Qu16_Channels.fromValue(data[1]);
 			mMode = mixValueMode.muteValue;
 			if (!fromConstructor)
 				setValue(origin, data[2]);

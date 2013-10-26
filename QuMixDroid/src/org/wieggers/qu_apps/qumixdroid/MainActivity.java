@@ -1,13 +1,18 @@
 package org.wieggers.qu_apps.qumixdroid;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.wieggers.qu_apps.qumixdroid_qu16.IMixerListener;
 import org.wieggers.qu_apps.qumixdroid_qu16.Qu16_Mixer;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -37,7 +42,14 @@ public class MainActivity extends Activity implements IMixerListener {
 			public void onClick(View v) {
 				if (mMixer != null) {
 					try {
-						mMixer.writeScene(null);
+						String baseDir = Environment.getExternalStorageDirectory().getAbsolutePath();
+						String fileName = "scene-init-qu16.txt";
+
+						File f = new File(baseDir + File.separator + fileName);
+						FileOutputStream of = new FileOutputStream(f);						
+						mMixer.writeScene(of);
+						of.flush();
+						of.close();						
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -69,9 +81,18 @@ public class MainActivity extends Activity implements IMixerListener {
 	protected void onResume() {
 		super.onResume();
 
-		mMixer = new Qu16_Mixer(this, mRemoteIp, mRemotePort, mDemoMode);
+		mMixer = new Qu16_Mixer(mRemoteIp, mRemotePort, mDemoMode);
 		mMixer.addListener(this);
 		mMixer.start();
+		if (mDemoMode) {
+			AssetManager assetMgr = this.getAssets();
+			try {
+				InputStream s = assetMgr.open("qu16_init_scene.txt");
+				mMixer.readScene(s);
+			} catch (Exception e) {
+				errorOccurred(e);
+			}
+		}
 	}
 
 	@Override
