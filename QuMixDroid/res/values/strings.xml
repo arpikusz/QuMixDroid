@@ -9,5 +9,6 @@
     <string name="connect_ip_address">IP address</string>
     <string name="try_demo_mode">Don\'t connect, try the app in demo mode.</string>
     <string name="demo_mode">Start demo mode</string>
+    <string name="mute">Mute</string>
 
 </resources>

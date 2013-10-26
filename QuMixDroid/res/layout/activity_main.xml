@@ -23,4 +23,16 @@
         android:layout_marginTop="55dp"
         android:text="Button" />
 
+    <ToggleButton
+        android:id="@+id/tbMute1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/button1"
+        android:layout_alignBottom="@+id/button1"
+        android:layout_marginLeft="82dp"
+        android:layout_toRightOf="@+id/button1"
+        android:text="ToggleButton"
+        android:textOff="@string/mute"
+        android:textOn="@string/mute" />
+
 </RelativeLayout>

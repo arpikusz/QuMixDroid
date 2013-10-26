@@ -12,30 +12,9 @@ public class Qu16_MixValue {
 	
 	private ConcurrentLinkedQueue<IMixValueListener> mListeners;
 
-	
-	public Qu16_MixValue(Qu16_Commands command, Qu16_Channels channel, Qu16_Buses bus, byte value) {
-		mCommand = command;
-		mChannel = channel;
-		mBus = bus;
-		mValue = value;
-		mMode = mixValueMode.channelValue;
-		init();		
-	}
-	
-	public Qu16_MixValue(Qu16_Commands command, Qu16_Channels channel, Qu16_GEQ_Frequenxcies freq, byte value) {
-		mCommand = command;
-		mChannel = channel;
-		mFreq = freq;
-		mValue = value;
-		mMode = mixValueMode.geqFreqValue;	
+	public Qu16_MixValue() {
 		init();
-	}
-	
-	public Qu16_MixValue(Qu16_Channels channel, byte value) {
-		mChannel = channel;
-		mValue = value;
-		mMode = mixValueMode.muteValue;
-		init();
+		mMode = mixValueMode.unknown;
 	}
 	
 	public Qu16_MixValue(Object origin, Qu16_Command_Direction direction, byte[] data) {
@@ -46,6 +25,7 @@ public class Qu16_MixValue {
 	private void init()
 	{
 		mListeners = new ConcurrentLinkedQueue<IMixValueListener>();
+		mValue = 0;
 	}
 	
 	public static byte[] getKey(Qu16_Command_Direction direction, byte[] data) {
@@ -98,9 +78,10 @@ public class Qu16_MixValue {
 		case muteValue:
 			return new byte[] {
 					(byte) 0x90, mChannel.getValue(), mValue, mChannel.getValue(), (byte) 0x00
-			};			
-		}
-		
+			};
+		case unknown:
+			return null;
+		}		
 		
 		return null;
 	}
@@ -169,6 +150,7 @@ public class Qu16_MixValue {
 	}
 	
 	private enum mixValueMode {
+		unknown,
 		channelValue,
 		geqFreqValue,
 		muteValue;

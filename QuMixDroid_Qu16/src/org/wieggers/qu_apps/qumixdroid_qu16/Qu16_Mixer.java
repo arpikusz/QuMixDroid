@@ -29,6 +29,9 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 	
 	private static final String mTag = "Qu16_Mixer";
 	
+	public static final byte Mute = (byte) 0x90;
+	public static final byte Channel = (byte) 0xB0;
+	
 	private Connected_Device mDevice;
 	private Qu16_Command_Parser mParser;
 	private ConcurrentLinkedQueue<IMixerListener> mListeners;
@@ -111,33 +114,50 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 		Log.d(mTag, "Received: " + Arrays.toString(data));
 		
 		byte[] key = Qu16_MixValue.getKey(Qu16_Command_Direction.from_qu_16, data);
-		if (key != null) {
-			
-			if (!mMixValues.containsKey(key[0])) {
-				mMixValues.put(key[0], new ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, Qu16_MixValue>>>());
-			}
-
-			ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, Qu16_MixValue>>> mixValues0 = mMixValues.get(key[0]); 
-			
-			if (!mixValues0.containsKey(key[1])) {
-				mixValues0.put(key[1], new ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, Qu16_MixValue>>());
-			}
-			ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, Qu16_MixValue>> mixValues1 = mixValues0.get(key[1]);
-
-			if (!mixValues1.containsKey(key[2])) {
-				mixValues1.put(key[2], new ConcurrentHashMap<Byte, Qu16_MixValue>());
-			}
-			ConcurrentHashMap<Byte, Qu16_MixValue> mixValues2 = mixValues1.get(key[2]);
-			
-			if (!mixValues2.containsKey(key[3])) {
-				Qu16_MixValue newValue = new Qu16_MixValue(origin, Qu16_Command_Direction.from_qu_16, data);
-				newValue.addListener(this);
-				mixValues2.put(key[3], newValue);
-			}
-			mixValues2.get(key[3]).setCommand(origin, Qu16_Command_Direction.from_qu_16, data);
+		if (key != null) {			
+			getMixValue(key[0], key[1], key[2], key[3]).setCommand(origin, Qu16_Command_Direction.from_qu_16, data);
 		}
 	}
 
+	public Qu16_MixValue getMixValue(Qu16_Channels channel, Qu16_Commands command, Qu16_Buses bus) {
+		return getMixValue(Qu16_Mixer.Channel , channel.getValue(), command.getValue(), bus.getValue());
+	}
+
+	public Qu16_MixValue getMixValue(Qu16_Channels channel, Qu16_Commands command, Qu16_GEQ_Frequenxcies freq) {
+		return getMixValue(Qu16_Mixer.Channel, channel.getValue(), command.getValue(), freq.getValue());
+	}
+	
+	public Qu16_MixValue getMixValue(Qu16_Channels mute_channel) {
+		return getMixValue(Qu16_Mixer.Mute, mute_channel.getValue(), (byte) 0, (byte) 0);
+	}
+
+	private Qu16_MixValue getMixValue(byte key0, byte key1, byte key2, byte key3) {
+		
+		if (!mMixValues.containsKey(key0)) {
+			mMixValues.put(key0, new ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, Qu16_MixValue>>>());
+		}
+
+		ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, Qu16_MixValue>>> mixValues0 = mMixValues.get(key0); 
+		
+		if (!mixValues0.containsKey(key1)) {
+			mixValues0.put(key1, new ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, Qu16_MixValue>>());
+		}
+		ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, Qu16_MixValue>> mixValues1 = mixValues0.get(key1);
+
+		if (!mixValues1.containsKey(key2)) {
+			mixValues1.put(key2, new ConcurrentHashMap<Byte, Qu16_MixValue>());
+		}
+		ConcurrentHashMap<Byte, Qu16_MixValue> mixValues2 = mixValues1.get(key2);
+		
+		if (!mixValues2.containsKey(key3)) {
+			Qu16_MixValue newValue = new Qu16_MixValue();
+			newValue.addListener(this);
+			mixValues2.put(key3, newValue);
+		}
+
+		return mixValues2.get(key3);
+	}
+	
 	@Override
 	public void valueChanged(Qu16_MixValue sender, Object origin, byte value) {
 		if (origin != this) {
@@ -178,8 +198,10 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 				for (Entry<Byte, ConcurrentHashMap<Byte, Qu16_MixValue>> mixValues3 : mixValues2.getValue().entrySet()) {
 					for (Entry<Byte, Qu16_MixValue> mixValue4 : mixValues3.getValue().entrySet()) {
 						++i;
-						
+												
 						byte[] cmd = mixValue4.getValue().getCommand(Qu16_Command_Direction.from_qu_16);
+						if (cmd == null)
+							continue;
 
 						String strLine = Arrays.toString(cmd).replaceAll("[\\[|\\]| ]", "");
 						Log.d(mTag, "Scene line " + i + ": " + strLine);

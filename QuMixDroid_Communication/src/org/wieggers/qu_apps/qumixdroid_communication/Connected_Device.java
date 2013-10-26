@@ -19,6 +19,7 @@ public class Connected_Device {
 	private StartThread mStartThread;
 	private SendThread mSendThread;
 	private ReceiveThread mReceiveThread;
+	private KeepAliveThread mKeepAliveThread;
 
 	private Socket mSocket;	
 	private String mRemoteIp;
@@ -54,6 +55,8 @@ public class Connected_Device {
 		mSendThread.setName("sendThread: " + mRemoteIp);
 		mReceiveThread = new ReceiveThread();
 		mReceiveThread.setName("receiveThread: " + mRemoteIp);
+		mKeepAliveThread = new KeepAliveThread();
+		mKeepAliveThread.setName("keepAliveThread: " + mRemoteIp);
 		
 		mStartThread.start();		
 	}
@@ -81,6 +84,7 @@ public class Connected_Device {
 				
 				mSendThread.start();
 				mReceiveThread.start();
+				mKeepAliveThread.start();
 				
 			} catch (Exception ex) {
 				for (IDeviceListener listener : mListeners) {
@@ -107,11 +111,11 @@ public class Connected_Device {
 						}
 					}
 				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+			} catch (Exception e) {
+				for (IDeviceListener listener : mListeners) {
+					listener.errorOccurred(e);
+				}
+			}			
 		}
 	}
 
@@ -130,13 +134,27 @@ public class Connected_Device {
 						socketOutputStream.write(sendData); // and repeatedly send all messages
 					}
 				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				for (IDeviceListener listener : mListeners) {
+					listener.errorOccurred(e);
+				}
 			}			
+		}
+	}
+	
+	private class KeepAliveThread extends Thread {
+		public void run() {
+			try {
+				while (mRunning) {
+					Thread.sleep(300);				
+					send(new byte[] {(byte) 0xFE});	
+				}				
+			}
+			catch (Exception e) {
+				for (IDeviceListener listener : mListeners) {
+					listener.errorOccurred(e);
+				}				
+			}
 		}
 	}
 }
