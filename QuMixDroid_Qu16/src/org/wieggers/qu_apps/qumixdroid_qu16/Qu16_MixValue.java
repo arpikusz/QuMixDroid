@@ -50,12 +50,17 @@ public class Qu16_MixValue {
 		mListenerLock = new Object();	
 	}
 	
-	public static String getKey(byte[] data) {
+	public static byte[] getKey(Qu16_Command_Direction direction, byte[] data) {
 		switch (data[0]) {
 		case (byte) 0xB0: // channel_command
-			return Byte.toString(data[2]) + ", " + Byte.toString(data[5]) + ", " + Byte.toString(data[11]);
+			switch (direction) {
+			case from_qu_16:
+				return new byte[] { data[0], data[2], data[5], data[11] };
+			case to_qu_16:
+				return new byte[] { data[0], data[2], data[4], data[8] };
+			}
 		case (byte) 0x90: // mute command
-			return Byte.toString(data[1]) + ", 0, 0";			
+			return new byte[] { data[0], data[1], 0, 0 };
 		}
 		
 		return null;
@@ -72,7 +77,7 @@ public class Qu16_MixValue {
 			switch (direction) {
 			case to_qu_16:
 				return new byte[] {
-						(byte) 0xB0, 0x63, mChannel.getValue(), 0x62, mCommand.getValue(), 0x06, mValue, 0x26, mBus.getValue() 
+						(byte) 0xB0, 0x63, mChannel.getValue(), 0x62, mCommand.getValueForBus(mBus), 0x06, mValue, 0x26, mBus.getValue() 
 				};
 			case from_qu_16:
 				return new byte[] {

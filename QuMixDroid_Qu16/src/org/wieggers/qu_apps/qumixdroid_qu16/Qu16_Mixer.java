@@ -8,8 +8,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.wieggers.qu_apps.qumixdroid_communication.Connected_Device;
 import org.wieggers.qu_apps.qumixdroid_communication.IDeviceListener;
@@ -32,11 +33,16 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 	private Connected_Device mDevice;
 	private Qu16_Command_Parser mParser;
 	private LinkedList<IMixerListener> mListeners;
-	private Object mListenerLock;
-	private HashMap<String, Qu16_MixValue> mMixValues;
+	private Object mListenerLock;	
 	private Boolean mDemoMode;
 	private String mRemoteIp;
 	private int mRemotePort;
+
+	// access is as follows:
+	// mMixValues[0x90][fader][0][0] for mute command
+	// mMixValues[0xB0][fader][command][bus/freq] for channel command
+	private ConcurrentHashMap<Byte,ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, Qu16_MixValue>>>> mMixValues;
+
 		
 	/**
 	 * Construct a "virtual" mixer
@@ -53,7 +59,7 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 		mParser = new Qu16_Command_Parser(Qu16_Command_Direction.from_qu_16);
 		mParser.addListener(this);
 		
-		mMixValues = new HashMap<String, Qu16_MixValue>();
+		mMixValues = new ConcurrentHashMap<Byte, ConcurrentHashMap<Byte,ConcurrentHashMap<Byte,ConcurrentHashMap<Byte,Qu16_MixValue>>>>();
 		
 		mRemoteIp = remoteIp;
 		mRemotePort = port;
@@ -121,15 +127,32 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 
 		Log.d(mTag, "Received: " + Arrays.toString(data));
 		
-		String key = Qu16_MixValue.getKey(data);
+		byte[] key = Qu16_MixValue.getKey(Qu16_Command_Direction.from_qu_16, data);
 		if (key != null) {
-			if (!mMixValues.containsKey(key)) {
+			
+			if (!mMixValues.containsKey(key[0])) {
+				mMixValues.put(key[0], new ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, Qu16_MixValue>>>());
+			}
+
+			ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, Qu16_MixValue>>> mixValues0 = mMixValues.get(key[0]); 
+			
+			if (!mixValues0.containsKey(key[1])) {
+				mixValues0.put(key[1], new ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, Qu16_MixValue>>());
+			}
+			ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, Qu16_MixValue>> mixValues1 = mixValues0.get(key[1]);
+
+			if (!mixValues1.containsKey(key[2])) {
+				mixValues1.put(key[2], new ConcurrentHashMap<Byte, Qu16_MixValue>());
+			}
+			ConcurrentHashMap<Byte, Qu16_MixValue> mixValues2 = mixValues1.get(key[2]);
+			
+			if (!mixValues2.containsKey(key[3])) {
 				Qu16_MixValue newValue = new Qu16_MixValue(this, Qu16_Command_Direction.from_qu_16, data);
 				newValue.addListener(this);
-				mMixValues.put(key, newValue);
+				mixValues2.put(key[3], newValue);
 			} else {
-				mMixValues.get(key).setCommand(this, Qu16_Command_Direction.from_qu_16, data);
-			}
+				mixValues2.get(key[3]).setCommand(this, Qu16_Command_Direction.from_qu_16, data);
+			}			
 		}
 	}
 
@@ -157,31 +180,36 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 			for(String str : parts)
 			{
 			    bytes[count++] = Byte.parseByte(str);
-			}
+			}			
+			singleCommand(bytes);
 		}
 	}
 	
 	public void writeScene(OutputStream os) throws IOException
 	{
 		BufferedWriter w = null;
+		OutputStreamWriter osw;
 		if (os != null) {
-			w = new BufferedWriter(new OutputStreamWriter(os));
+			osw = new OutputStreamWriter(os);
+			w = new BufferedWriter(osw);
 		}
 		
-		for (HashMap.Entry<String, Qu16_MixValue> mixValue : mMixValues.entrySet()) {
-			//byte[] singleCmd = mixValue.getValue().getCommand(Qu16_Command_Direction.from_qu_16);
-			
-			//String line = Arrays.toString(singleCmd);
-			//line = line.replaceAll("[\\[|\\]| ]", ""); // [1, 2, 3, 4] ==> 1,2,3,4
-			
-			String line = mixValue.getKey() + ", " + mixValue.getValue().getValue();
-			
-			Log.d(mTag, "Scene line:" + line);
-			
-			if (w != null) {
-				w.write(line);
-				w.write("\n");
-			}
-		}		
+		for (Entry<Byte, ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, Qu16_MixValue>>>> mixValues1 : mMixValues.entrySet()) {
+			for (Entry<Byte, ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, Qu16_MixValue>>> mixValues2 : mixValues1.getValue().entrySet()) {
+				for (Entry<Byte, ConcurrentHashMap<Byte, Qu16_MixValue>> mixValues3 : mixValues2.getValue().entrySet()) {
+					for (Entry<Byte, Qu16_MixValue> mixValue4 : mixValues3.getValue().entrySet()) {
+						byte[] cmd = mixValue4.getValue().getCommand(Qu16_Command_Direction.from_qu_16);
+
+						String strLine = Arrays.toString(cmd).replaceAll("[\\[|\\]| ]", "");
+						Log.d(mTag, "Scene line:" + strLine);
+						
+						if (w != null) {
+							w.write(strLine);
+							w.write("\n");
+						}
+					}
+				}
+			}			
+		}
 	}
 }
