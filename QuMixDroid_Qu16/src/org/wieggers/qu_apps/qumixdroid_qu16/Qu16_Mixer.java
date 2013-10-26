@@ -101,7 +101,7 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 	@Override
 	public void receivedMessage(byte[] message) {
 		if (mParser != null)
-			mParser.parse(message);
+			mParser.parse(this, message);
 		
 	}
 
@@ -113,7 +113,7 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 	}
 
 	@Override
-	public void singleCommand(byte[] data) {
+	public void singleCommand(Object origin, byte[] data) {
 
 		Log.d(mTag, "Received: " + Arrays.toString(data));
 		
@@ -137,12 +137,11 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 			ConcurrentHashMap<Byte, Qu16_MixValue> mixValues2 = mixValues1.get(key[2]);
 			
 			if (!mixValues2.containsKey(key[3])) {
-				Qu16_MixValue newValue = new Qu16_MixValue(this, Qu16_Command_Direction.from_qu_16, data);
+				Qu16_MixValue newValue = new Qu16_MixValue(origin, Qu16_Command_Direction.from_qu_16, data);
 				newValue.addListener(this);
 				mixValues2.put(key[3], newValue);
-			} else {
-				mixValues2.get(key[3]).setCommand(this, Qu16_Command_Direction.from_qu_16, data);
-			}			
+			}
+			mixValues2.get(key[3]).setCommand(origin, Qu16_Command_Direction.from_qu_16, data);
 		}
 	}
 
@@ -171,7 +170,7 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 			{
 			    bytes[count++] = Byte.parseByte(str);
 			}			
-			singleCommand(bytes);
+			singleCommand(null, bytes);
 		}
 	}
 	

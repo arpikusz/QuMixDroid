@@ -28,7 +28,7 @@ class Qu16_Command_Parser {
 	 * @param data 		Network data buffer 
 	 * @param length	Network data buffer length
 	 */
-	public void parse (byte[] data)
+	public void parse (Object origin, byte[] data)
 	{
 		for (int i = 0; i < data.length; ++i) {
 			boolean command_complete = false;
@@ -79,7 +79,7 @@ class Qu16_Command_Parser {
 					byte[] command = Arrays.copyOfRange(current_command, 0, current_command_length);
 					
 					for (IParserListener listener : mListeners) {
-						listener.singleCommand(command);
+						listener.singleCommand(origin, command);
 					}
 				}
 

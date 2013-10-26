@@ -141,7 +141,8 @@ public class Qu16_MixValue {
 					mMode = mixValueMode.channelValue;
 					mBus = Qu16_Buses.fromValue(data[8]);
 				}
-				setValue(origin, data[6]);
+				if (!fromConstructor)
+					setValue(origin, data[6]);
 				break;
 			case from_qu_16:
 				mChannel = Qu16_Channels.fromValue(data[2]);
@@ -154,14 +155,16 @@ public class Qu16_MixValue {
 					mMode = mixValueMode.channelValue;
 					mBus = Qu16_Buses.fromValue(data[11]);
 				}
-				setValue(origin, data[8]);
+				if (!fromConstructor)
+					setValue(origin, data[8]);
 				break;
 			}
 			break;
 		case (byte) 0x90:
 			mChannel = Qu16_Channels.fromValue(data[2]);
 			mMode = mixValueMode.muteValue;
-			setValue(origin, data[2]);
+			if (!fromConstructor)
+				setValue(origin, data[2]);
 		}
 	}
 	
