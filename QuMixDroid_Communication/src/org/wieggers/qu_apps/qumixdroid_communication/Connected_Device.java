@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Connected_Device {
@@ -27,16 +28,14 @@ public class Connected_Device {
 			
 	private boolean mRunning;
 	
-	private LinkedList<IDeviceListener> mListeners;
-	private Object mListenerLock;
+	private ConcurrentLinkedQueue<IDeviceListener> mListeners;
 	
 	public Connected_Device(String remoteIp, int port) {
 		mRemoteIp = remoteIp;
 		mPort = port;
 		mQueue = new LinkedBlockingQueue<byte[]>();
 		
-		mListeners = new LinkedList<IDeviceListener>();
-		mListenerLock = new Object();		
+		mListeners = new ConcurrentLinkedQueue<IDeviceListener>();
 	}
 	
 	public void send(byte[] message) {
@@ -61,21 +60,15 @@ public class Connected_Device {
 	
 	public void stop() {
 		mRunning = false;
-		synchronized (mListenerLock) {
-			mListeners.clear();
-		}		
+		mListeners.clear();
 	}
 	
 	public void addListener(IDeviceListener listener) {
-		synchronized (mListenerLock) {
-			mListeners.add(listener);
-		}
+		mListeners.add(listener);
 	}
 	
 	public void removeListener(IDeviceListener listener) {
-		synchronized (mListenerLock) {
-			mListeners.remove(listener);
-		}
+		mListeners.remove(listener);
 	}
 	
 	private class StartThread extends Thread {
@@ -109,11 +102,9 @@ public class Connected_Device {
 						byte[] msg = Arrays.copyOfRange(buffer, 0, bytesRead);
 							
 						//Log.d(mTag, Arrays.toString(msg));
-						synchronized (mListenerLock) {
-							for (IDeviceListener listener : mListeners) {
-								listener.receivedMessage(msg);
-							}
-						}						
+						for (IDeviceListener listener : mListeners) {
+							listener.receivedMessage(msg);
+						}
 					}
 				}
 			} catch (IOException e) {

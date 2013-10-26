@@ -1,6 +1,6 @@
 package org.wieggers.qu_apps.qumixdroid_qu16;
 
-import java.util.LinkedList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Qu16_MixValue {
 	private Qu16_Commands mCommand;
@@ -10,8 +10,7 @@ public class Qu16_MixValue {
 	private byte mValue;	
 	private mixValueMode mMode;
 	
-	private LinkedList<IMixValueListener> mListeners;
-	private Object mListenerLock;
+	private ConcurrentLinkedQueue<IMixValueListener> mListeners;
 
 	
 	public Qu16_MixValue(Qu16_Commands command, Qu16_Channels channel, Qu16_Buses bus, byte value) {
@@ -46,8 +45,7 @@ public class Qu16_MixValue {
 	
 	private void init()
 	{
-		mListeners = new LinkedList<IMixValueListener>();
-		mListenerLock = new Object();	
+		mListeners = new ConcurrentLinkedQueue<IMixValueListener>();
 	}
 	
 	public static byte[] getKey(Qu16_Command_Direction direction, byte[] data) {
@@ -114,24 +112,18 @@ public class Qu16_MixValue {
 	public void setValue(Object origin, byte value) {
 		if (mValue != value) {
 			mValue = value;
-			synchronized (mListenerLock) {
-				for (IMixValueListener listener : mListeners) {
-					listener.valueChanged(this, origin, value);
-				}
+			for (IMixValueListener listener : mListeners) {
+				listener.valueChanged(this, origin, value);
 			}
 		}
 	}
 	
 	public void addListener(IMixValueListener listener) {
-		synchronized (mListenerLock) {
-			mListeners.add(listener);
-		}
+		mListeners.add(listener);
 	}
 	
 	public void removeListener(IMixValueListener listener) {
-		synchronized (mListenerLock) {
-			mListeners.remove(listener);
-		}
+		mListeners.remove(listener);
 	}
 	
 	private void setCommand(Object origin, Qu16_Command_Direction direction, byte[] data, Boolean fromConstructor) {

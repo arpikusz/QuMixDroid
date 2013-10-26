@@ -8,9 +8,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.wieggers.qu_apps.qumixdroid_communication.Connected_Device;
 import org.wieggers.qu_apps.qumixdroid_communication.IDeviceListener;
@@ -32,8 +32,7 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 	
 	private Connected_Device mDevice;
 	private Qu16_Command_Parser mParser;
-	private LinkedList<IMixerListener> mListeners;
-	private Object mListenerLock;	
+	private ConcurrentLinkedQueue<IMixerListener> mListeners;
 	private Boolean mDemoMode;
 	private String mRemoteIp;
 	private int mRemotePort;
@@ -53,8 +52,7 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 	 */
 	public Qu16_Mixer(Context context, String remoteIp, int port, boolean demoMode) {
 		
-		mListenerLock = new Object();
-		mListeners = new LinkedList<IMixerListener>();
+		mListeners = new ConcurrentLinkedQueue<IMixerListener>();
 
 		mParser = new Qu16_Command_Parser(Qu16_Command_Direction.from_qu_16);
 		mParser.addListener(this);
@@ -88,21 +86,15 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 		if (mDevice != null) {
 			mDevice.stop();
 		}
-		synchronized (mListenerLock) {
-			mListeners.clear();
-		}
+		mListeners.clear();
 	}
 
 	public void addListener(IMixerListener listener) {
-		synchronized (mListenerLock) {
-			mListeners.add(listener);
-		}
+		mListeners.add(listener);
 	}
 	
 	public void removeListener(IMixerListener listener) {
-		synchronized (mListenerLock) {
-			mListeners.remove(listener);
-		}
+		mListeners.remove(listener);
 	}
 	
 
@@ -115,10 +107,8 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 
 	@Override
 	public void errorOccurred(Exception exception) {
-		synchronized (mListenerLock) {
-			for (IMixerListener listener : mListeners) {
-				listener.errorOccurred(exception);
-			}
+		for (IMixerListener listener : mListeners) {
+			listener.errorOccurred(exception);
 		}
 	}
 

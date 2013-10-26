@@ -1,12 +1,11 @@
 package org.wieggers.qu_apps.qumixdroid_qu16;
 
 import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 class Qu16_Command_Parser {
 	
-	private LinkedList<IParserListener> mListeners;
-	private Object mListenerLock;
+	private ConcurrentLinkedQueue<IParserListener> mListeners;
 
 	private Qu16_Command_Direction mCommandDirection;
 	private parse_state_enum mState = parse_state_enum.next_command;
@@ -21,12 +20,11 @@ class Qu16_Command_Parser {
 	public Qu16_Command_Parser(Qu16_Command_Direction commandDirection) {
 		mCommandDirection = commandDirection;
 		
-		mListenerLock = new Object();
-		mListeners = new LinkedList<IParserListener>();
+		mListeners = new ConcurrentLinkedQueue<IParserListener>();
 	}
 	
 	/**
-	 * Analyses a stream of bytes and extracts individual commands 
+	 * Analyzes a stream of bytes and extracts individual commands 
 	 * @param data 		Network data buffer 
 	 * @param length	Network data buffer length
 	 */
@@ -77,13 +75,11 @@ class Qu16_Command_Parser {
 			++current_command_length;
 			if (command_complete) {
 				
-				synchronized (mListenerLock) {
-					if (!mListeners.isEmpty()) {
-						byte[] command = Arrays.copyOfRange(current_command, 0, current_command_length);
-						
-						for (IParserListener listener : mListeners) {
-							listener.singleCommand(command);
-						}
+				if (!mListeners.isEmpty()) {
+					byte[] command = Arrays.copyOfRange(current_command, 0, current_command_length);
+					
+					for (IParserListener listener : mListeners) {
+						listener.singleCommand(command);
 					}
 				}
 
@@ -98,9 +94,7 @@ class Qu16_Command_Parser {
 	 * @param listener
 	 */
 	public void addListener(IParserListener listener) {
-		synchronized (mListenerLock) {
-			mListeners.add(listener);
-		}
+		mListeners.add(listener);
 	}
 	
 	/**
@@ -108,9 +102,7 @@ class Qu16_Command_Parser {
 	 * @param listener
 	 */
 	public void removeListener(IParserListener listener) {
-		synchronized (mListenerLock) {
-			mListeners.remove(listener);
-		}
+		mListeners.remove(listener);
 	}
 	
 	private enum parse_state_enum
