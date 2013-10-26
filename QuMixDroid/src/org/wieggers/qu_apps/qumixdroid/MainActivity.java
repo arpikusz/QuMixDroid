@@ -5,10 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.wieggers.qu_apps.qumixdroid_qu16.IMixValueListener;
+import org.wieggers.qu_apps.qumixdroid_boundcontrols.BoundMuteToggleButton;
 import org.wieggers.qu_apps.qumixdroid_qu16.IMixerListener;
 import org.wieggers.qu_apps.qumixdroid_qu16.Qu16_Channels;
-import org.wieggers.qu_apps.qumixdroid_qu16.Qu16_MixValue;
 import org.wieggers.qu_apps.qumixdroid_qu16.Qu16_Mixer;
 
 import android.app.Activity;
@@ -19,10 +18,7 @@ import android.os.Environment;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 public class MainActivity extends Activity implements IMixerListener {
 
@@ -100,33 +96,9 @@ public class MainActivity extends Activity implements IMixerListener {
 			}
 		}
 		
-		final Qu16_MixValue mute1 = mMixer.getMixValue(Qu16_Channels.Mono_01);
-		
-		final ToggleButton tbMute1 = (ToggleButton) findViewById(R.id.tbMute1);
-		tbMute1.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		final BoundMuteToggleButton tbMute1 = (BoundMuteToggleButton) findViewById(R.id.tbMute1);
+		tbMute1.Connect(mMixer.getMixValue(Qu16_Channels.Mono_01));
 
-				mute1.setValue(this, tbMute1.isChecked() ? (byte) 0x7F : (byte) 0x3F );
-				
-			}
-		});
-		
-		mute1.addListener(new IMixValueListener() {
-			
-			@Override
-			public void valueChanged(Qu16_MixValue sender, Object origin, final byte value) {
-				
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						tbMute1.setChecked(value == (byte) 0x7F);		
-					}
-				});
-				
-			}
-		});
 	}
 
 	@Override
@@ -149,9 +121,5 @@ public class MainActivity extends Activity implements IMixerListener {
 				finish();
 			}
 		});		
-	}
-	
-	public void mixer_started()
-	{	
 	}
 }

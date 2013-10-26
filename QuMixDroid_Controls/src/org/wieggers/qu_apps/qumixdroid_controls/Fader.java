@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 public class Fader extends View {
@@ -27,7 +28,7 @@ public class Fader extends View {
 	private static int mKnobWidth, mKnobHeight;
 
 	private int mCenterWidth, mFaderKnobRangeY;
-	private int mFaderKnobX1, mFaderKnobY1, mFaderKnobMinY1, mFaderKnobMaxY1; // fader knob coordinates
+	private int mFaderKnobX1, mFaderKnobX2, mFaderKnobY1, mFaderKnobY2, mFaderKnobMinY1, mFaderKnobMaxY1; // fader knob coordinates
 	private int mLevelX1, mLevelX2; // db scale X coordinates
 
 	private double mProgressPercentage;
@@ -126,6 +127,7 @@ public class Fader extends View {
 
 		// determine position of the fader knob
 		mFaderKnobY1 = mFaderKnobMaxY1 - (int)(mProgressPercentage * (double)mFaderKnobRangeY);
+		mFaderKnobY2 = mFaderKnobY1 + mKnobHeight;
 		
 		if (!mIsActive)
 			mPaint.setAlpha(190);
@@ -178,7 +180,7 @@ public class Fader extends View {
 		
 		mCenterWidth = w / 2; 
 		mFaderKnobX1 = mCenterWidth - mKnobWidth / 2;			// left value of fader knob
-																// (right value changes when setValue() is called)
+		mFaderKnobX2 = mCenterWidth + mKnobWidth / 2;																
 		
 		mFaderKnobMaxY1 = h - mMargin - (mKnobHeight / 2);		// max value for top position of fader knob
 		mFaderKnobRangeY = mFaderKnobMaxY1 - mFaderKnobMinY1;	// max possible sliding range for fader
@@ -187,13 +189,68 @@ public class Fader extends View {
 		mLevelX2 = mCenterWidth + (mKnobWidth / 2);				// right value of DB scale lines
 	}	
 	
+	int startX, startY;
+	byte mixerValueStart;
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent e) {
+		if (!isEnabled())
+			return false;
+
+		/*
+		switch (e.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+			startX = (int)e.getX ();
+			startY = (int)e.getY ();
+			mIsActive = (startX >= mFaderKnobX1
+				&& startX <= mFaderKnobX2
+				&& startY >= mFaderKnobY1
+				&& startY <= mFaderKnobY2);
+			
+			mixerValueStart = mConnectedValue.GetValue();
+			safeInvalidate();
+			break;
+		case MotionEvent.ACTION_MOVE:
+			if (isActive) {
+				int newY = (int)e.GetY ();
+				int diffY = startY - newY;
+
+				float factor = (float)diffY / (float)rangeY;
+				int mixerValueDelta = (int) (factor * (float) maxValue);
+				int newMixerValue = mixerValueStart + mixerValueDelta;
+				if (newMixerValue < 0)
+					newMixerValue = 0;
+				if (newMixerValue > maxValue)
+					newMixerValue = maxValue;
+
+				if (mixerValue != null) {
+					mixerValue.SetValue (this, (byte) newMixerValue);
+				}
+				safeInvalidate ();
+			}
+			break;
+		case MotionEvent.ACTION_UP:
+		case MotionEvent.ACTION_CANCEL:
+			isActive = false;
+			safeInvalidate ();
+			break;
+		}
+		
+		
+		return true;
+		*/
+	}
+	
+	
+	
+	
 	public String getChannelName() {
 		return mChannelName;
 	}
 
 	public void setChannelName(String mChannelName) {
 		this.mChannelName = mChannelName;
-		invalidate();
+		safeInvalidate();
 	}
 
 	public int getMaxValue() {
@@ -205,16 +262,26 @@ public class Fader extends View {
 			throw new IllegalArgumentException("MaxValue should be greater than zero");
 		
 		this.mMaxValue = mMaxValue;
-		invalidate();
+		safeInvalidate();
 	}
 	
 	public int getProgress() {
 		return mProgress;
 	}
 
-	public  void setProgress(int mProgress) {
+	public void setProgress(int mProgress) {
 		this.mProgress = mProgress;
 		mProgressPercentage = (double)mProgress / (double)getMaxValue();		
 		invalidate();
+	}
+	
+	private void safeInvalidate() {
+		this.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				Fader.this.invalidate();				
+			}
+		});
 	}
 }

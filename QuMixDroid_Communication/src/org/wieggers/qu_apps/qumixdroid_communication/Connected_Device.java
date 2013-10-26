@@ -1,6 +1,5 @@
 package org.wieggers.qu_apps.qumixdroid_communication;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
