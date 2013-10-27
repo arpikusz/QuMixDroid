@@ -131,6 +131,212 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 		return getMixValue(Qu16_Mixer.Mute, mute_channel.getValue(), (byte) 0, (byte) 0);
 	}
 
+	public Qu16_MixValue getMixValue(byte mixer, int layer, int fader, Qu16_Buses bus, Qu16_Commands cmd) {
+		
+		byte key0 = mixer; // mute or channel command
+		byte key1 = Qu16_Channels.Mono_01.getValue();
+		byte key2 = cmd.getValue();
+		byte key3 = bus.getValue();
+
+		Boolean isInputChannel = true;		
+		Boolean supportsPan = false;
+		Boolean supportsPrePost = true;
+		Boolean supportsAssign = true;
+		
+		switch (bus) {
+		case Mix_5_6:
+		case Mix_7_8:
+		case Mix_9_10:
+		case LR:
+			supportsPan = true;
+			break;
+		default:
+			supportsPan = false;
+			break;
+		}
+		
+		if (fader == 17) { // master fader
+			key3 = (byte) Qu16_Buses.LR.getValue();
+			switch (bus) {
+			case LR:
+				key1 = Qu16_Channels.LR.getValue();
+				break;
+			case FX1:
+				key1 = Qu16_Channels.FX_Send_1.getValue();
+				break;
+			case FX2:
+				key1 = Qu16_Channels.FX_Send_2.getValue();
+				break;
+			case Mix_1:
+				key1 = Qu16_Channels.Mix_1.getValue();
+				break;
+			case Mix_2:
+				key1 = Qu16_Channels.Mix_2.getValue();
+				break;
+			case Mix_3:
+				key1 = Qu16_Channels.Mix_3.getValue();
+				break;
+			case Mix_4:
+				key1 = Qu16_Channels.Mix_4.getValue();
+				break;
+			case Mix_5_6:
+				key1 = Qu16_Channels.Mix_5_6.getValue();
+				break;
+			case Mix_7_8:
+				key1 = Qu16_Channels.Mix_7_8.getValue();
+				break;
+			case Mix_9_10:
+				key1 = Qu16_Channels.Mix_9_10.getValue();
+				break;
+			}
+		} else {
+			switch (layer) {
+			case 1:
+				switch (fader) {
+				case 1:
+					key1 = Qu16_Channels.Mono_01.getValue();
+					break;
+				case 2:
+					key1 = Qu16_Channels.Mono_02.getValue();
+					break;
+				case 3:
+					key1 = Qu16_Channels.Mono_03.getValue();
+					break;
+				case 4:
+					key1 = Qu16_Channels.Mono_04.getValue();
+					break;
+				case 5:
+					key1 = Qu16_Channels.Mono_05.getValue();
+					break;
+				case 6:
+					key1 = Qu16_Channels.Mono_06.getValue();
+					break;
+				case 7:
+					key1 = Qu16_Channels.Mono_07.getValue();
+					break;
+				case 8:
+					key1 = Qu16_Channels.Mono_08.getValue();
+					break;
+				case 9:
+					key1 = Qu16_Channels.Mono_09.getValue();
+					break;
+				case 10:
+					key1 = Qu16_Channels.Mono_10.getValue();
+					break;
+				case 11:
+					key1 = Qu16_Channels.Mono_11.getValue();
+					break;
+				case 12:
+					key1 = Qu16_Channels.Mono_12.getValue();
+					break;
+				case 13:
+					key1 = Qu16_Channels.Mono_13.getValue();
+					break;
+				case 14:
+					key1 = Qu16_Channels.Mono_14.getValue();
+					break;
+				case 15:
+					key1 = Qu16_Channels.Mono_15.getValue();
+					break;
+				case 16:
+					key1 = Qu16_Channels.Mono_16.getValue();
+					break;
+				}
+				break;
+			case 2:
+				isInputChannel = (fader < 8);
+				switch (fader) {
+				case 1:
+					key1 = Qu16_Channels.Stereo_1.getValue();
+					break;
+				case 2:
+					key1 = Qu16_Channels.Stereo_2.getValue();
+					break;
+				case 3:
+					key1 = Qu16_Channels.Stereo_3.getValue();
+					break;
+				case 4:
+					key1 = Qu16_Channels.FX_Return_1.getValue();
+					break;
+				case 5:
+					key1 = Qu16_Channels.FX_Return_2.getValue();
+					break;
+				case 6:
+					key1 = Qu16_Channels.FX_Return_3.getValue();
+					break;
+				case 7:
+					key1 = Qu16_Channels.FX_Return_4.getValue();
+					break;
+				case 8:
+					key1 = Qu16_Channels.FX_Send_1.getValue();
+					break;
+				case 9:
+					key1 = Qu16_Channels.FX_Send_2.getValue();
+					break;
+				case 10:
+					key1 = Qu16_Channels.Mix_1.getValue();
+					break;
+				case 11:
+					key1 = Qu16_Channels.Mix_2.getValue();
+					break;
+				case 12:
+					key1 = Qu16_Channels.Mix_3.getValue();
+					break;
+				case 13:
+					key1 = Qu16_Channels.Mix_4.getValue();
+					break;
+				case 14:
+					key1 = Qu16_Channels.Mix_5_6.getValue();
+					break;
+				case 15:
+					key1 = Qu16_Channels.Mix_7_8.getValue();
+					break;
+				case 16:
+					key1 = Qu16_Channels.Mix_9_10.getValue();
+					break;
+				}
+				break;
+			}
+		}
+		
+		if (mixer == Qu16_Mixer.Mute) {
+			return getMixValue(key0, key1, (byte) 0, (byte) 0);
+		} else {
+			if (bus == Qu16_Buses.LR) {
+				supportsPrePost = false;				
+			}
+			
+			if (! isInputChannel) {
+				key3 = Qu16_Buses.LR.getValue();
+				supportsPan = false;
+				supportsPrePost = false;
+				supportsAssign = false;
+			}
+			
+			if ((! supportsPan) && cmd == Qu16_Commands.Chn_Pan)
+				return null;			
+			
+			if ((! supportsPrePost) && cmd == Qu16_Commands.Chn_Pre_Post_Sw)
+				return null;
+
+			if ((! supportsAssign) && 
+					(cmd == Qu16_Commands.Chn_Assign_LR_Sw) || (cmd == Qu16_Commands.Chn_Assign_Mix_Sw))
+				return null;
+			
+			
+			if ((cmd == Qu16_Commands.Chn_Assign_LR_Sw) || (cmd == Qu16_Commands.Chn_Assign_Mix_Sw)) {
+				if (bus == Qu16_Buses.LR) {
+					key2 = Qu16_Commands.Chn_Assign_LR_Sw.getValue();
+				} else {
+					key2 = Qu16_Commands.Chn_Assign_Mix_Sw.getValue();
+				}
+			}
+			
+			// 			  mute/chan, fader,cmd,  bus
+			return getMixValue(key0, key1, key2, key3);
+		}
+	}
+	
 	private Qu16_MixValue getMixValue(byte key0, byte key1, byte key2, byte key3) {
 		
 		if (!mMixValues.containsKey(key0)) {
