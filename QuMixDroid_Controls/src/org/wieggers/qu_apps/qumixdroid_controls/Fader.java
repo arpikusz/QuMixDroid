@@ -190,16 +190,13 @@ public class Fader extends View {
 	}	
 	
 	int startX, startY;
-	byte mixerValueStart;
+	int mixerValueStart;
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent e) {
-		return super.onTouchEvent(e);
 		
-		/*
 		if (!isEnabled())
 			return false;
-		
 
 		switch (e.getAction()) {
 		case MotionEvent.ACTION_DOWN:
@@ -210,42 +207,36 @@ public class Fader extends View {
 				&& startY >= mFaderKnobY1
 				&& startY <= mFaderKnobY2);
 			
-			mixerValueStart = mConnectedValue.GetValue();
+			mixerValueStart = mProgress;
 			safeInvalidate();
 			break;
 		case MotionEvent.ACTION_MOVE:
-			if (isActive) {
-				int newY = (int)e.GetY ();
+			if (mIsActive) {
+				int newY = (int)e.getY ();
 				int diffY = startY - newY;
 
-				float factor = (float)diffY / (float)rangeY;
-				int mixerValueDelta = (int) (factor * (float) maxValue);
+				float factor = (float)diffY / (float)mFaderKnobRangeY;
+				int mixerValueDelta = (int) (factor * (float) mMaxValue);
 				int newMixerValue = mixerValueStart + mixerValueDelta;
 				if (newMixerValue < 0)
 					newMixerValue = 0;
-				if (newMixerValue > maxValue)
-					newMixerValue = maxValue;
+				if (newMixerValue > mMaxValue)
+					newMixerValue = mMaxValue;
 
-				if (mixerValue != null) {
-					mixerValue.SetValue (this, (byte) newMixerValue);
-				}
+				setProgress(newMixerValue);
 				safeInvalidate ();
 			}
 			break;
 		case MotionEvent.ACTION_UP:
 		case MotionEvent.ACTION_CANCEL:
-			isActive = false;
+			mIsActive = false;
 			safeInvalidate ();
 			break;
 		}
 		
 		
 		return true;
-		*/
 	}
-	
-	
-	
 	
 	public String getChannelName() {
 		return mChannelName;
@@ -275,7 +266,8 @@ public class Fader extends View {
 	public void setProgress(int mProgress) {
 		this.mProgress = mProgress;
 		mProgressPercentage = (double)mProgress / (double)getMaxValue();		
-		invalidate();
+		safeInvalidate();
+		onProgressChanged();
 	}
 	
 	private void safeInvalidate() {
@@ -286,5 +278,9 @@ public class Fader extends View {
 				Fader.this.invalidate();				
 			}
 		});
+	}
+	
+	protected void onProgressChanged() {
+	
 	}
 }
