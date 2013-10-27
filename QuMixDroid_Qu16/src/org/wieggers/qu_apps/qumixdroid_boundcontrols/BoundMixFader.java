@@ -25,7 +25,7 @@ public class BoundMixFader extends Fader implements IBoundControl, IMixValueList
 
 	@Override
 	public void valueChanged(Qu16_MixValue sender, Object origin, byte value) {
-		
+		setProgress(value, false);
 	}
 
 	@Override
@@ -35,7 +35,15 @@ public class BoundMixFader extends Fader implements IBoundControl, IMixValueList
 		}
 		
 		mBoundMixValue = mixValue;
-		mBoundMixValue.addListener(this);
-		valueChanged(mixValue, null, mixValue.getValue());
+		if (mBoundMixValue != null) {
+			mBoundMixValue.addListener(this);
+			valueChanged(mixValue, null, mixValue.getValue());
+		}
+	}
+	
+	@Override
+	protected void onProgressChanged() {
+		super.onProgressChanged();
+		mBoundMixValue.setValue(this, (byte) this.getProgress());
 	}
 }

@@ -5,9 +5,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.wieggers.qu_apps.qumixdroid_boundcontrols.BoundMixFader;
 import org.wieggers.qu_apps.qumixdroid_boundcontrols.BoundMuteToggleButton;
 import org.wieggers.qu_apps.qumixdroid_qu16.IMixerListener;
+import org.wieggers.qu_apps.qumixdroid_qu16.Qu16_Buses;
 import org.wieggers.qu_apps.qumixdroid_qu16.Qu16_Channels;
+import org.wieggers.qu_apps.qumixdroid_qu16.Qu16_Commands;
 import org.wieggers.qu_apps.qumixdroid_qu16.Qu16_Mixer;
 
 import android.app.Activity;
@@ -96,9 +99,11 @@ public class MainActivity extends Activity implements IMixerListener {
 			}
 		}
 		
-		final BoundMuteToggleButton tbMute1 = (BoundMuteToggleButton) findViewById(R.id.tbMute1);
+		BoundMuteToggleButton tbMute1 = (BoundMuteToggleButton) findViewById(R.id.tbMute1);
 		tbMute1.Connect(mMixer.getMixValue(Qu16_Channels.Mono_01));
 
+		BoundMixFader fader1 = (BoundMixFader) findViewById(R.id.tbFader1);
+		fader1.Connect(mMixer.getMixValue(Qu16_Channels.Mono_01, Qu16_Commands.Chn_Output_LR, Qu16_Buses.LR));
 	}
 
 	@Override
@@ -110,7 +115,7 @@ public class MainActivity extends Activity implements IMixerListener {
 			
 			@Override
 			public void run() {
-				Toast toast = Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT);
+				Toast toast = Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG);
 				toast.show();
 				
 				if (mMixer != null) {

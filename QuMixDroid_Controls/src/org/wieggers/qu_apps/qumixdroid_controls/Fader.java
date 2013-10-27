@@ -72,7 +72,7 @@ public class Fader extends View {
 
 		mChannelName = a.getString(R.styleable.Fader_channel_name);
 		setMaxValue(a.getInt(R.styleable.Fader_max, 127));
-		setProgress(a.getInt(R.styleable.Fader_progress, 0));
+		setProgress(a.getInt(R.styleable.Fader_progress, 0), false);
 		a.recycle();
 
 		mIsActive = false;
@@ -223,7 +223,7 @@ public class Fader extends View {
 				if (newMixerValue > mMaxValue)
 					newMixerValue = mMaxValue;
 
-				setProgress(newMixerValue);
+				setProgress(newMixerValue, true);
 				safeInvalidate ();
 			}
 			break;
@@ -263,11 +263,12 @@ public class Fader extends View {
 		return mProgress;
 	}
 
-	public void setProgress(int mProgress) {
+	public void setProgress(int mProgress, Boolean triggerEvent) {
 		this.mProgress = mProgress;
 		mProgressPercentage = (double)mProgress / (double)getMaxValue();		
 		safeInvalidate();
-		onProgressChanged();
+		if (triggerEvent)
+			onProgressChanged();
 	}
 	
 	private void safeInvalidate() {

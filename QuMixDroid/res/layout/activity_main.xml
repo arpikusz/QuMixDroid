@@ -36,7 +36,8 @@
         android:textOff="@string/mute"
         android:textOn="@string/mute" />
 
-    <org.wieggers.qu_apps.qumixdroid_controls.Fader
+    <org.wieggers.qu_apps.qumixdroid_boundcontrols.BoundMixFader
+        android:id="@+id/tbFader1"
         android:layout_width="202dp"
         android:layout_height="258dp"
         android:layout_below="@+id/textView1"
