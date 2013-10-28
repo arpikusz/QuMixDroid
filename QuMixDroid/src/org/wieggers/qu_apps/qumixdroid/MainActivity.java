@@ -5,13 +5,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.wieggers.qu_apps.qumixdroid_boundcontrols.BoundMixFader;
-import org.wieggers.qu_apps.qumixdroid_boundcontrols.BoundMuteToggleButton;
-import org.wieggers.qu_apps.qumixdroid_qu16.IMixerListener;
-import org.wieggers.qu_apps.qumixdroid_qu16.Qu16_Buses;
-import org.wieggers.qu_apps.qumixdroid_qu16.Qu16_Channels;
-import org.wieggers.qu_apps.qumixdroid_qu16.Qu16_Commands;
-import org.wieggers.qu_apps.qumixdroid_qu16.Qu16_Mixer;
+import org.wieggers.qu_apps.controls.bound.BoundMixFader;
+import org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton;
+import org.wieggers.qu_apps.qu16.IMixerListener;
+import org.wieggers.qu_apps.qu16.Qu16_Buses;
+import org.wieggers.qu_apps.qu16.Qu16_Channels;
+import org.wieggers.qu_apps.qu16.Qu16_Commands;
+import org.wieggers.qu_apps.qu16.Qu16_Mixer;
 
 import android.app.Activity;
 import android.content.Intent;

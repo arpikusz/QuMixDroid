@@ -79,6 +79,7 @@ public class Connected_Device {
 				SocketAddress address = new InetSocketAddress(mRemoteIp, mPort);
 				mSocket = new Socket();
 				mSocket.connect(address, 1000);
+				mSocket.setTcpNoDelay(true);
 				mRunning = true;
 				
 				mSendThread.start();
@@ -132,6 +133,7 @@ public class Connected_Device {
 					for (byte[] sendData : sendQueue) {
 						socketOutputStream.write(sendData); // and repeatedly send all messages
 					}
+					socketOutputStream.flush();
 				}
 			} catch (Exception e) {
 				for (IDeviceListener listener : mListeners) {

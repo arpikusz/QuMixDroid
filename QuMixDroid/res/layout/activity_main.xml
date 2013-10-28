@@ -24,7 +24,7 @@
         android:layout_marginTop="55dp"
         android:text="Button" />
 
-    <org.wieggers.qu_apps.qumixdroid_boundcontrols.BoundMuteToggleButton
+    <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
         android:id="@+id/tbMute1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
         android:textOff="@string/mute"
         android:textOn="@string/mute" />
 
-    <org.wieggers.qu_apps.qumixdroid_boundcontrols.BoundMixFader
+    <org.wieggers.qu_apps.controls.bound.BoundMixFader
         android:id="@+id/tbFader1"
         android:layout_width="202dp"
         android:layout_height="258dp"

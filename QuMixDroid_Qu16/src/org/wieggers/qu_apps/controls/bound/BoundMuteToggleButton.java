@@ -1,4 +1,4 @@
-package org.wieggers.qu_apps.qumixdroid_boundcontrols;
+package org.wieggers.qu_apps.controls.bound;
 
 import android.content.Context;
 import android.util.AttributeSet;

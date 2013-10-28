@@ -1,4 +1,4 @@
-package org.wieggers.qu_apps.qumixdroid_qu16;
+package org.wieggers.qu_apps.qu16;
 
 public enum Qu16_Buses {
 	Mix_1(0x00),

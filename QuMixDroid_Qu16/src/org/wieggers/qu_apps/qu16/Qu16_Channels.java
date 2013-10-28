@@ -1,4 +1,4 @@
-package org.wieggers.qu_apps.qumixdroid_qu16;
+package org.wieggers.qu_apps.qu16;
 
 public enum Qu16_Channels {
 	Mono_01(0x20),

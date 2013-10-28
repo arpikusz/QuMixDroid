@@ -1,4 +1,4 @@
-package org.wieggers.qu_apps.qumixdroid_qu16;
+package org.wieggers.qu_apps.qu16;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,8 +12,8 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import org.wieggers.qu_apps.qumixdroid_communication.Connected_Device;
-import org.wieggers.qu_apps.qumixdroid_communication.IDeviceListener;
+import org.wieggers.qu_apps.communication.Connected_Device;
+import org.wieggers.qu_apps.communication.IDeviceListener;
 
 import android.util.Log;
 
@@ -142,18 +142,6 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 		Boolean supportsPan = false;
 		Boolean supportsPrePost = true;
 		Boolean supportsAssign = true;
-		
-		switch (bus) {
-		case Mix_5_6:
-		case Mix_7_8:
-		case Mix_9_10:
-		case LR:
-			supportsPan = true;
-			break;
-		default:
-			supportsPan = false;
-			break;
-		}
 		
 		if (fader == 17) { // master fader
 			key3 = (byte) Qu16_Buses.LR.getValue();
@@ -302,8 +290,20 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 		if (mixer == Qu16_Mixer.Mute) {
 			return getMixValue(key0, key1, (byte) 0, (byte) 0);
 		} else {
-			if (bus == Qu16_Buses.LR) {
-				supportsPrePost = false;				
+
+			switch (bus) {
+			case Mix_5_6:
+			case Mix_7_8:
+			case Mix_9_10:
+				supportsPan = true;
+				break;
+			case LR:
+				supportsPan = true;
+				supportsPrePost = false;
+				break;
+			default:
+				supportsPan = false;
+				break;
 			}
 			
 			if (! isInputChannel) {

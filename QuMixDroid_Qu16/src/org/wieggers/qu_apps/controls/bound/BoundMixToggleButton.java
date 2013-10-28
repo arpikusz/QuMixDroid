@@ -1,7 +1,7 @@
-package org.wieggers.qu_apps.qumixdroid_boundcontrols;
+package org.wieggers.qu_apps.controls.bound;
 
-import org.wieggers.qu_apps.qumixdroid_qu16.IMixValueListener;
-import org.wieggers.qu_apps.qumixdroid_qu16.Qu16_MixValue;
+import org.wieggers.qu_apps.qu16.IMixValueListener;
+import org.wieggers.qu_apps.qu16.Qu16_MixValue;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -41,11 +41,14 @@ public class BoundMixToggleButton extends ToggleButton implements IBoundControl,
 		}
 		
 		mBoundMixValue = mixValue;
-		mBoundMixValue.addListener(this);
-		valueChanged(mixValue, null, mixValue.getValue());
+		if (mBoundMixValue != null) {
+			mBoundMixValue.addListener(this);
+			valueChanged(mixValue, null, mixValue.getValue());
+			setVisibility(VISIBLE);
+		} else {
+			setVisibility(INVISIBLE);
+		}
 	}
-
-	
 	
 	@Override
 	public void valueChanged(Qu16_MixValue sender, Object origin, final byte value) {
