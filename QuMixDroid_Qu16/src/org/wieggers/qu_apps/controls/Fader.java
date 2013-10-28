@@ -1,10 +1,9 @@
 package org.wieggers.qu_apps.controls;
 
-import org.wieggers.qu_apps.qu16.*;
-import org.wieggers.qu_apps.qumixdroid_qu16.R;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.wieggers.qu_apps.qumixdroid_qu16.R;
 
 import android.content.Context;
 import android.content.res.TypedArray;
