@@ -2,7 +2,7 @@ package org.wieggers.qu_apps.qu16.midi;
 
 import java.util.HashMap;
 
-public class VA_Ranges {
+public class Qu16_VA_Ranges {
 	public static final HashMap<Integer, String> Fader_Send;
 	static {
 		HashMap<Integer, String> initMap = new HashMap<Integer, String>();

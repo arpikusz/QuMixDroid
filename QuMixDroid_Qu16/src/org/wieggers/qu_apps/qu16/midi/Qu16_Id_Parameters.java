@@ -1,6 +1,6 @@
 package org.wieggers.qu_apps.qu16.midi;
 
-public enum Qu16_Parameters {
+public enum Qu16_Id_Parameters {
 	Chn_Output_LR(0x17),
 	Chn_Output_Mix(0x20),
 
@@ -84,12 +84,12 @@ public enum Qu16_Parameters {
 		return mValue;
 	}
 	
-	Qu16_Parameters(int value) {
+	Qu16_Id_Parameters(int value) {
 		mValue = (byte) value;
 	}	
 	
-	public static Qu16_Parameters fromValue(byte value) {
-		for (Qu16_Parameters command : Qu16_Parameters.values()) {
+	public static Qu16_Id_Parameters fromValue(byte value) {
+		for (Qu16_Id_Parameters command : Qu16_Id_Parameters.values()) {
 			if (command.mValue == value) {
 				return command;
 			}

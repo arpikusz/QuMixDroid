@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.wieggers.qu_apps.communication.Connected_Device;
 import org.wieggers.qu_apps.communication.IDeviceListener;
-import org.wieggers.qu_apps.qu16.midi.Qu16_Parameters;
+import org.wieggers.qu_apps.qu16.midi.Qu16_Id_Parameters;
 import org.wieggers.qu_apps.qu16.midi.Qu16_GEQ_Bands;
 import org.wieggers.qu_apps.qu16.midi.Qu16_Input_Channels;
 import org.wieggers.qu_apps.qu16.midi.Qu16_VX_Buses;
@@ -123,11 +123,11 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 		}
 	}
 
-	public Qu16_MixValue getMixValue(Qu16_Input_Channels channel, Qu16_Parameters command, Qu16_VX_Buses bus) {
+	public Qu16_MixValue getMixValue(Qu16_Input_Channels channel, Qu16_Id_Parameters command, Qu16_VX_Buses bus) {
 		return getMixValue(Qu16_Mixer.Channel , channel.getValue(), command.getValue(), bus.getValue());
 	}
 
-	public Qu16_MixValue getMixValue(Qu16_Input_Channels channel, Qu16_Parameters command, Qu16_GEQ_Bands freq) {
+	public Qu16_MixValue getMixValue(Qu16_Input_Channels channel, Qu16_Id_Parameters command, Qu16_GEQ_Bands freq) {
 		return getMixValue(Qu16_Mixer.Channel, channel.getValue(), command.getValue(), freq.getValue());
 	}
 	
@@ -135,7 +135,7 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 		return getMixValue(Qu16_Mixer.Mute, mute_channel.getValue(), (byte) 0, (byte) 0);
 	}
 
-	public Qu16_MixValue getMixValue(byte mixer, int layer, int fader, Qu16_VX_Buses bus, Qu16_Parameters cmd) {
+	public Qu16_MixValue getMixValue(byte mixer, int layer, int fader, Qu16_VX_Buses bus, Qu16_Id_Parameters cmd) {
 		
 		byte key0 = mixer; // mute or channel command
 		byte key1 = Qu16_Input_Channels.Mono_01.getValue();
@@ -317,22 +317,22 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 				supportsAssign = false;
 			}
 			
-			if ((! supportsPan) && cmd == Qu16_Parameters.Chn_Pan)
+			if ((! supportsPan) && cmd == Qu16_Id_Parameters.Chn_Pan)
 				return null;			
 			
-			if ((! supportsPrePost) && cmd == Qu16_Parameters.Chn_Pre_Post_Sw)
+			if ((! supportsPrePost) && cmd == Qu16_Id_Parameters.Chn_Pre_Post_Sw)
 				return null;
 
 			if ((! supportsAssign) && 
-					(cmd == Qu16_Parameters.Chn_Assign_LR_Sw) || (cmd == Qu16_Parameters.Chn_Assign_Mix_Sw))
+					(cmd == Qu16_Id_Parameters.Chn_Assign_LR_Sw) || (cmd == Qu16_Id_Parameters.Chn_Assign_Mix_Sw))
 				return null;
 			
 			
-			if ((cmd == Qu16_Parameters.Chn_Assign_LR_Sw) || (cmd == Qu16_Parameters.Chn_Assign_Mix_Sw)) {
+			if ((cmd == Qu16_Id_Parameters.Chn_Assign_LR_Sw) || (cmd == Qu16_Id_Parameters.Chn_Assign_Mix_Sw)) {
 				if (bus == Qu16_VX_Buses.LR) {
-					key2 = Qu16_Parameters.Chn_Assign_LR_Sw.getValue();
+					key2 = Qu16_Id_Parameters.Chn_Assign_LR_Sw.getValue();
 				} else {
-					key2 = Qu16_Parameters.Chn_Assign_Mix_Sw.getValue();
+					key2 = Qu16_Id_Parameters.Chn_Assign_Mix_Sw.getValue();
 				}
 			}
 			

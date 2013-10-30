@@ -2,13 +2,13 @@ package org.wieggers.qu_apps.qu16;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import org.wieggers.qu_apps.qu16.midi.Qu16_Parameters;
+import org.wieggers.qu_apps.qu16.midi.Qu16_Id_Parameters;
 import org.wieggers.qu_apps.qu16.midi.Qu16_GEQ_Bands;
 import org.wieggers.qu_apps.qu16.midi.Qu16_Input_Channels;
 import org.wieggers.qu_apps.qu16.midi.Qu16_VX_Buses;
 
 public class Qu16_MixValue {
-	private Qu16_Parameters mCommand;
+	private Qu16_Id_Parameters mCommand;
 	private Qu16_Input_Channels mChannel;
 	private Qu16_VX_Buses mBus;
 	private Qu16_GEQ_Bands mFreq;
@@ -95,9 +95,9 @@ public class Qu16_MixValue {
 		switch (data[0]) {
 		case (byte) 0xB0:
 			mChannel = Qu16_Input_Channels.fromValue(data[2]);
-			mCommand = Qu16_Parameters.fromValue(data[5]);
+			mCommand = Qu16_Id_Parameters.fromValue(data[5]);
 
-			if (mCommand == Qu16_Parameters.GEQ) {
+			if (mCommand == Qu16_Id_Parameters.GEQ) {
 				mMode = mixValueMode.geqFreqValue;
 				mFreq = Qu16_GEQ_Bands.fromValue(data[11]);
 			} else {
