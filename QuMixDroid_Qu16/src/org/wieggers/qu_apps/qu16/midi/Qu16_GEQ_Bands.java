@@ -1,6 +1,6 @@
-package org.wieggers.qu_apps.qu16;
+package org.wieggers.qu_apps.qu16.midi;
 
-public enum Qu16_GEQ_Frequenxcies {
+public enum Qu16_GEQ_Bands {
 	f00031(0x00),
 	f00040(0x01),
 	f00050(0x02),
@@ -36,12 +36,12 @@ public enum Qu16_GEQ_Frequenxcies {
 		return mValue;
 	}
 	
-	Qu16_GEQ_Frequenxcies(int value) {
+	Qu16_GEQ_Bands(int value) {
 		mValue = (byte) value;
 	}	
 
-	public static Qu16_GEQ_Frequenxcies fromValue(byte value) {
-		for (Qu16_GEQ_Frequenxcies freq : Qu16_GEQ_Frequenxcies.values()) {
+	public static Qu16_GEQ_Bands fromValue(byte value) {
+		for (Qu16_GEQ_Bands freq : Qu16_GEQ_Bands.values()) {
 			if (freq.mValue == value) {
 				return freq;
 			}

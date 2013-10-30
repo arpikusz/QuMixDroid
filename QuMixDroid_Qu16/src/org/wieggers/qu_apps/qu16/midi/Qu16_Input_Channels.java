@@ -1,6 +1,6 @@
-package org.wieggers.qu_apps.qu16;
+package org.wieggers.qu_apps.qu16.midi;
 
-public enum Qu16_Channels {
+public enum Qu16_Input_Channels {
 	Mono_01(0x20),
 	Mono_02(0x21),
 	Mono_03(0x22),
@@ -18,6 +18,30 @@ public enum Qu16_Channels {
 	Mono_15(0x2E),
 	Mono_16(0x2F),
 
+	Stereo_1(0x40),
+	Stereo_2(0x41),
+	Stereo_3(0x42),
+
+	FX_Return_1(0x08),
+	FX_Return_2(0x09),
+	FX_Return_3(0x0A),
+	FX_Return_4(0x0B),
+	
+	FX_Send_1(0x00),
+	FX_Send_2(0x01),
+
+	Mix_1(0x60),
+	Mix_2(0x61),
+	Mix_3(0x62),
+	Mix_4(0x63),
+	Mix_5_6(0x64),
+	Mix_7_8(0x65),
+	Mix_9_10(0x66),
+	LR(0x67),
+
+	Unknown_02(0x02),
+	Unknown_03(0x03),
+	
 	Unknown_10(0x10),
 	Unknown_11(0x11),
 	Unknown_12(0x12),
@@ -40,28 +64,6 @@ public enum Qu16_Channels {
 	Unknown_3E(0x3E),
 	Unknown_3F(0x3F),
 
-
-	Stereo_1(0x40),
-	Stereo_2(0x41),
-	Stereo_3(0x42),
-	FX_Return_1(0x08),
-	FX_Return_2(0x09),
-	FX_Return_3(0x0A),
-	FX_Return_4(0x0B),
-	FX_Send_1(0x00),
-	FX_Send_2(0x01),
-	Mix_1(0x60),
-	Mix_2(0x61),
-	Mix_3(0x62),
-	Mix_4(0x63),
-	Mix_5_6(0x64),
-	Mix_7_8(0x65),
-	Mix_9_10(0x66),
-	LR(0x67),
-
-	Unknown_02(0x02),
-	Unknown_03(0x03),
-
 	Unknown_68(0x68),
 	Unknown_69(0x69),
 	Unknown_6A(0x6A),
@@ -77,12 +79,12 @@ public enum Qu16_Channels {
 		return mValue;
 	}
 	
-	Qu16_Channels(int value) {
+	Qu16_Input_Channels(int value) {
 		mValue = (byte) value;
 	}
 	
-	public static Qu16_Channels fromValue(byte value) {
-		for (Qu16_Channels channel : Qu16_Channels.values()) {
+	public static Qu16_Input_Channels fromValue(byte value) {
+		for (Qu16_Input_Channels channel : Qu16_Input_Channels.values()) {
 			if (channel.mValue == value) {
 				return channel;
 			}

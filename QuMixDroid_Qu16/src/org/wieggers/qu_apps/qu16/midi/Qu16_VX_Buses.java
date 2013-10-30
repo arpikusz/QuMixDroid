@@ -1,6 +1,6 @@
-package org.wieggers.qu_apps.qu16;
+package org.wieggers.qu_apps.qu16.midi;
 
-public enum Qu16_Buses {
+public enum Qu16_VX_Buses {
 	Mix_1(0x00),
 	Mix_2(0x01),
 	Mix_3(0x02),
@@ -20,12 +20,12 @@ public enum Qu16_Buses {
 		return mValue;
 	}
 	
-	Qu16_Buses(int value) {
+	Qu16_VX_Buses(int value) {
 		mValue = (byte) value;
 	}
 	
-	public static Qu16_Buses fromValue(byte value) {
-		for (Qu16_Buses bus : Qu16_Buses.values()) {
+	public static Qu16_VX_Buses fromValue(byte value) {
+		for (Qu16_VX_Buses bus : Qu16_VX_Buses.values()) {
 			if (bus.mValue == value) {
 				return bus;
 			}

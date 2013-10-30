@@ -124,6 +124,7 @@ public class Connected_Device {
 		public void run() {
 			try {
 				OutputStream socketOutputStream = mSocket.getOutputStream();
+				mSocket.setTcpNoDelay(true);
 				
 				while (mRunning) {
 					LinkedList<byte[]> sendQueue = new LinkedList<byte[]>(); 

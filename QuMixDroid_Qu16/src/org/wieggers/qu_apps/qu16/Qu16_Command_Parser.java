@@ -7,7 +7,6 @@ class Qu16_Command_Parser {
 	
 	private ConcurrentLinkedQueue<IParserListener> mListeners;
 
-	private Qu16_Command_Direction mCommandDirection;
 	private parse_state_enum mState = parse_state_enum.next_command;
 	
 	private byte[] current_command = new byte[4000];
@@ -17,9 +16,7 @@ class Qu16_Command_Parser {
 	 * Construct a parser object, capable of processing individual commands for the Qu-16
 	 * @param commandDirection	2 Modes, because commands are different when sent to, or received from the Qu-16
 	 */
-	public Qu16_Command_Parser(Qu16_Command_Direction commandDirection) {
-		mCommandDirection = commandDirection;
-		
+	public Qu16_Command_Parser() {
 		mListeners = new ConcurrentLinkedQueue<IParserListener>();
 	}
 	
@@ -55,14 +52,7 @@ class Qu16_Command_Parser {
 				}
 				break;
 			case in_channel_command:
-				switch (mCommandDirection) {
-				case from_qu_16:
-					command_complete = (current_command_length == 11);
-					break;
-				case to_qu_16:
-					command_complete = (current_command_length == 8);
-					break;
-				}
+				command_complete = (current_command_length == 11);
 				break;
 			case in_mute_command:
 				command_complete = (current_command_length == 4);

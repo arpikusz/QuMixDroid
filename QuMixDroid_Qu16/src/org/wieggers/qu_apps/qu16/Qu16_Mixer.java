@@ -14,6 +14,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.wieggers.qu_apps.communication.Connected_Device;
 import org.wieggers.qu_apps.communication.IDeviceListener;
+import org.wieggers.qu_apps.qu16.midi.Qu16_Parameters;
+import org.wieggers.qu_apps.qu16.midi.Qu16_GEQ_Bands;
+import org.wieggers.qu_apps.qu16.midi.Qu16_Input_Channels;
+import org.wieggers.qu_apps.qu16.midi.Qu16_VX_Buses;
 
 import android.util.Log;
 
@@ -56,7 +60,7 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 		
 		mListeners = new ConcurrentLinkedQueue<IMixerListener>();
 
-		mParser = new Qu16_Command_Parser(Qu16_Command_Direction.from_qu_16);
+		mParser = new Qu16_Command_Parser();
 		mParser.addListener(this);
 		
 		mMixValues = new ConcurrentHashMap<Byte, ConcurrentHashMap<Byte,ConcurrentHashMap<Byte,ConcurrentHashMap<Byte,Qu16_MixValue>>>>();
@@ -113,28 +117,28 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 
 		Log.d(mTag, "Received: " + Arrays.toString(data));
 		
-		byte[] key = Qu16_MixValue.getKey(Qu16_Command_Direction.from_qu_16, data);
+		byte[] key = Qu16_MixValue.getKey(data);
 		if (key != null) {			
-			getMixValue(key[0], key[1], key[2], key[3]).setCommand(origin, Qu16_Command_Direction.from_qu_16, data);
+			getMixValue(key[0], key[1], key[2], key[3]).setCommand(origin, data);
 		}
 	}
 
-	public Qu16_MixValue getMixValue(Qu16_Channels channel, Qu16_Commands command, Qu16_Buses bus) {
+	public Qu16_MixValue getMixValue(Qu16_Input_Channels channel, Qu16_Parameters command, Qu16_VX_Buses bus) {
 		return getMixValue(Qu16_Mixer.Channel , channel.getValue(), command.getValue(), bus.getValue());
 	}
 
-	public Qu16_MixValue getMixValue(Qu16_Channels channel, Qu16_Commands command, Qu16_GEQ_Frequenxcies freq) {
+	public Qu16_MixValue getMixValue(Qu16_Input_Channels channel, Qu16_Parameters command, Qu16_GEQ_Bands freq) {
 		return getMixValue(Qu16_Mixer.Channel, channel.getValue(), command.getValue(), freq.getValue());
 	}
 	
-	public Qu16_MixValue getMixValue(Qu16_Channels mute_channel) {
+	public Qu16_MixValue getMixValue(Qu16_Input_Channels mute_channel) {
 		return getMixValue(Qu16_Mixer.Mute, mute_channel.getValue(), (byte) 0, (byte) 0);
 	}
 
-	public Qu16_MixValue getMixValue(byte mixer, int layer, int fader, Qu16_Buses bus, Qu16_Commands cmd) {
+	public Qu16_MixValue getMixValue(byte mixer, int layer, int fader, Qu16_VX_Buses bus, Qu16_Parameters cmd) {
 		
 		byte key0 = mixer; // mute or channel command
-		byte key1 = Qu16_Channels.Mono_01.getValue();
+		byte key1 = Qu16_Input_Channels.Mono_01.getValue();
 		byte key2 = cmd.getValue();
 		byte key3 = bus.getValue();
 
@@ -144,37 +148,37 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 		Boolean supportsAssign = true;
 		
 		if (fader == 17) { // master fader
-			key3 = (byte) Qu16_Buses.LR.getValue();
+			key3 = (byte) Qu16_VX_Buses.LR.getValue();
 			switch (bus) {
 			case LR:
-				key1 = Qu16_Channels.LR.getValue();
+				key1 = Qu16_Input_Channels.LR.getValue();
 				break;
 			case FX1:
-				key1 = Qu16_Channels.FX_Send_1.getValue();
+				key1 = Qu16_Input_Channels.FX_Send_1.getValue();
 				break;
 			case FX2:
-				key1 = Qu16_Channels.FX_Send_2.getValue();
+				key1 = Qu16_Input_Channels.FX_Send_2.getValue();
 				break;
 			case Mix_1:
-				key1 = Qu16_Channels.Mix_1.getValue();
+				key1 = Qu16_Input_Channels.Mix_1.getValue();
 				break;
 			case Mix_2:
-				key1 = Qu16_Channels.Mix_2.getValue();
+				key1 = Qu16_Input_Channels.Mix_2.getValue();
 				break;
 			case Mix_3:
-				key1 = Qu16_Channels.Mix_3.getValue();
+				key1 = Qu16_Input_Channels.Mix_3.getValue();
 				break;
 			case Mix_4:
-				key1 = Qu16_Channels.Mix_4.getValue();
+				key1 = Qu16_Input_Channels.Mix_4.getValue();
 				break;
 			case Mix_5_6:
-				key1 = Qu16_Channels.Mix_5_6.getValue();
+				key1 = Qu16_Input_Channels.Mix_5_6.getValue();
 				break;
 			case Mix_7_8:
-				key1 = Qu16_Channels.Mix_7_8.getValue();
+				key1 = Qu16_Input_Channels.Mix_7_8.getValue();
 				break;
 			case Mix_9_10:
-				key1 = Qu16_Channels.Mix_9_10.getValue();
+				key1 = Qu16_Input_Channels.Mix_9_10.getValue();
 				break;
 			}
 		} else {
@@ -182,52 +186,52 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 			case 1:
 				switch (fader) {
 				case 1:
-					key1 = Qu16_Channels.Mono_01.getValue();
+					key1 = Qu16_Input_Channels.Mono_01.getValue();
 					break;
 				case 2:
-					key1 = Qu16_Channels.Mono_02.getValue();
+					key1 = Qu16_Input_Channels.Mono_02.getValue();
 					break;
 				case 3:
-					key1 = Qu16_Channels.Mono_03.getValue();
+					key1 = Qu16_Input_Channels.Mono_03.getValue();
 					break;
 				case 4:
-					key1 = Qu16_Channels.Mono_04.getValue();
+					key1 = Qu16_Input_Channels.Mono_04.getValue();
 					break;
 				case 5:
-					key1 = Qu16_Channels.Mono_05.getValue();
+					key1 = Qu16_Input_Channels.Mono_05.getValue();
 					break;
 				case 6:
-					key1 = Qu16_Channels.Mono_06.getValue();
+					key1 = Qu16_Input_Channels.Mono_06.getValue();
 					break;
 				case 7:
-					key1 = Qu16_Channels.Mono_07.getValue();
+					key1 = Qu16_Input_Channels.Mono_07.getValue();
 					break;
 				case 8:
-					key1 = Qu16_Channels.Mono_08.getValue();
+					key1 = Qu16_Input_Channels.Mono_08.getValue();
 					break;
 				case 9:
-					key1 = Qu16_Channels.Mono_09.getValue();
+					key1 = Qu16_Input_Channels.Mono_09.getValue();
 					break;
 				case 10:
-					key1 = Qu16_Channels.Mono_10.getValue();
+					key1 = Qu16_Input_Channels.Mono_10.getValue();
 					break;
 				case 11:
-					key1 = Qu16_Channels.Mono_11.getValue();
+					key1 = Qu16_Input_Channels.Mono_11.getValue();
 					break;
 				case 12:
-					key1 = Qu16_Channels.Mono_12.getValue();
+					key1 = Qu16_Input_Channels.Mono_12.getValue();
 					break;
 				case 13:
-					key1 = Qu16_Channels.Mono_13.getValue();
+					key1 = Qu16_Input_Channels.Mono_13.getValue();
 					break;
 				case 14:
-					key1 = Qu16_Channels.Mono_14.getValue();
+					key1 = Qu16_Input_Channels.Mono_14.getValue();
 					break;
 				case 15:
-					key1 = Qu16_Channels.Mono_15.getValue();
+					key1 = Qu16_Input_Channels.Mono_15.getValue();
 					break;
 				case 16:
-					key1 = Qu16_Channels.Mono_16.getValue();
+					key1 = Qu16_Input_Channels.Mono_16.getValue();
 					break;
 				}
 				break;
@@ -235,52 +239,52 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 				isInputChannel = (fader < 8);
 				switch (fader) {
 				case 1:
-					key1 = Qu16_Channels.Stereo_1.getValue();
+					key1 = Qu16_Input_Channels.Stereo_1.getValue();
 					break;
 				case 2:
-					key1 = Qu16_Channels.Stereo_2.getValue();
+					key1 = Qu16_Input_Channels.Stereo_2.getValue();
 					break;
 				case 3:
-					key1 = Qu16_Channels.Stereo_3.getValue();
+					key1 = Qu16_Input_Channels.Stereo_3.getValue();
 					break;
 				case 4:
-					key1 = Qu16_Channels.FX_Return_1.getValue();
+					key1 = Qu16_Input_Channels.FX_Return_1.getValue();
 					break;
 				case 5:
-					key1 = Qu16_Channels.FX_Return_2.getValue();
+					key1 = Qu16_Input_Channels.FX_Return_2.getValue();
 					break;
 				case 6:
-					key1 = Qu16_Channels.FX_Return_3.getValue();
+					key1 = Qu16_Input_Channels.FX_Return_3.getValue();
 					break;
 				case 7:
-					key1 = Qu16_Channels.FX_Return_4.getValue();
+					key1 = Qu16_Input_Channels.FX_Return_4.getValue();
 					break;
 				case 8:
-					key1 = Qu16_Channels.FX_Send_1.getValue();
+					key1 = Qu16_Input_Channels.FX_Send_1.getValue();
 					break;
 				case 9:
-					key1 = Qu16_Channels.FX_Send_2.getValue();
+					key1 = Qu16_Input_Channels.FX_Send_2.getValue();
 					break;
 				case 10:
-					key1 = Qu16_Channels.Mix_1.getValue();
+					key1 = Qu16_Input_Channels.Mix_1.getValue();
 					break;
 				case 11:
-					key1 = Qu16_Channels.Mix_2.getValue();
+					key1 = Qu16_Input_Channels.Mix_2.getValue();
 					break;
 				case 12:
-					key1 = Qu16_Channels.Mix_3.getValue();
+					key1 = Qu16_Input_Channels.Mix_3.getValue();
 					break;
 				case 13:
-					key1 = Qu16_Channels.Mix_4.getValue();
+					key1 = Qu16_Input_Channels.Mix_4.getValue();
 					break;
 				case 14:
-					key1 = Qu16_Channels.Mix_5_6.getValue();
+					key1 = Qu16_Input_Channels.Mix_5_6.getValue();
 					break;
 				case 15:
-					key1 = Qu16_Channels.Mix_7_8.getValue();
+					key1 = Qu16_Input_Channels.Mix_7_8.getValue();
 					break;
 				case 16:
-					key1 = Qu16_Channels.Mix_9_10.getValue();
+					key1 = Qu16_Input_Channels.Mix_9_10.getValue();
 					break;
 				}
 				break;
@@ -307,28 +311,28 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 			}
 			
 			if (! isInputChannel) {
-				key3 = Qu16_Buses.LR.getValue();
+				key3 = Qu16_VX_Buses.LR.getValue();
 				supportsPan = false;
 				supportsPrePost = false;
 				supportsAssign = false;
 			}
 			
-			if ((! supportsPan) && cmd == Qu16_Commands.Chn_Pan)
+			if ((! supportsPan) && cmd == Qu16_Parameters.Chn_Pan)
 				return null;			
 			
-			if ((! supportsPrePost) && cmd == Qu16_Commands.Chn_Pre_Post_Sw)
+			if ((! supportsPrePost) && cmd == Qu16_Parameters.Chn_Pre_Post_Sw)
 				return null;
 
 			if ((! supportsAssign) && 
-					(cmd == Qu16_Commands.Chn_Assign_LR_Sw) || (cmd == Qu16_Commands.Chn_Assign_Mix_Sw))
+					(cmd == Qu16_Parameters.Chn_Assign_LR_Sw) || (cmd == Qu16_Parameters.Chn_Assign_Mix_Sw))
 				return null;
 			
 			
-			if ((cmd == Qu16_Commands.Chn_Assign_LR_Sw) || (cmd == Qu16_Commands.Chn_Assign_Mix_Sw)) {
-				if (bus == Qu16_Buses.LR) {
-					key2 = Qu16_Commands.Chn_Assign_LR_Sw.getValue();
+			if ((cmd == Qu16_Parameters.Chn_Assign_LR_Sw) || (cmd == Qu16_Parameters.Chn_Assign_Mix_Sw)) {
+				if (bus == Qu16_VX_Buses.LR) {
+					key2 = Qu16_Parameters.Chn_Assign_LR_Sw.getValue();
 				} else {
-					key2 = Qu16_Commands.Chn_Assign_Mix_Sw.getValue();
+					key2 = Qu16_Parameters.Chn_Assign_Mix_Sw.getValue();
 				}
 			}
 			
@@ -368,7 +372,7 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 	public void valueChanged(Qu16_MixValue sender, Object origin, byte value) {
 		if (origin != this) {
 			if (mDevice != null) {
-				mDevice.send(sender.getCommand(Qu16_Command_Direction.to_qu_16));
+				mDevice.send(sender.getCommand());
 			}
 		}
 		
@@ -405,7 +409,7 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueListener, IParserLi
 					for (Entry<Byte, Qu16_MixValue> mixValue4 : mixValues3.getValue().entrySet()) {
 						++i;
 												
-						byte[] cmd = mixValue4.getValue().getCommand(Qu16_Command_Direction.from_qu_16);
+						byte[] cmd = mixValue4.getValue().getCommand();
 						if (cmd == null)
 							continue;
 

@@ -1,6 +1,6 @@
-package org.wieggers.qu_apps.qu16;
+package org.wieggers.qu_apps.qu16.midi;
 
-public enum Qu16_Commands {
+public enum Qu16_Parameters {
 	Chn_Output_LR(0x17),
 	Chn_Output_Mix(0x20),
 
@@ -84,30 +84,12 @@ public enum Qu16_Commands {
 		return mValue;
 	}
 	
-	public byte getValueForBus(Qu16_Buses bus) {
-		if (mValue == Qu16_Commands.Chn_Output_Mix.mValue) {
-			switch (bus) {
-			case Mix_1: return Chn_Output_Mix.mValue;
-			case Mix_2: return Chn_Output_Mix2.mValue;
-			case Mix_3: return Chn_Output_Mix3.mValue;
-			case Mix_4: return Chn_Output_Mix4.mValue;
-			case Mix_5_6: return Chn_Output_Mix5_6.mValue;
-			case Mix_7_8: return Chn_Output_Mix7_8.mValue;
-			case Mix_9_10: return Chn_Output_Mix9_10.mValue;
-			case FX1: return Chn_Output_FX1.mValue;
-			case FX2: return Chn_Output_FX2.mValue;
-			default: return mValue;
-			}
-		}
-		return mValue;
-	}
-	
-	Qu16_Commands(int value) {
+	Qu16_Parameters(int value) {
 		mValue = (byte) value;
 	}	
 	
-	public static Qu16_Commands fromValue(byte value) {
-		for (Qu16_Commands command : Qu16_Commands.values()) {
+	public static Qu16_Parameters fromValue(byte value) {
+		for (Qu16_Parameters command : Qu16_Parameters.values()) {
 			if (command.mValue == value) {
 				return command;
 			}
