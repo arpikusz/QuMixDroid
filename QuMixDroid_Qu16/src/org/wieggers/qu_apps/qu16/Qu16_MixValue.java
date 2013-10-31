@@ -23,13 +23,6 @@ public class Qu16_MixValue {
 		mMode = mixValueMode.unknown;
 	}
 	
-	/*
-	public Qu16_MixValue(IMixValueMidiListener parent, Object origin, byte[] data) {
-		init(parent);
-		setCommand(origin, data, true);
-	}
-	*/
-	
 	private void init(IMixValueMidiListener parent)
 	{
 		mMidiListener = parent;
@@ -37,7 +30,7 @@ public class Qu16_MixValue {
 		mValue = 0;
 	}
 	
-	public static byte[] getKey(byte[] data) {
+	static byte[] getKey(byte[] data) {
 		switch (data[0]) {
 		case (byte) 0xB0: // channel_command
 			return new byte[] { data[0], data[2], data[5], data[11] };
@@ -48,11 +41,11 @@ public class Qu16_MixValue {
 		return null;
 	}
 	
-	public void setCommand(Object origin, byte[] data) {
+	void setCommand(Object origin, byte[] data) {
 		setCommand(origin, data, false);
 	}
 
-	public byte[] getCommand() {
+	byte[] getCommand() {
 		
 		switch (mMode) {
 		case channelValue:
@@ -84,7 +77,7 @@ public class Qu16_MixValue {
 			for (IMixValueListener listener : mListeners) {
 				listener.valueChanged(value);
 			}
-			mMidiListener.valueChanged(this, origin);
+			mMidiListener.valueChanged(origin, getCommand());
 		}
 	}
 	

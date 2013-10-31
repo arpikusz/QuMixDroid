@@ -47,6 +47,7 @@ public class BoundMixFader extends Fader implements IMixValueListener {
 	@Override
 	protected void onProgressChanged() {
 		super.onProgressChanged();
-		mBoundMixValue.setValue(this, (byte) this.getProgress());
+		if (mBoundMixValue != null)
+			mBoundMixValue.setValue(this, (byte) this.getProgress());
 	}
 }

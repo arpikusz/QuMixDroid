@@ -96,13 +96,7 @@ public class MainActivity extends Activity implements IMixerListener {
 			} catch (Exception e) {
 				errorOccurred(e);
 			}
-		}
-		
-		BoundMuteToggleButton tbMute1 = (BoundMuteToggleButton) findViewById(R.id.tbMute1);		
-		mMixer.connect(tbMute1, Qu16_Input_Channels.Mono_01);
-
-		BoundMixFader fader1 = (BoundMixFader) findViewById(R.id.tbFader1);
-		mMixer.connect(fader1, Qu16_Input_Channels.Mono_01, Qu16_Id_Parameters.Chn_Output_Mix, Qu16_VX_Buses.Mix_4);
+		}		
 	}
 
 	@Override
@@ -125,5 +119,15 @@ public class MainActivity extends Activity implements IMixerListener {
 				finish();
 			}
 		});		
+	}
+
+	@Override
+	public void initialSyncComplete() {
+		
+		BoundMuteToggleButton tbMute1 = (BoundMuteToggleButton) findViewById(R.id.tbMute1);		
+		mMixer.connect(tbMute1, Qu16_Input_Channels.Mono_01);
+
+		BoundMixFader fader1 = (BoundMixFader) findViewById(R.id.tbFader1);
+		mMixer.connect(fader1, Qu16_Input_Channels.Mono_01, Qu16_Id_Parameters.Chn_Output_Mix, Qu16_VX_Buses.Mix_4);		
 	}
 }

@@ -94,14 +94,26 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueMidiListener, IMidi
 		mListener.errorOccurred(exception);
 	}
 
+	private static final byte[] sysExStart = new byte[] { (byte) 0xF0, 0x00, 0x00, 0x1A, 0x50, 0x11 };
+
 	@Override
 	public void singleMidiCommand(Object origin, byte[] data) {
 
-		Log.d(mTag, "Received: " + Arrays.toString(data));
+		//Log.d(mTag, "Received: " + Arrays.toString(data));
 		
-		byte[] key = Qu16_MixValue.getKey(data);
-		if (key != null) {			
-			getMixValue(key[0], key[1], key[2], key[3], true).setCommand(origin, data);
+		if (data.length >= 11 && data[0] == (byte) 0xF0) { // sysex data?
+			byte[] start = Arrays.copyOf(data, 6);
+			if (Arrays.equals(start, sysExStart)) { // sync complete
+				if (data[9] == 0x14 
+				&& data[10] == (byte) 0xF7) {
+					mListener.initialSyncComplete();
+				}
+			}
+		} else {
+			byte[] key = Qu16_MixValue.getKey(data);
+			if (key != null) {			
+				getMixValue(key[0], key[1], key[2], key[3], true).setCommand(origin, data);
+			}
 		}
 	}
 
@@ -110,24 +122,25 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueMidiListener, IMidi
 	// when only channel is given as a parameter, connect to a mute value
 	public void connect(IMixValueListener listener, Qu16_Input_Channels mute_channel) { 
 		Qu16_MixValue muteValue = getMixValue(Qu16_Mixer.Mute, mute_channel.getValue(), (byte) 0, (byte) 0, false);
-		muteValue.addListener(listener);
+		listener.connect(muteValue);
 	}
 	
-	// if channel and bus is given, it's a channel NRPN command (but not GEQ)
+	// if channel and bus are given, it's a channel NRPN command (but not GEQ)
 	public void connect(IMixValueListener listener, Qu16_Input_Channels channel, Qu16_Id_Parameters command, Qu16_VX_Buses bus) {
 		if (command == Qu16_Id_Parameters.GEQ)
 			throw new IllegalArgumentException("Cannot connect GEQ command in combination with a Qu16_VX_Buses type");
 		
 		Qu16_MixValue channelValue = getMixValue(Qu16_Mixer.Channel , channel.getValue(), command.getValue(), bus.getValue(), false);
-		channelValue.addListener(listener);
+		listener.connect(channelValue);
 	}
 
+	// if channel and the right GEQ band are given, it's a GEQ NRPN command
 	public void connect(IMixValueListener listener, Qu16_Input_Channels channel, Qu16_Id_Parameters command, Qu16_GEQ_Bands band) {
 		if (command != Qu16_Id_Parameters.GEQ)
 			throw new IllegalArgumentException("Cannot connect this command in combination with a Qu16_GEQ_Bands type");
 		
 		Qu16_MixValue channelValue = getMixValue(Qu16_Mixer.Channel, channel.getValue(), command.getValue(), band.getValue(), false);
-		channelValue.addListener(listener);
+		listener.connect(channelValue);
 	}
 
 	private Qu16_MixValue getMixValue(byte key0, byte key1, byte key2, byte key3, boolean create) {
@@ -167,10 +180,10 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueMidiListener, IMidi
 	}
 	
 	@Override
-	public void valueChanged(Qu16_MixValue sender, Object origin) {
+	public void valueChanged(Object origin, byte[] midiCommand) {
 		if (origin != mDevice) {
 			if (mDevice != null) {
-				mDevice.send(sender.getCommand());
+				mDevice.send(midiCommand);
 			}
 		}		
 	}
@@ -192,6 +205,8 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueMidiListener, IMidi
 			}			
 			singleMidiCommand(null, bytes);
 		}
+		
+		mListener.initialSyncComplete();
 	}
 	
 	public void writeScene(OutputStream os) throws IOException
