@@ -85,8 +85,7 @@ public class MainActivity extends Activity implements IMixerListener {
 	protected void onResume() {
 		super.onResume();
 
-		mMixer = new Qu16_Mixer(mRemoteIp, mRemotePort, mDemoMode);
-		mMixer.addListener(this);
+		mMixer = new Qu16_Mixer(mRemoteIp, mRemotePort, mDemoMode, this);
 					
 		mMixer.start();
 		if (mDemoMode) {
@@ -99,11 +98,11 @@ public class MainActivity extends Activity implements IMixerListener {
 			}
 		}
 		
-		BoundMuteToggleButton tbMute1 = (BoundMuteToggleButton) findViewById(R.id.tbMute1);
-		tbMute1.Connect(mMixer.getMixValue(Qu16_Input_Channels.Mono_01));
+		BoundMuteToggleButton tbMute1 = (BoundMuteToggleButton) findViewById(R.id.tbMute1);		
+		mMixer.connect(tbMute1, Qu16_Input_Channels.Mono_01);
 
 		BoundMixFader fader1 = (BoundMixFader) findViewById(R.id.tbFader1);
-		fader1.Connect(mMixer.getMixValue(Qu16_Input_Channels.Mono_01, Qu16_Id_Parameters.Chn_Output_Mix, Qu16_VX_Buses.Mix_4));
+		mMixer.connect(fader1, Qu16_Input_Channels.Mono_01, Qu16_Id_Parameters.Chn_Output_Mix, Qu16_VX_Buses.Mix_4);
 	}
 
 	@Override

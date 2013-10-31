@@ -7,7 +7,6 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Connected_Device {
@@ -28,14 +27,14 @@ public class Connected_Device {
 			
 	private boolean mRunning;
 	
-	private ConcurrentLinkedQueue<IDeviceListener> mListeners;
+	private IDeviceListener mListener;
 	
-	public Connected_Device(String remoteIp, int port) {
+	public Connected_Device(String remoteIp, int port, IDeviceListener parent) {
 		mRemoteIp = remoteIp;
 		mPort = port;
 		mQueue = new LinkedBlockingQueue<byte[]>();
 		
-		mListeners = new ConcurrentLinkedQueue<IDeviceListener>();
+		mListener = parent;
 	}
 	
 	public void send(byte[] message) {
@@ -62,15 +61,6 @@ public class Connected_Device {
 	
 	public void stop() {
 		mRunning = false;
-		mListeners.clear();
-	}
-	
-	public void addListener(IDeviceListener listener) {
-		mListeners.add(listener);
-	}
-	
-	public void removeListener(IDeviceListener listener) {
-		mListeners.remove(listener);
 	}
 	
 	private class StartThread extends Thread {
@@ -87,9 +77,9 @@ public class Connected_Device {
 				mKeepAliveThread.start();
 				
 			} catch (Exception ex) {
-				for (IDeviceListener listener : mListeners) {
-					listener.errorOccurred(ex);
-				}
+				
+				mListener.errorOccurred(ex);
+				
 			}
 		}
 	}
@@ -106,15 +96,11 @@ public class Connected_Device {
 						byte[] msg = Arrays.copyOfRange(buffer, 0, bytesRead);
 							
 						//Log.d(mTag, Arrays.toString(msg));
-						for (IDeviceListener listener : mListeners) {
-							listener.receivedMessage(msg);
-						}
+						mListener.receivedMessage(msg);
 					}
 				}
 			} catch (Exception e) {
-				for (IDeviceListener listener : mListeners) {
-					listener.errorOccurred(e);
-				}
+				mListener.errorOccurred(e);
 			}			
 		}
 	}
@@ -137,9 +123,7 @@ public class Connected_Device {
 					socketOutputStream.flush();
 				}
 			} catch (Exception e) {
-				for (IDeviceListener listener : mListeners) {
-					listener.errorOccurred(e);
-				}
+				mListener.errorOccurred(e);
 			}			
 		}
 	}
@@ -153,9 +137,7 @@ public class Connected_Device {
 				}				
 			}
 			catch (Exception e) {
-				for (IDeviceListener listener : mListeners) {
-					listener.errorOccurred(e);
-				}				
+				mListener.errorOccurred(e);
 			}
 		}
 	}

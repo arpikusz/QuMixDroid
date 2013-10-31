@@ -7,7 +7,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.SeekBar;
 
-public class BoundMixSeekbar extends SeekBar implements IBoundControl, IMixValueListener, android.widget.SeekBar.OnSeekBarChangeListener { 
+public class BoundMixSeekbar extends SeekBar implements IMixValueListener, android.widget.SeekBar.OnSeekBarChangeListener { 
 
 	protected Qu16_MixValue mBoundMixValue;
 
@@ -32,7 +32,7 @@ public class BoundMixSeekbar extends SeekBar implements IBoundControl, IMixValue
 	}
 
 	@Override
-	public void valueChanged(Qu16_MixValue sender, Object origin, final byte value) {
+	public void valueChanged(final byte value) {
 		this.post(new Runnable() {
 			
 			@Override
@@ -43,7 +43,7 @@ public class BoundMixSeekbar extends SeekBar implements IBoundControl, IMixValue
 	}
 
 	@Override
-	public void Connect(Qu16_MixValue mixValue) {
+	public void connect(Qu16_MixValue mixValue) {
 		if (mBoundMixValue != null) {
 			mBoundMixValue.removeListener(this);
 		}
@@ -51,7 +51,7 @@ public class BoundMixSeekbar extends SeekBar implements IBoundControl, IMixValue
 		mBoundMixValue = mixValue;
 		if (mBoundMixValue != null) {
 			mBoundMixValue.addListener(this);
-			valueChanged(mixValue, null, mixValue.getValue());
+			valueChanged(mixValue.getValue());
 			setVisibility(VISIBLE);
 		} else {
 			setVisibility(INVISIBLE);

@@ -16,19 +16,23 @@ public class Qu16_MixValue {
 	private mixValueMode mMode;
 	
 	private ConcurrentLinkedQueue<IMixValueListener> mListeners;
+	private IMixValueMidiListener mMidiListener;
 
-	public Qu16_MixValue() {
-		init();
+	public Qu16_MixValue(IMixValueMidiListener parent) {
+		init(parent);
 		mMode = mixValueMode.unknown;
 	}
 	
-	public Qu16_MixValue(Object origin, byte[] data) {
-		init();
+	/*
+	public Qu16_MixValue(IMixValueMidiListener parent, Object origin, byte[] data) {
+		init(parent);
 		setCommand(origin, data, true);
 	}
+	*/
 	
-	private void init()
+	private void init(IMixValueMidiListener parent)
 	{
+		mMidiListener = parent;
 		mListeners = new ConcurrentLinkedQueue<IMixValueListener>();
 		mValue = 0;
 	}
@@ -78,8 +82,9 @@ public class Qu16_MixValue {
 		if (mValue != value) {
 			mValue = value;
 			for (IMixValueListener listener : mListeners) {
-				listener.valueChanged(this, origin, value);
+				listener.valueChanged(value);
 			}
+			mMidiListener.valueChanged(this, origin);
 		}
 	}
 	

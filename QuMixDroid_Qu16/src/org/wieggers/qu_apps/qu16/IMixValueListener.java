@@ -1,5 +1,6 @@
 package org.wieggers.qu_apps.qu16;
 
 public interface IMixValueListener {
-	void valueChanged(Qu16_MixValue sender, Object origin, byte value);
+	void connect(Qu16_MixValue value);
+	void valueChanged(byte value);
 }

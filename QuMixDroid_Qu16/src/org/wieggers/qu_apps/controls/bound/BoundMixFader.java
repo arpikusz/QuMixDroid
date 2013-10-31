@@ -7,7 +7,7 @@ import org.wieggers.qu_apps.qu16.Qu16_MixValue;
 import android.content.Context;
 import android.util.AttributeSet;
 
-public class BoundMixFader extends Fader implements IBoundControl, IMixValueListener {
+public class BoundMixFader extends Fader implements IMixValueListener {
 
 	protected Qu16_MixValue mBoundMixValue;
 	
@@ -24,12 +24,12 @@ public class BoundMixFader extends Fader implements IBoundControl, IMixValueList
 	}
 
 	@Override
-	public void valueChanged(Qu16_MixValue sender, Object origin, byte value) {
+	public void valueChanged(byte value) {
 		setProgress(value, false);
 	}
-
+	
 	@Override
-	public void Connect(Qu16_MixValue mixValue) {
+	public void connect(Qu16_MixValue mixValue) {
 		if (mBoundMixValue != null) {
 			mBoundMixValue.removeListener(this);
 		}
@@ -37,7 +37,7 @@ public class BoundMixFader extends Fader implements IBoundControl, IMixValueList
 		mBoundMixValue = mixValue;
 		if (mBoundMixValue != null) {
 			mBoundMixValue.addListener(this);
-			valueChanged(mixValue, null, mixValue.getValue());
+			valueChanged(mixValue.getValue());
 			setVisibility(VISIBLE);
 		} else {
 			setVisibility(INVISIBLE);

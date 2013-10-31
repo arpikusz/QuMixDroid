@@ -1,11 +1,10 @@
 package org.wieggers.qu_apps.qu16;
 
 import java.util.Arrays;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
-class Qu16_Command_Parser {
+class Qu16_Midi_Parser {
 	
-	private ConcurrentLinkedQueue<IParserListener> mListeners;
+	private IMidiParserListener mListener;
 
 	private parse_state_enum mState = parse_state_enum.next_command;
 	
@@ -16,8 +15,8 @@ class Qu16_Command_Parser {
 	 * Construct a parser object, capable of processing individual commands for the Qu-16
 	 * @param commandDirection	2 Modes, because commands are different when sent to, or received from the Qu-16
 	 */
-	public Qu16_Command_Parser() {
-		mListeners = new ConcurrentLinkedQueue<IParserListener>();
+	public Qu16_Midi_Parser(IMidiParserListener parent) {
+		mListener = parent;
 	}
 	
 	/**
@@ -53,6 +52,13 @@ class Qu16_Command_Parser {
 				break;
 			case in_channel_command:
 				command_complete = (current_command_length == 11);
+				if (current_command_length > 6) {
+					if (current_command[3] == (byte) 0xB0) {
+						command_complete = (current_command_length == 11);
+					} else {
+						command_complete = (current_command_length == 8);
+					}						
+				}
 				break;
 			case in_mute_command:
 				command_complete = (current_command_length == 4);
@@ -63,38 +69,37 @@ class Qu16_Command_Parser {
 				break;
 			}
 			++current_command_length;
-			if (command_complete) {
-				
-				if (!mListeners.isEmpty()) {
-					byte[] command = Arrays.copyOfRange(current_command, 0, current_command_length);
-					
-					for (IParserListener listener : mListeners) {
-						listener.singleCommand(origin, command);
-					}
+			if (command_complete) {								
+				byte[] command; 
+
+				if (mState == parse_state_enum.in_channel_command && current_command_length == 8) { // Qu-pad sends too short NRPN commands					
+					// so fix them by inserting proper 0xB0 values
+					command = new byte[] {
+							current_command[0],
+							current_command[1],
+							current_command[2],
+							(byte) 0xB0,
+							current_command[3],
+							current_command[4],
+							(byte) 0xB0,
+							current_command[5],
+							current_command[6],
+							(byte) 0xB0,
+							current_command[7],
+							current_command[8]
+					};
+				} else {
+					command = Arrays.copyOfRange(current_command, 0, current_command_length);
 				}
+									
+				mListener.singleMidiCommand(origin, command);
 
 				mState = parse_state_enum.next_command;
 				current_command_length = 0;
 			}
 		}
 	}
-	
-	/**
-	 * External listeners can subscribe to events using this method
-	 * @param listener
-	 */
-	public void addListener(IParserListener listener) {
-		mListeners.add(listener);
-	}
-	
-	/**
-	 * External listeners can remove themselves from the listener list
-	 * @param listener
-	 */
-	public void removeListener(IParserListener listener) {
-		mListeners.remove(listener);
-	}
-	
+		
 	private enum parse_state_enum
 	{
 		next_command,
