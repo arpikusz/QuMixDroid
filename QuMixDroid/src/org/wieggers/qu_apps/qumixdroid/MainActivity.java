@@ -8,10 +8,10 @@ import java.io.InputStream;
 import org.wieggers.qu_apps.controls.bound.BoundMixFader;
 import org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton;
 import org.wieggers.qu_apps.qu16.IMixerListener;
-import org.wieggers.qu_apps.qu16.Qu16_Buses;
-import org.wieggers.qu_apps.qu16.Qu16_Channels;
-import org.wieggers.qu_apps.qu16.Qu16_Commands;
 import org.wieggers.qu_apps.qu16.Qu16_Mixer;
+import org.wieggers.qu_apps.qu16.midi.Qu16_Id_Parameters;
+import org.wieggers.qu_apps.qu16.midi.Qu16_Input_Channels;
+import org.wieggers.qu_apps.qu16.midi.Qu16_VX_Buses;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -100,10 +100,10 @@ public class MainActivity extends Activity implements IMixerListener {
 		}
 		
 		BoundMuteToggleButton tbMute1 = (BoundMuteToggleButton) findViewById(R.id.tbMute1);
-		tbMute1.Connect(mMixer.getMixValue(Qu16_Channels.Mono_01));
+		tbMute1.Connect(mMixer.getMixValue(Qu16_Input_Channels.Mono_01));
 
 		BoundMixFader fader1 = (BoundMixFader) findViewById(R.id.tbFader1);
-		fader1.Connect(mMixer.getMixValue(Qu16_Channels.Mono_01, Qu16_Commands.Chn_Output_LR, Qu16_Buses.LR));
+		fader1.Connect(mMixer.getMixValue(Qu16_Input_Channels.Mono_01, Qu16_Id_Parameters.Chn_Output_Mix, Qu16_VX_Buses.Mix_4));
 	}
 
 	@Override
