@@ -25,17 +25,17 @@ import android.util.Log;
  * @author george wieggers
  *
  */
-public class Qu16_Mixer implements IDeviceListener, IMixValueMidiListener, IMidiParserListener {
+public class Qu16_Mixer implements IDeviceListener, IMidiListener {
 
-	private static final byte[] requestAllSettings = {(byte) 0xF0, 0x00, 0x00, 0x1A, 0x50, 0x11, 0x01, 0x00, 0x7F, 0x10, 0x01, (byte) 0xF7};
-	//private static final byte[] requestMetering = {(byte) 0xF0, 0x00, 0x00, 0x1A, 0x50, 0x11, 0x01, 0x00, 0x00, 0x12, 0x01, (byte) 0xF7};
-	
-	private static final String mTag = "Qu16_Mixer";
-	
-	private static final byte Mute = (byte) 0x90;
+	private static final String mTag = "Qu16_Mixer";	
 	private static final byte Channel = (byte) 0xB0;
-	
-	private Connected_Device mDevice;
+	private static final byte Mute = (byte) 0x90;
+
+	private static final byte[] mRequestAllSettings = {(byte) 0xF0, 0x00, 0x00, 0x1A, 0x50, 0x11, 0x01, 0x00, 0x7F, 0x10, 0x01, (byte) 0xF7};
+	//private static final byte[] mRequestMetering = {(byte) 0xF0, 0x00, 0x00, 0x1A, 0x50, 0x11, 0x01, 0x00, 0x00, 0x12, 0x01, (byte) 0xF7};
+	private static final byte[] mSysExStart = new byte[] { (byte) 0xF0, 0x00, 0x00, 0x1A, 0x50, 0x11 };
+		
+	private Connected_Device mQu16;
 	private Qu16_Midi_Parser mParser;
 	private IMixerListener mListener;
 	private Boolean mDemoMode;
@@ -69,24 +69,24 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueMidiListener, IMidi
 	
 	public void start() {
 		if (!mDemoMode) {
-			mDevice = new Connected_Device(mRemoteIp, mRemotePort, this);
-			mDevice.start();
-			mDevice.send(requestAllSettings); // request all current mixer settings on startup
+			mQu16 = new Connected_Device(mRemoteIp, mRemotePort, this);
+			mQu16.start();
+			mQu16.send(mRequestAllSettings); // request all current mixer settings on startup
 		} else {
-			mDevice = null;
+			mQu16 = null;
 		}		
 	}	
 	
 	public void stop() {
-		if (mDevice != null) {
-			mDevice.stop();
+		if (mQu16 != null) {
+			mQu16.stop();
 		}
 	}
 
 	@Override
 	public void receivedMessage(byte[] message) {
 		if (mParser != null)
-			mParser.parse(mDevice, message);		
+			mParser.parse(mQu16, message);		
 	}
 
 	@Override
@@ -94,27 +94,38 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueMidiListener, IMidi
 		mListener.errorOccurred(exception);
 	}
 
-	private static final byte[] sysExStart = new byte[] { (byte) 0xF0, 0x00, 0x00, 0x1A, 0x50, 0x11 };
-
 	@Override
-	public void singleMidiCommand(Object origin, byte[] data) {
+	public void singleMidiCommand(Object sender, Object origin, byte[] data) {
 
-		//Log.d(mTag, "Received: " + Arrays.toString(data));
+		// Where did the midi command came from?
 		
-		if (data.length >= 11 && data[0] == (byte) 0xF0) { // sysex data?
-			byte[] start = Arrays.copyOf(data, 6);
-			if (Arrays.equals(start, sysExStart)) { // sync complete
-				if (data[9] == 0x14 
-				&& data[10] == (byte) 0xF7) {
-					mListener.initialSyncComplete();
+		if (origin == mQu16) { // from Qu-16?
+			
+			if (data.length >= 11 && data[0] == (byte) 0xF0) { // sysex data?
+				byte[] start = Arrays.copyOf(data, mSysExStart.length);
+				if (Arrays.equals(start, mSysExStart)) { // sync complete
+					if (data[9] == 0x14 
+					&& data[10] == (byte) 0xF7) {
+						mListener.initialSyncComplete();
+					}
 				}
 			}
-		} else {
+			
+		} else { // nope, it came from somewhere else, send it to Qu-16
+			
+			if (mQu16 != null) {
+				mQu16.send(data);
+			}
+		}
+		
+		if (! (sender instanceof Qu16_MixValue)) { // if this command came from mix value memory, don't send it there again
+			
 			byte[] key = Qu16_MixValue.getKey(data);
 			if (key != null) {			
 				getMixValue(key[0], key[1], key[2], key[3], true).setCommand(origin, data);
-			}
+			}			
 		}
+
 	}
 
 	// Several connect overloads, to connect safely to several mix values
@@ -141,6 +152,58 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueMidiListener, IMidi
 		
 		Qu16_MixValue channelValue = getMixValue(Qu16_Mixer.Channel, channel.getValue(), command.getValue(), band.getValue(), false);
 		listener.connect(channelValue);
+	}
+	
+	public void readScene(InputStream is) throws NumberFormatException, IOException 
+	{	
+		BufferedReader r = new BufferedReader(new InputStreamReader(is));
+		
+		String line;
+		while ((line = r.readLine()) != null)
+		{
+			String[] parts = line.split(",");	
+			 
+			byte[] bytes = new byte[parts.length];
+			int count = 0;
+			for(String str : parts)
+			{
+			    bytes[count++] = Byte.parseByte(str);
+			}			
+			singleMidiCommand(this, null, bytes);
+		}
+		
+		mListener.initialSyncComplete();
+	}
+	
+	public void writeScene(OutputStream os) throws IOException
+	{
+		OutputStreamWriter osw = new OutputStreamWriter(os);
+		BufferedWriter w = new BufferedWriter(osw);
+		
+		int i = 0;
+		for (Entry<Byte, ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, Qu16_MixValue>>>> mixValues1 : mMixValues.entrySet()) {
+			for (Entry<Byte, ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, Qu16_MixValue>>> mixValues2 : mixValues1.getValue().entrySet()) {
+				for (Entry<Byte, ConcurrentHashMap<Byte, Qu16_MixValue>> mixValues3 : mixValues2.getValue().entrySet()) {
+					for (Entry<Byte, Qu16_MixValue> mixValue4 : mixValues3.getValue().entrySet()) {
+						++i;
+												
+						byte[] cmd = mixValue4.getValue().getCommand();
+						if (cmd == null)
+							continue;
+
+						String strLine = Arrays.toString(cmd).replaceAll("[\\[|\\]| ]", "");
+						Log.d(mTag, "Scene line " + i + ": " + strLine);
+						
+						if (w != null) {
+							w.write(strLine);
+							w.write("\n");
+						}
+					}
+				}
+			}			
+		}
+		w.close();
+		osw.close();
 	}
 
 	private Qu16_MixValue getMixValue(byte key0, byte key1, byte key2, byte key3, boolean create) {
@@ -177,66 +240,5 @@ public class Qu16_Mixer implements IDeviceListener, IMixValueMidiListener, IMidi
 		}
 
 		return mixValues2.get(key3);
-	}
-	
-	@Override
-	public void valueChanged(Object origin, byte[] midiCommand) {
-		if (origin != mDevice) {
-			if (mDevice != null) {
-				mDevice.send(midiCommand);
-			}
-		}		
-	}
-	
-	public void readScene(InputStream is) throws NumberFormatException, IOException 
-	{	
-		BufferedReader r = new BufferedReader(new InputStreamReader(is));
-		
-		String line;
-		while ((line = r.readLine()) != null)
-		{
-			String[] parts = line.split(",");	
-			 
-			byte[] bytes = new byte[parts.length];
-			int count = 0;
-			for(String str : parts)
-			{
-			    bytes[count++] = Byte.parseByte(str);
-			}			
-			singleMidiCommand(null, bytes);
-		}
-		
-		mListener.initialSyncComplete();
-	}
-	
-	public void writeScene(OutputStream os) throws IOException
-	{
-		OutputStreamWriter osw = new OutputStreamWriter(os);
-		BufferedWriter w = new BufferedWriter(osw);
-		
-		int i = 0;
-		for (Entry<Byte, ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, Qu16_MixValue>>>> mixValues1 : mMixValues.entrySet()) {
-			for (Entry<Byte, ConcurrentHashMap<Byte, ConcurrentHashMap<Byte, Qu16_MixValue>>> mixValues2 : mixValues1.getValue().entrySet()) {
-				for (Entry<Byte, ConcurrentHashMap<Byte, Qu16_MixValue>> mixValues3 : mixValues2.getValue().entrySet()) {
-					for (Entry<Byte, Qu16_MixValue> mixValue4 : mixValues3.getValue().entrySet()) {
-						++i;
-												
-						byte[] cmd = mixValue4.getValue().getCommand();
-						if (cmd == null)
-							continue;
-
-						String strLine = Arrays.toString(cmd).replaceAll("[\\[|\\]| ]", "");
-						Log.d(mTag, "Scene line " + i + ": " + strLine);
-						
-						if (w != null) {
-							w.write(strLine);
-							w.write("\n");
-						}
-					}
-				}
-			}			
-		}
-		w.close();
-		osw.close();
 	}
 }

@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 class Qu16_Midi_Parser {
 	
-	private IMidiParserListener mListener;
+	private IMidiListener mListener;
 
 	private parse_state_enum mState = parse_state_enum.next_command;
 	
@@ -15,7 +15,7 @@ class Qu16_Midi_Parser {
 	 * Construct a parser object, capable of processing individual commands for the Qu-16
 	 * @param commandDirection	2 Modes, because commands are different when sent to, or received from the Qu-16
 	 */
-	public Qu16_Midi_Parser(IMidiParserListener parent) {
+	public Qu16_Midi_Parser(IMidiListener parent) {
 		mListener = parent;
 	}
 	
@@ -92,7 +92,7 @@ class Qu16_Midi_Parser {
 					command = Arrays.copyOfRange(current_command, 0, current_command_length);
 				}
 									
-				mListener.singleMidiCommand(origin, command);
+				mListener.singleMidiCommand(this, origin, command);
 
 				mState = parse_state_enum.next_command;
 				current_command_length = 0;

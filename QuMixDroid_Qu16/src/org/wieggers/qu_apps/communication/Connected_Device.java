@@ -1,5 +1,6 @@
 package org.wieggers.qu_apps.communication;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
@@ -41,8 +42,6 @@ public class Connected_Device {
 		try {
 			mQueue.put(message);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 	
@@ -61,6 +60,10 @@ public class Connected_Device {
 	
 	public void stop() {
 		mRunning = false;
+		try {
+			mSocket.close();
+		} catch (IOException e) {
+		}
 	}
 	
 	private class StartThread extends Thread {
