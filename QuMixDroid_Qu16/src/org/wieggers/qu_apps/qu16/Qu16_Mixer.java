@@ -37,7 +37,7 @@ public class Qu16_Mixer implements IDeviceListener, IMidiListener {
 		
 	private Connected_Device mQu16;
 	private Qu16_Midi_Parser mParser;
-	private IMixerListener mListener;
+	private IMixerListener mParent;
 	private Boolean mDemoMode;
 	private String mRemoteIp;
 	private int mRemotePort;
@@ -57,7 +57,7 @@ public class Qu16_Mixer implements IDeviceListener, IMidiListener {
 	 */
 	public Qu16_Mixer(String remoteIp, int port, boolean demoMode, IMixerListener parent) {
 		
-		mListener = parent;
+		mParent = parent;
 
 		mParser = new Qu16_Midi_Parser(this);		
 		mMixValues = new ConcurrentHashMap<Byte, ConcurrentHashMap<Byte,ConcurrentHashMap<Byte,ConcurrentHashMap<Byte,Qu16_MixValue>>>>();
@@ -91,7 +91,7 @@ public class Qu16_Mixer implements IDeviceListener, IMidiListener {
 
 	@Override
 	public void errorOccurred(Exception exception) {
-		mListener.errorOccurred(exception);
+		mParent.errorOccurred(exception);
 	}
 
 	@Override
@@ -101,12 +101,12 @@ public class Qu16_Mixer implements IDeviceListener, IMidiListener {
 		
 		if (origin == mQu16) { // from Qu-16?
 			
-			if (data.length >= 11 && data[0] == (byte) 0xF0) { // sysex data?
+			if (data[0] == (byte) 0xF0 && data.length >= 11) { // sysex data?
 				byte[] start = Arrays.copyOf(data, mSysExStart.length);
 				if (Arrays.equals(start, mSysExStart)) { // sync complete
 					if (data[9] == 0x14 
 					&& data[10] == (byte) 0xF7) {
-						mListener.initialSyncComplete();
+						mParent.initialSyncComplete();
 					}
 				}
 			}
@@ -172,7 +172,7 @@ public class Qu16_Mixer implements IDeviceListener, IMidiListener {
 			singleMidiCommand(this, null, bytes);
 		}
 		
-		mListener.initialSyncComplete();
+		mParent.initialSyncComplete();
 	}
 	
 	public void writeScene(OutputStream os) throws IOException

@@ -7,10 +7,10 @@ public class Qu16_MixValue {
 	private byte[] mCommand;
 	private byte mValue;
 	private ConcurrentLinkedQueue<IMixValueListener> mListeners;
-	private IMidiListener mMidiListener;
+	private IMidiListener mParent;
 
 	public Qu16_MixValue(IMidiListener parent) {
-		mMidiListener = parent;
+		mParent = parent;
 		mListeners = new ConcurrentLinkedQueue<IMixValueListener>();
 		mCommand = null;
 		mValue = 0;
@@ -35,7 +35,7 @@ public class Qu16_MixValue {
 					break;
 				}
 
-				mMidiListener.singleMidiCommand(this, origin, mCommand);
+				mParent.singleMidiCommand(this, origin, mCommand);
 			}
 			
 			for (IMixValueListener listener : mListeners) {

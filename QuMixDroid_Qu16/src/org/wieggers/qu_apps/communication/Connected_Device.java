@@ -28,14 +28,14 @@ public class Connected_Device {
 			
 	private boolean mRunning;
 	
-	private IDeviceListener mListener;
+	private IDeviceListener mParent;
 	
 	public Connected_Device(String remoteIp, int port, IDeviceListener parent) {
 		mRemoteIp = remoteIp;
 		mPort = port;
 		mQueue = new LinkedBlockingQueue<byte[]>();
 		
-		mListener = parent;
+		mParent = parent;
 	}
 	
 	public void send(byte[] message) {
@@ -81,7 +81,7 @@ public class Connected_Device {
 				
 			} catch (Exception ex) {
 				
-				mListener.errorOccurred(ex);
+				mParent.errorOccurred(ex);
 				
 			}
 		}
@@ -99,11 +99,11 @@ public class Connected_Device {
 						byte[] msg = Arrays.copyOfRange(buffer, 0, bytesRead);
 							
 						//Log.d(mTag, Arrays.toString(msg));
-						mListener.receivedMessage(msg);
+						mParent.receivedMessage(msg);
 					}
 				}
 			} catch (Exception e) {
-				mListener.errorOccurred(e);
+				mParent.errorOccurred(e);
 			}			
 		}
 	}
@@ -126,7 +126,7 @@ public class Connected_Device {
 					socketOutputStream.flush();
 				}
 			} catch (Exception e) {
-				mListener.errorOccurred(e);
+				mParent.errorOccurred(e);
 			}			
 		}
 	}
@@ -140,7 +140,7 @@ public class Connected_Device {
 				}				
 			}
 			catch (Exception e) {
-				mListener.errorOccurred(e);
+				mParent.errorOccurred(e);
 			}
 		}
 	}
