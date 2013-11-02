@@ -40,6 +40,7 @@ public class MainActivity extends Activity implements IMixerListener {
 		mRemoteIp = intent.getStringExtra("address");
 		mDemoMode = intent.getBooleanExtra("demo", false);
 		
+		/*
 		Button button = (Button) findViewById(R.id.button1);
 		button.setOnClickListener(new Button.OnClickListener(){
 
@@ -61,6 +62,7 @@ public class MainActivity extends Activity implements IMixerListener {
 				}
 			}
 		});
+		*/
 		
 	}
 
@@ -123,11 +125,12 @@ public class MainActivity extends Activity implements IMixerListener {
 
 	@Override
 	public void initialSyncComplete() {
-		
+		/*
 		BoundMuteToggleButton tbMute1 = (BoundMuteToggleButton) findViewById(R.id.tbMute1);		
 		mMixer.connect(tbMute1, Qu16_Input_Channels.Mono_01);
 
 		BoundMixFader fader1 = (BoundMixFader) findViewById(R.id.tbFader1);
-		mMixer.connect(fader1, Qu16_Input_Channels.Mono_01, Qu16_Id_Parameters.Chn_Output_Mix, Qu16_VX_Buses.Mix_4);		
+		mMixer.connect(fader1, Qu16_Input_Channels.Mono_01, Qu16_Id_Parameters.Chn_Output_Mix, Qu16_VX_Buses.Mix_4);
+		*/		
 	}
 }

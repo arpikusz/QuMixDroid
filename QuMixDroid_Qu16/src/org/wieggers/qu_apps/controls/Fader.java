@@ -88,6 +88,8 @@ public class Fader extends View {
 
 		if (mKnobBmp == null) {
 			mKnobBmp = BitmapFactory.decodeResource (getResources(), R.drawable.fader_knob);
+			Bitmap scaled = Bitmap.createBitmap(mKnobBmp, 0, 0, 25, 55);
+			mKnobBmp = scaled;
 			mKnobWidth = mKnobBmp.getWidth();
 			mKnobHeight = mKnobBmp.getHeight();
 			mFaderKnobMinY1 = mMargin - (mKnobHeight / 2);

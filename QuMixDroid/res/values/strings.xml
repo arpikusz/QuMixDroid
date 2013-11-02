@@ -10,5 +10,10 @@
     <string name="try_demo_mode">Don\'t connect, try the app in demo mode.</string>
     <string name="demo_mode">Start demo mode</string>
     <string name="mute">Mute</string>
+    <string name="assign">On</string>
+    
+    <string name="layer_1">Layer 1</string>
+    <string name="layer_2">Layer 2</string>
+    <string name="PAFL">PAFL</string>
 
 </resources>

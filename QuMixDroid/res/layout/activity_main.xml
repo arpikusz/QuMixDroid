@@ -1,48 +1,249 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity" >
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="0dp"
+    android:layout_height="fill_parent"
+    android:layout_weight="1"
+    android:stretchColumns="*" >
 
-    <TextView
-        android:id="@+id/textView1"
+    <TableRow
+        android:id="@+id/tableRow1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_height="wrap_content" >
 
-    <Button
-        android:id="@+id/button1"
+        <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
+            android:id="@+id/mute1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textOff="@string/mute"
+            android:textOn="@string/mute" />
+
+        <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
+            android:id="@+id/mute2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textOff="@string/mute"
+            android:textOn="@string/mute" />
+
+        <!--
+            <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
+                android:id="@+id/mute3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOff="@string/mute"
+                android:textOn="@string/mute" />
+
+            <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
+                android:id="@+id/mute4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOff="@string/mute"
+                android:textOn="@string/mute" />
+
+            <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
+                android:id="@+id/mute5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOff="@string/mute"
+                android:textOn="@string/mute" />
+
+            <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
+                android:id="@+id/mute6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOff="@string/mute"
+                android:textOn="@string/mute" />
+
+            <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
+                android:id="@+id/mute7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOff="@string/mute"
+                android:textOn="@string/mute" />
+
+            <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
+                android:id="@+id/mute8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOff="@string/mute"
+                android:textOn="@string/mute" />
+
+            <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
+                android:id="@+id/mute9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOff="@string/mute"
+                android:textOn="@string/mute" />
+
+            <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
+                android:id="@+id/mute10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOff="@string/mute"
+                android:textOn="@string/mute" />
+
+            <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
+                android:id="@+id/mute11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOff="@string/mute"
+                android:textOn="@string/mute" />
+
+            <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
+                android:id="@+id/mute12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOff="@string/mute"
+                android:textOn="@string/mute" />
+
+            <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
+                android:id="@+id/mute13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOff="@string/mute"
+                android:textOn="@string/mute" />
+
+            <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
+                android:id="@+id/mute14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOff="@string/mute"
+                android:textOn="@string/mute" />
+
+            <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
+                android:id="@+id/mute15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOff="@string/mute"
+                android:textOn="@string/mute" />
+
+            <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
+                android:id="@+id/mute16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOff="@string/mute"
+                android:textOn="@string/mute" />
+
+            <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
+                android:id="@+id/mute17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOff="@string/mute"
+                android:textOn="@string/mute"  />
+        -->
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/textView1"
-        android:layout_marginTop="55dp"
-        android:text="Button" />
+        android:layout_height="wrap_content" >
+    </TableRow>
 
-    <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
-        android:id="@+id/tbMute1"
+    <TableRow
+        android:id="@+id/tableRow3"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button1"
-        android:layout_alignBottom="@+id/button1"
-        android:layout_marginLeft="82dp"
-        android:layout_toRightOf="@+id/button1"
-        android:text="ToggleButton"
-        android:textOff="@string/mute"
-        android:textOn="@string/mute" />
+        android:layout_height="wrap_content" >
+    </TableRow>
 
-    <org.wieggers.qu_apps.controls.bound.BoundMixFader
-        android:id="@+id/tbFader1"
-        android:layout_width="202dp"
-        android:layout_height="258dp"
-        android:layout_below="@+id/textView1"
-        android:layout_marginLeft="74dp"
-        android:layout_toRightOf="@+id/tbMute1"
-        app:channel_name="Master" />
+    <TableRow
+        android:id="@+id/tableRow4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+    </TableRow>
 
-</RelativeLayout>
+    <TableRow
+        android:id="@+id/tableRow5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <org.wieggers.qu_apps.controls.bound.BoundMixFader
+            android:id="@+id/fader1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <org.wieggers.qu_apps.controls.bound.BoundMixFader
+            android:id="@+id/fader2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <org.wieggers.qu_apps.controls.bound.BoundMixFader
+            android:id="@+id/fader3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <org.wieggers.qu_apps.controls.bound.BoundMixFader
+            android:id="@+id/fader4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <org.wieggers.qu_apps.controls.bound.BoundMixFader
+            android:id="@+id/fader5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <org.wieggers.qu_apps.controls.bound.BoundMixFader
+            android:id="@+id/fader6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <org.wieggers.qu_apps.controls.bound.BoundMixFader
+            android:id="@+id/fader7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <org.wieggers.qu_apps.controls.bound.BoundMixFader
+            android:id="@+id/fader8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <org.wieggers.qu_apps.controls.bound.BoundMixFader
+            android:id="@+id/fader9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <org.wieggers.qu_apps.controls.bound.BoundMixFader
+            android:id="@+id/fader10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <org.wieggers.qu_apps.controls.bound.BoundMixFader
+            android:id="@+id/fader11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <org.wieggers.qu_apps.controls.bound.BoundMixFader
+            android:id="@+id/fader12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <org.wieggers.qu_apps.controls.bound.BoundMixFader
+            android:id="@+id/fader13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <org.wieggers.qu_apps.controls.bound.BoundMixFader
+            android:id="@+id/fader14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <org.wieggers.qu_apps.controls.bound.BoundMixFader
+            android:id="@+id/fader15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <org.wieggers.qu_apps.controls.bound.BoundMixFader
+            android:id="@+id/fader16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <org.wieggers.qu_apps.controls.bound.BoundMixFader
+            android:id="@+id/fader17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+    </TableRow>
+
+</TableLayout>
