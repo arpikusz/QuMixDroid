@@ -1,12 +1,12 @@
 package org.wieggers.qu_apps.qu16.midi;
 
-import android.annotation.SuppressLint;
 import java.util.HashMap;
+
+import android.annotation.SuppressLint;
 
 @SuppressLint("UseSparseArrays")
 public class Qu16_VA_Ranges {
 	
-	public static final HashMap<Integer, HashMap<Integer, Qu16_Input_Channels>> Mixer_Layout;
 	public static final HashMap<Integer, String> Fader_Send;
 	public static final HashMap<Integer, String> Local_Gain;
 	public static final HashMap<Integer, String> dSnake_Gain;
@@ -55,19 +55,5 @@ public class Qu16_VA_Ranges {
 		init_Compressor.put(0x02, "Auto Slow Opto");
 		init_Compressor.put(0x03, "Auto Punchbag");
 		Compressor_Type = init_Compressor;
-		
-		HashMap<Integer, HashMap<Integer, Qu16_Input_Channels>> init_Layout = new HashMap<Integer, HashMap<Integer, Qu16_Input_Channels>>();
-		init_Layout.put(2, new HashMap<Integer, Qu16_Input_Channels>());
-		
-		HashMap<Integer, Qu16_Input_Channels> layer1 = new HashMap<Integer, Qu16_Input_Channels>(); 
-		for (byte i = Qu16_Input_Channels.Mono_01.getValue(); i <= Qu16_Input_Channels.Mono_16.getValue(); ++i) {
-			layer1.put((int) i, Qu16_Input_Channels.fromValue(i));
-		}
-		init_Layout.put(1, layer1);
-		
-		
-		
-		Mixer_Layout = init_Layout;
 	}
-
 }

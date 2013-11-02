@@ -2,6 +2,8 @@ package org.wieggers.qu_apps.qu16;
 
 import java.util.Arrays;
 
+import org.wieggers.qu_apps.qu16.midi.Qu16_Id_Parameters;
+
 class Qu16_Midi_Parser {
 	
 	private IMidiListener mParent;
@@ -88,6 +90,12 @@ class Qu16_Midi_Parser {
 							current_command[7],
 							current_command[8]
 					};
+					
+					// Qu-pad doesn't follow the specs for the output_mix command, correct it over here
+					if (   current_command[4] >= Qu16_Id_Parameters.Chn_Output_Mix.getValue() 
+						&& current_command[4] <= Qu16_Id_Parameters.Chn_Output_Mix9_10.getValue()) {
+						current_command[4] = Qu16_Id_Parameters.Chn_Output_Mix.getValue();
+					}
 				} else {
 					command = Arrays.copyOfRange(current_command, 0, current_command_length);
 				}

@@ -3,7 +3,7 @@ package org.wieggers.qu_apps.qu16.midi;
 public enum Qu16_Id_Parameters {
 	Chn_Output_LR(0x17),
 	Chn_Output_Mix(0x20),
-
+	
 	Chn_Output_Mix2(0x21),
 	Chn_Output_Mix3(0x22),
 	Chn_Output_Mix4(0x23),
