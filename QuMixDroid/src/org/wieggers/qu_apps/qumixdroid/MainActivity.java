@@ -1,26 +1,18 @@
 package org.wieggers.qu_apps.qumixdroid;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 
-import org.wieggers.qu_apps.controls.bound.BoundMixFader;
-import org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton;
 import org.wieggers.qu_apps.qu16.IMixerListener;
 import org.wieggers.qu_apps.qu16.Qu16_Mixer;
-import org.wieggers.qu_apps.qu16.midi.Qu16_Id_Parameters;
-import org.wieggers.qu_apps.qu16.midi.Qu16_Input_Channels;
-import org.wieggers.qu_apps.qu16.midi.Qu16_VX_Buses;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.Menu;
-import android.view.View;
-import android.widget.Button;
+import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 public class MainActivity extends Activity implements IMixerListener {
@@ -34,12 +26,20 @@ public class MainActivity extends Activity implements IMixerListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
 		
 		Intent intent = getIntent();
 		mRemoteIp = intent.getStringExtra("address");
 		mDemoMode = intent.getBooleanExtra("demo", false);
 		
+		Spinner spMix = (Spinner) findViewById(R.id.spMix);
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+		        R.array.mixes, android.R.layout.simple_spinner_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+		spMix.setAdapter(adapter);
+
 		/*
 		Button button = (Button) findViewById(R.id.button1);
 		button.setOnClickListener(new Button.OnClickListener(){

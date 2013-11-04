@@ -22,14 +22,14 @@ public class Fader extends View {
 	private int mMaxValue, mProgress;
 	private String mChannelName;
 	
-	private static final int mMargin = 60;
+	private static final int mMargin = 50;
 	private static final int mDesiredWidth = 50;
 	private static final int mDesiredHeight = 300;
 
 	private static Bitmap mKnobBmp = null;
 	private static int mKnobWidth, mKnobHeight;
 
-	private int mCenterWidth, mFaderKnobRangeY;
+	private int mCenterX, mFaderKnobRangeY;
 	private int mFaderKnobX1, mFaderKnobX2, mFaderKnobY1, mFaderKnobY2, mFaderKnobMinY1, mFaderKnobMaxY1; // fader knob coordinates
 	private int mLevelX1, mLevelX2; // db scale X coordinates
 
@@ -85,6 +85,11 @@ public class Fader extends View {
 		mPaint.setColor(Color.WHITE);
 		mPaint.setTextSize((float)12.0);
 		mPaint.setTypeface(Typeface.DEFAULT_BOLD);
+	}
+
+	@Override
+	protected void onDraw(Canvas canvas) {
+		super.onDraw(canvas);
 
 		if (mKnobBmp == null) {
 			mKnobBmp = BitmapFactory.decodeResource (getResources(), R.drawable.fader_knob);
@@ -92,13 +97,18 @@ public class Fader extends View {
 			mKnobBmp = scaled;
 			mKnobWidth = mKnobBmp.getWidth();
 			mKnobHeight = mKnobBmp.getHeight();
-			mFaderKnobMinY1 = mMargin - (mKnobHeight / 2);
 		}
-	}
 
-	@Override
-	protected void onDraw(Canvas canvas) {
-		super.onDraw(canvas);
+		mCenterX = (getWidth() / 2) + 8; 
+		mFaderKnobX1 = mCenterX - mKnobWidth / 2;			// left value of fader knob
+		mFaderKnobX2 = mCenterX + mKnobWidth / 2;																
+		
+		mFaderKnobMinY1 = mMargin - (mKnobHeight / 2);
+		mFaderKnobMaxY1 = getHeight() - mMargin - (mKnobHeight / 2);		// max value for top position of fader knob
+		mFaderKnobRangeY = mFaderKnobMaxY1 - mFaderKnobMinY1;	// max possible sliding range for fader
+		
+		mLevelX1 = mCenterX - (mKnobWidth / 2) - 2;			// left value of DB scale lines
+		mLevelX2 = mCenterX + (mKnobWidth / 2);				// right value of DB scale lines
 
 		// draw the channel name
 		mPaint.setColor(Color.WHITE);
@@ -106,7 +116,7 @@ public class Fader extends View {
 		
 		if (mChannelName != null) {
 			mPaint.setTextAlign(Paint.Align.CENTER);
-			canvas.drawText (mChannelName, mCenterWidth, 14, mPaint);
+			canvas.drawText (mChannelName, mCenterX, 14, mPaint);
 		}
 
 		// draw the DB scale with corresponding text labels
@@ -121,11 +131,11 @@ public class Fader extends View {
 		}
 
 		// draw the long vertical rectangle (in which our virtual fader can slide)
-		canvas.drawRect(mCenterWidth - 3, mMargin, mCenterWidth + 3, getHeight() - mMargin, mPaint);
+		canvas.drawRect(mCenterX - 3, mMargin, mCenterX + 3, getHeight() - mMargin, mPaint);
 
 		if (!mIsActive) { // when not presssed, fill the vertical rectangle black 
 			mPaint.setColor(Color.BLACK); 		
-			canvas.drawRect(mCenterWidth - 2, mMargin + 1, mCenterWidth + 2, getHeight() - mMargin - 1, mPaint);
+			canvas.drawRect(mCenterX - 2, mMargin + 1, mCenterX + 2, getHeight() - mMargin - 1, mPaint);
 		}
 		// so when pressed, the vertical rectangle lights up in white
 
@@ -182,15 +192,6 @@ public class Fader extends View {
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
 		
-		mCenterWidth = w / 2; 
-		mFaderKnobX1 = mCenterWidth - mKnobWidth / 2;			// left value of fader knob
-		mFaderKnobX2 = mCenterWidth + mKnobWidth / 2;																
-		
-		mFaderKnobMaxY1 = h - mMargin - (mKnobHeight / 2);		// max value for top position of fader knob
-		mFaderKnobRangeY = mFaderKnobMaxY1 - mFaderKnobMinY1;	// max possible sliding range for fader
-		
-		mLevelX1 = mCenterWidth - (mKnobWidth / 2) - 2;			// left value of DB scale lines
-		mLevelX2 = mCenterWidth + (mKnobWidth / 2);				// right value of DB scale lines
 	}	
 	
 	int startX, startY;
