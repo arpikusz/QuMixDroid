@@ -141,8 +141,12 @@ public class Qu16_Mixer implements IDeviceListener, IMidiListener {
 		if (command == Qu16_Id_Parameters.GEQ)
 			throw new IllegalArgumentException("Cannot connect GEQ command in combination with a Qu16_VX_Buses type");
 		
-		Qu16_MixValue channelValue = getMixValue(Qu16_Mixer.Channel , channel.getValue(), command.getValue(), bus.getValue(), false);
-		listener.connect(channelValue);
+		if (command == Qu16_Id_Parameters.Chn_Pre_Post_Sw && bus == Qu16_VX_Buses.LR) {
+			listener.connect(null); // pre post fader command on LR bus doesn't make sense, so don't connect this command
+		} else {		
+			Qu16_MixValue channelValue = getMixValue(Qu16_Mixer.Channel , channel.getValue(), command.getValue(), bus.getValue(), false);
+			listener.connect(channelValue);
+		}
 	}
 
 	// if channel and the right GEQ band are given, it's a GEQ NRPN command

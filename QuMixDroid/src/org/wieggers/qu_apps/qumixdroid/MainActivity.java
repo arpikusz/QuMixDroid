@@ -125,7 +125,13 @@ public class MainActivity extends Activity implements IMixerListener, OnCheckedC
 
 	@Override
 	public void initialSyncComplete() {
-		bindUserInterface();
+		runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				bindUserInterface();
+			}
+		});
 	}
 
 	@Override

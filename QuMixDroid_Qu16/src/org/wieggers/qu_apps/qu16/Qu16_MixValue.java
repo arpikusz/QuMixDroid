@@ -27,8 +27,7 @@ public class Qu16_MixValue {
 			if (mCommand != null) {
 				switch (mCommand[0]) {
 				case (byte) 0x90: // mute command:
-					mCommand[1] = value;
-					mCommand[4] = value;
+					mCommand[2] = value;
 					break;
 				case (byte) 0xB0: // channel command:
 					mCommand[8] = value;
@@ -74,7 +73,7 @@ public class Qu16_MixValue {
 		if (mCommand != null) {
 			switch (mCommand[0]) {
 			case (byte) 0x90: // mute command:
-				setValue(origin, data[1]);
+				setValue(origin, data[2]);
 				break;
 			case (byte) 0xB0: // channel command:
 				setValue(origin, data[8]);

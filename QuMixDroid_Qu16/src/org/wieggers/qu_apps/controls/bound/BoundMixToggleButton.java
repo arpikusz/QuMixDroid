@@ -10,8 +10,8 @@ import android.widget.ToggleButton;
 
 public class BoundMixToggleButton extends ToggleButton implements IMixValueListener, android.widget.CompoundButton.OnCheckedChangeListener {
 
-	protected byte checkedValue = 0x01;
-	protected byte uncheckedValue = 0x00;
+	protected byte checkedValue;
+	protected byte uncheckedValue;
 	
 	protected Qu16_MixValue mBoundMixValue;
 	
@@ -31,6 +31,8 @@ public class BoundMixToggleButton extends ToggleButton implements IMixValueListe
 	}
 	
 	private void init() {
+		checkedValue = 0x01;
+		uncheckedValue = 0x00;
 		setOnCheckedChangeListener(this);
 	}
 	
@@ -39,15 +41,24 @@ public class BoundMixToggleButton extends ToggleButton implements IMixValueListe
 		if (mBoundMixValue != null) {
 			mBoundMixValue.removeListener(this);
 		}
-		
+
+		final int visible;
 		mBoundMixValue = mixValue;
 		if (mBoundMixValue != null) {
 			mBoundMixValue.addListener(this);
 			valueChanged(mixValue.getValue());
-			setVisibility(VISIBLE);
+			visible = VISIBLE;
 		} else {
-			setVisibility(INVISIBLE);
-		}
+			visible = INVISIBLE;
+		}				
+
+		this.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				setVisibility(visible);
+			}
+		});
 	}
 	
 	@Override

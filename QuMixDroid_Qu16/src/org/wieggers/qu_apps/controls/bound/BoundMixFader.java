@@ -24,24 +24,41 @@ public class BoundMixFader extends Fader implements IMixValueListener {
 	}
 
 	@Override
-	public void valueChanged(byte value) {
-		setProgress(value, false);
+	public void valueChanged(final byte value) {
+		this.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				setProgress(value, false);				
+			}
+		});
 	}
 	
 	@Override
-	public void connect(Qu16_MixValue mixValue) {
+	public void connect(final Qu16_MixValue mixValue) {
 		if (mBoundMixValue != null) {
 			mBoundMixValue.removeListener(this);
 		}
 		
 		mBoundMixValue = mixValue;
+		
+		final int visible;
 		if (mBoundMixValue != null) {
 			mBoundMixValue.addListener(this);
 			valueChanged(mixValue.getValue());
-			setVisibility(VISIBLE);
+			visible = VISIBLE;
 		} else {
-			setVisibility(INVISIBLE);
-		}
+			visible = INVISIBLE;
+		}				
+
+		this.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				setVisibility(visible);
+			}
+		});
+
 	}
 	
 	@Override
