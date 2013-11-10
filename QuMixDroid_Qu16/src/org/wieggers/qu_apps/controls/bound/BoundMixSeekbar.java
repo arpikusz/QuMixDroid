@@ -27,7 +27,8 @@ public class BoundMixSeekbar extends SeekBar implements IMixValueListener, andro
 		init();
 	}
 
-	private void init() {		
+	private void init() {
+		setMax(0x4A);
 		setOnSeekBarChangeListener(this);
 	}
 
@@ -51,7 +52,7 @@ public class BoundMixSeekbar extends SeekBar implements IMixValueListener, andro
 		mBoundMixValue = mixValue;
 		if (mBoundMixValue != null) {
 			mBoundMixValue.addListener(this);
-			valueChanged(mixValue.getValue());
+			setProgress(mixValue.getValue());
 			setVisibility(VISIBLE);
 		} else {
 			setVisibility(INVISIBLE);

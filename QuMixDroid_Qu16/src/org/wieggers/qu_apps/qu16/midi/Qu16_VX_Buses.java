@@ -24,9 +24,28 @@ public enum Qu16_VX_Buses {
 		mValue = (byte) value;
 	}
 	
+	public static Qu16_VX_Buses OutputBusForChannel(Qu16_Input_Channels channel, Qu16_VX_Buses bus) {
+		switch (channel) {
+			case FX_Send_1:
+			case FX_Send_2:
+			case Mix_1:
+			case Mix_2:
+			case Mix_3:
+			case Mix_4:
+			case Mix_5_6:
+			case Mix_7_8:
+			case Mix_9_10:
+				return Qu16_VX_Buses.LR;
+			default:
+				return bus;
+		}
+	}
+	
 	public static Qu16_Input_Channels MasterChannel(Qu16_VX_Buses bus) {
 		
 		switch (bus) {
+		case FX1: return Qu16_Input_Channels.FX_Send_1;
+		case FX2: return Qu16_Input_Channels.FX_Send_2;
 		case Mix_1: return Qu16_Input_Channels.Mix_1;
 		case Mix_2: return Qu16_Input_Channels.Mix_2;
 		case Mix_3: return Qu16_Input_Channels.Mix_3;
@@ -44,7 +63,14 @@ public enum Qu16_VX_Buses {
 		default: return Qu16_Id_Parameters.Chn_Assign_Mix_Sw;
 		}
 	}
-	
+
+	public static Qu16_Id_Parameters Output_Command(Qu16_VX_Buses bus) {
+		switch (bus) {
+		case LR: return Qu16_Id_Parameters.Chn_Output_LR;
+		default: return Qu16_Id_Parameters.Chn_Output_Mix;
+		}
+	}
+
 	public static Qu16_VX_Buses fromValue(byte value) {
 		for (Qu16_VX_Buses bus : Qu16_VX_Buses.values()) {
 			if (bus.mValue == value) {

@@ -3,11 +3,13 @@ package org.wieggers.qu_apps.qu16;
 import java.util.HashMap;
 
 import org.wieggers.qu_apps.qu16.midi.Qu16_Input_Channels;
+import org.wieggers.qu_apps.qu16.midi.Qu16_VX_Buses;
 import org.wieggers.qu_apps.qumixdroid_qu16.R;
 
 public class Qu16_UI {
-	public static final HashMap<Integer, HashMap<Integer, Qu16_Input_Channels>> Mixer_Layout;
+	public static final HashMap<Integer, HashMap<Integer, Qu16_Input_Channels>> Mixer_Channel_Layout;
 	public static final HashMap<Byte, Integer> Channel_String_Ids;
+	public static final HashMap<Integer, Qu16_VX_Buses> Mixer_Bus_Layout;
 
 	static {
 		// Init mixer layout layers		
@@ -47,7 +49,7 @@ public class Qu16_UI {
 		layer2.put(idx, Qu16_Input_Channels.LR);
 		init_Layout.put(2, layer2);
 		
-		Mixer_Layout = init_Layout;
+		Mixer_Channel_Layout = init_Layout;
 		
 		HashMap<Byte, Integer> ids = new HashMap<Byte, Integer>(); 
 		ids.put(Qu16_Input_Channels.Mono_01.getValue(), R.string.mono_01);
@@ -90,5 +92,19 @@ public class Qu16_UI {
 		ids.put(Qu16_Input_Channels.LR.getValue(), R.string.lr);
 		
 		Channel_String_Ids = ids;
+		
+		HashMap<Integer, Qu16_VX_Buses> bus = new HashMap<Integer, Qu16_VX_Buses>();
+		bus.put(0, Qu16_VX_Buses.LR);
+		bus.put(1, Qu16_VX_Buses.FX1);
+		bus.put(2, Qu16_VX_Buses.FX2);
+		bus.put(3, Qu16_VX_Buses.Mix_1);
+		bus.put(4, Qu16_VX_Buses.Mix_2);
+		bus.put(5, Qu16_VX_Buses.Mix_3);
+		bus.put(6, Qu16_VX_Buses.Mix_4);
+		bus.put(7, Qu16_VX_Buses.Mix_5_6);
+		bus.put(8, Qu16_VX_Buses.Mix_7_8);
+		bus.put(9, Qu16_VX_Buses.Mix_9_10);
+				
+		Mixer_Bus_Layout = bus;
 	}
 }
