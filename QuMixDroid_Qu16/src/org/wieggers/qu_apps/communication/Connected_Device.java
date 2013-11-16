@@ -10,10 +10,14 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import org.wieggers.qu_apps.qu16.Qu16_Mixer;
+
+import android.util.Log;
+
 public class Connected_Device {
 
-	@SuppressWarnings("unused")
 	private static final String mTag = "Connected_Device";
+	private static final boolean mLogReceive = false;
 	
 	private StartThread mStartThread;
 	private SendThread mSendThread;
@@ -88,6 +92,7 @@ public class Connected_Device {
 	}
 	
 	private class ReceiveThread extends Thread {
+		@SuppressWarnings("unused")
 		public void run() {
 			byte[] buffer = new byte[2048];
 			try {
@@ -97,8 +102,10 @@ public class Connected_Device {
 					if (bytesRead != -1) {
 						
 						byte[] msg = Arrays.copyOfRange(buffer, 0, bytesRead);
-							
-						//Log.d(mTag, Arrays.toString(msg));
+						
+						if (mLogReceive && (bytesRead > 1)) {
+							Log.d(mTag, Qu16_Mixer.bytesToHex(msg));
+						}
 						mParent.receivedMessage(msg);
 					}
 				}

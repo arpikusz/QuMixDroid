@@ -6,6 +6,7 @@ import org.wieggers.qu_apps.qu16.midi.Qu16_Id_Parameters;
 
 class Qu16_Midi_Parser {
 	
+	//private static final String mTag = "Qu16_Midi_Parser";
 	private IMidiListener mParent;
 
 	private parse_state_enum mState = parse_state_enum.next_command;
@@ -39,7 +40,7 @@ class Qu16_Midi_Parser {
 					mState = parse_state_enum.in_mute_command;
 					break;
 				case (byte) 0xB0: // start channel command
-					mState = parse_state_enum.in_channel_command;
+					mState = parse_state_enum.start_channel_command;
 					break;
 				case (byte) 0xF0:
 					mState = parse_state_enum.in_sysex_command;
@@ -49,6 +50,18 @@ class Qu16_Midi_Parser {
 					continue;
 				default:
 					// also ignore everything we don't understand
+					//Log.d(mTag, Qu16_Mixer.bytesToHex(new byte[] { d }));
+					continue;
+				}
+				break;
+			case start_channel_command:
+				switch (d) {
+				case (byte) 0x63: // 0xB0 - 0x63 detected, proceed to next state "in channel command"
+					mState = parse_state_enum.in_channel_command;
+					break;
+				default:
+					mState = parse_state_enum.next_command; // unknown sequence, ignore and wait for next command
+					current_command_length = 0;
 					continue;
 				}
 				break;
@@ -113,6 +126,7 @@ class Qu16_Midi_Parser {
 		next_command,
 		in_sysex_command,
 		in_mute_command,
+		start_channel_command,
 		in_channel_command
 	}
 }
