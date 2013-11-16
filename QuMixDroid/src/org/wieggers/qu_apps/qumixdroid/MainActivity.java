@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2013 george wieggers.
+ * Copyright (c) 2013 George Wieggers.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/gpl.html
  * 
  * Contributors:
- *     george wieggers - initial API and implementation
+ *     George Wieggers - initial API and implementation
  ******************************************************************************/
 package org.wieggers.qu_apps.qumixdroid;
 
@@ -38,7 +38,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-public class MainActivity extends Activity implements IMixerListener, OnCheckedChangeListener, OnItemSelectedListener {
+public class MainActivity extends Activity implements IMixerListener,
+		OnCheckedChangeListener, OnItemSelectedListener {
 
 	private final int mRemotePort = 51325;
 	private String mRemoteIp;
@@ -46,32 +47,31 @@ public class MainActivity extends Activity implements IMixerListener, OnCheckedC
 
 	private Qu16_Mixer mMixer;
 	private int mCurrentLayer;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
-		
+
 		Intent intent = getIntent();
 		mRemoteIp = intent.getStringExtra("address");
 		mDemoMode = intent.getBooleanExtra("demo", false);
-		
+
 		Spinner spMix = (Spinner) findViewById(R.id.spMix);
 		ToggleButton tbLayer1 = (ToggleButton) findViewById(R.id.tbLayer1);
 		ToggleButton tbLayer2 = (ToggleButton) findViewById(R.id.tbLayer2);
 
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-		        R.array.mixes, android.R.layout.simple_spinner_item);
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+				this, R.array.mixes, android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
 		spMix.setAdapter(adapter);
 		spMix.setOnItemSelectedListener(this);
 
-		
 		tbLayer1.setChecked(true);
 		mCurrentLayer = 1;
-		
+
 		tbLayer1.setOnCheckedChangeListener(this);
 		tbLayer2.setOnCheckedChangeListener(this);
 	}
@@ -86,7 +86,7 @@ public class MainActivity extends Activity implements IMixerListener, OnCheckedC
 	@Override
 	protected void onPause() {
 		super.onPause();
-		
+
 		if (mMixer != null) {
 			mMixer.stop();
 			mMixer = null;
@@ -98,7 +98,7 @@ public class MainActivity extends Activity implements IMixerListener, OnCheckedC
 		super.onResume();
 
 		mMixer = new Qu16_Mixer(mRemoteIp, mRemotePort, mDemoMode, this);
-					
+
 		mMixer.start();
 		if (mDemoMode) {
 			AssetManager assetMgr = this.getAssets();
@@ -108,35 +108,36 @@ public class MainActivity extends Activity implements IMixerListener, OnCheckedC
 			} catch (Exception e) {
 				errorOccurred(e);
 			}
-		}		
+		}
 	}
 
 	@Override
 	public void errorOccurred(Exception exception) {
 
 		final String msg = exception.getMessage();
-		
+
 		runOnUiThread(new Runnable() {
-			
+
 			@Override
 			public void run() {
-				Toast toast = Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG);
+				Toast toast = Toast.makeText(MainActivity.this, msg,
+						Toast.LENGTH_LONG);
 				toast.show();
-				
+
 				if (mMixer != null) {
 					mMixer.stop();
 					mMixer = null;
 				}
-				
+
 				finish();
 			}
-		});		
+		});
 	}
 
 	@Override
 	public void initialSyncComplete() {
 		runOnUiThread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				bindUserInterface();
@@ -149,23 +150,23 @@ public class MainActivity extends Activity implements IMixerListener, OnCheckedC
 		ToggleButton tbLayer1 = (ToggleButton) findViewById(R.id.tbLayer1);
 		ToggleButton tbLayer2 = (ToggleButton) findViewById(R.id.tbLayer2);
 
-		ToggleButton otherButton = buttonView.getId() == R.id.tbLayer1 ? tbLayer2 : tbLayer1;
-		otherButton.setChecked(! isChecked);
-		
+		ToggleButton otherButton = buttonView.getId() == R.id.tbLayer1 ? tbLayer2
+				: tbLayer1;
+		otherButton.setChecked(!isChecked);
+
 		if (isChecked) {
 			mCurrentLayer = (buttonView.getId() == R.id.tbLayer1) ? 1 : 2;
 		} else {
-			mCurrentLayer = (buttonView.getId() == R.id.tbLayer1) ? 2 : 1;			
+			mCurrentLayer = (buttonView.getId() == R.id.tbLayer1) ? 2 : 1;
 		}
-		
-		bindUserInterface();		
+
+		bindUserInterface();
 	}
-	
-	
+
 	@Override
 	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
 			long arg3) {
-		bindUserInterface();		
+		bindUserInterface();
 	}
 
 	@Override
@@ -175,52 +176,66 @@ public class MainActivity extends Activity implements IMixerListener, OnCheckedC
 	private void bindUserInterface() {
 		Spinner spMix = (Spinner) findViewById(R.id.spMix);
 		int currentMixNumber = spMix.getSelectedItemPosition();
-				
-		Qu16_VX_Buses currentBus = Qu16_UI.Mixer_Bus_Layout.get(currentMixNumber);
-		Qu16_Id_Parameters assignCommand = Qu16_VX_Buses.Assign_Command(currentBus);
-		
+
+		Qu16_VX_Buses currentBus = Qu16_UI.Mixer_Bus_Layout
+				.get(currentMixNumber);
+		Qu16_Id_Parameters assignCommand = Qu16_VX_Buses
+				.Assign_Command(currentBus);
+
 		Resources res = getResources();
 		String packageName = getPackageName();
-		
-		for (int i = 1; i <= 17; ++i)
-		{
-			Qu16_Input_Channels channel = Qu16_UI.Mixer_Channel_Layout.get(mCurrentLayer).get(i);
+
+		for (int i = 1; i <= 17; ++i) {
+			Qu16_Input_Channels channel = Qu16_UI.Mixer_Channel_Layout.get(
+					mCurrentLayer).get(i);
 			if (i == 17) { // master channel?
 				channel = Qu16_VX_Buses.MasterChannel(currentBus);
 			}
-			
-			Qu16_VX_Buses outputBus = Qu16_VX_Buses.OutputBusForChannel(channel, currentBus);
-			Qu16_Id_Parameters outputCommand = Qu16_VX_Buses.Output_Command(outputBus);
 
-			
-			IMixValueListener muteControl = (IMixValueListener) findViewById(res.getIdentifier("mute" + i, "id", packageName));
+			Qu16_VX_Buses outputBus = Qu16_VX_Buses.OutputBusForChannel(
+					channel, currentBus);
+			Qu16_Id_Parameters outputCommand = Qu16_VX_Buses
+					.Output_Command(outputBus);
+
+			IMixValueListener muteControl = (IMixValueListener) findViewById(res
+					.getIdentifier("mute" + i, "id", packageName));
 			mMixer.connect(muteControl, channel);
-			
-			IMixValueListener assignControl = (IMixValueListener) findViewById(res.getIdentifier("assign" + i, "id", packageName));
+
+			IMixValueListener assignControl = (IMixValueListener) findViewById(res
+					.getIdentifier("assign" + i, "id", packageName));
 			if (assignControl != null) {
 				mMixer.connect(assignControl, channel, assignCommand, outputBus);
 			}
-			
-			IMixValueListener preControl = (IMixValueListener) findViewById(res.getIdentifier("pre" + i, "id", packageName));
+
+			IMixValueListener preControl = (IMixValueListener) findViewById(res
+					.getIdentifier("pre" + i, "id", packageName));
 			if (preControl != null) {
-				mMixer.connect(preControl, channel, Qu16_Id_Parameters.Chn_Pre_Post_Sw, outputBus);
+				mMixer.connect(preControl, channel,
+						Qu16_Id_Parameters.Chn_Pre_Post_Sw, outputBus);
 			}
-			
-			IMixValueListener panControl = (IMixValueListener) findViewById(res.getIdentifier("pan" + i, "id", packageName));
+
+			IMixValueListener panControl = (IMixValueListener) findViewById(res
+					.getIdentifier("pan" + i, "id", packageName));
 			if (panControl != null) {
-				mMixer.connect(panControl, channel, Qu16_Id_Parameters.Chn_Pan, outputBus);
+				mMixer.connect(panControl, channel, Qu16_Id_Parameters.Chn_Pan,
+						outputBus);
 			}
-			
-			BoundMixFader faderControl = (BoundMixFader) findViewById(res.getIdentifier("fader" + i, "id", packageName));
+
+			BoundMixFader faderControl = (BoundMixFader) findViewById(res
+					.getIdentifier("fader" + i, "id", packageName));
 			if (faderControl != null) {
-				faderControl.setChannelName(getString(Qu16_UI.Channel_String_Ids.get(channel.getValue())));
+				faderControl
+						.setChannelName(getString(Qu16_UI.Channel_String_Ids
+								.get(channel.getValue())));
 				mMixer.connect(faderControl, channel, outputCommand, outputBus);
 			}
-			
-			IMixValueListener paflControl = (IMixValueListener) findViewById(res.getIdentifier("pafl" + i, "id", packageName));
+
+			IMixValueListener paflControl = (IMixValueListener) findViewById(res
+					.getIdentifier("pafl" + i, "id", packageName));
 			if (paflControl != null) {
-				mMixer.connect(paflControl, channel, Qu16_Id_Parameters.Chn_PAFL_Sw, Qu16_VX_Buses.LR);
+				mMixer.connect(paflControl, channel,
+						Qu16_Id_Parameters.Chn_PAFL_Sw, Qu16_VX_Buses.LR);
 			}
-		}			
+		}
 	}
 }

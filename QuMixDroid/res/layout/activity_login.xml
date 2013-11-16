@@ -16,46 +16,71 @@
     android:padding="30dp" >
 
     <TextView
-        android:text="@string/connect_to_qu_16"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/lblConnect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/lblConnect" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:text="@string/connect_to_qu_16"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
+        android:id="@+id/linearLayout1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/linearLayout1">
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal" >
+
         <TextView
-            android:text="@string/connect_ip_address"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/lblIPAddress"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
             android:paddingBottom="5dp"
-            android:paddingTop="5dp" />
+            android:paddingTop="5dp"
+            android:text="@string/connect_ip_address"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
             android:id="@+id/txtIPAddress"
-            android:singleLine="true"
-            android:inputType="phone" />
+            android:layout_width="200dp"
+            android:layout_height="fill_parent"
+            android:inputType="phone"
+            android:singleLine="true" />
+
     </LinearLayout>
+
     <Button
-        android:text="@android:string/ok"
+        android:id="@+id/btnOk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btnOk" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:text="@string/connect" />
+
     <TextView
-        android:text="@string/try_demo_mode"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/lblTryDemo"
-        android:paddingTop="30dp" />
-    <Button
-        android:text="@string/demo_mode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btnDemo" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:paddingTop="30dp"
+        android:text="@string/try_demo_mode"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/btnDemo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:text="@string/demo_mode" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/copyright" />
+
 </LinearLayout>

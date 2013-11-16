@@ -7,6 +7,9 @@
  * 
  * Contributors:
  *     george wieggers - initial API and implementation
+ *     
+ *     Author unknown  - App icon, taken from DarkGlass_Reworked KDE theme
+ *     http://kde-look.org/content/show.php/Dark-Glass+reviewed?content=67902
  ******************************************************************************/
 package org.wieggers.qu_apps.qumixdroid;
 
