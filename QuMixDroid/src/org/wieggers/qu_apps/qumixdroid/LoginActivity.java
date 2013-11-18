@@ -16,6 +16,8 @@ package org.wieggers.qu_apps.qumixdroid;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -71,4 +73,9 @@ public class LoginActivity extends Activity implements Button.OnClickListener {
 		
 	}
 
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+	}	
 }
