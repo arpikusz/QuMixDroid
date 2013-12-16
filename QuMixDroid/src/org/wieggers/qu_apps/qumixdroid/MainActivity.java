@@ -23,7 +23,9 @@ import org.wieggers.qu_apps.qu16.midi.Qu16_VX_Buses;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Menu;
@@ -172,6 +174,13 @@ public class MainActivity extends Activity implements IMixerListener,
 	@Override
 	public void onNothingSelected(AdapterView<?> arg0) {
 	}
+
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+	}	
 
 	private void bindUserInterface() {
 		Spinner spMix = (Spinner) findViewById(R.id.spMix);
