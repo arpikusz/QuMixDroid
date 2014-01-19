@@ -13,7 +13,7 @@ package org.wieggers.qu_apps.controls;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.wieggers.qu_apps.qumixdroid_qu16.R;
+import org.wieggers.qu_apps.qumixdroid.R;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -103,8 +103,6 @@ public class Fader extends View {
 
 		if (mKnobBmp == null) {
 			mKnobBmp = BitmapFactory.decodeResource (getResources(), R.drawable.fader_knob);
-			Bitmap scaled = Bitmap.createBitmap(mKnobBmp, 0, 0, 25, 55);
-			mKnobBmp = scaled;
 			mKnobWidth = mKnobBmp.getWidth();
 			mKnobHeight = mKnobBmp.getHeight();
 		}
