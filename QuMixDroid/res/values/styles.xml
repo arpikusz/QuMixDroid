@@ -8,7 +8,7 @@
   Contributors:
       george wieggers - initial API and implementation
 -->
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -27,33 +27,41 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
-    <style name="MuteButton">
-        <item name="android:layout_width">0dp</item>
+    <style name="CustomToggleButton">
+        <item name="android:minHeight">40dp</item>
+        <item name="android:minWidth">50dp</item>
+        <item name="android:layout_width">50dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textOff">@string/mute</item>
-        <item name="android:textOn">@string/mute</item>
+        <item name="android:layout_margin">1dp</item>        
     </style>
     
-    <style name="AssignButton">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
+    <style name="MuteButton" parent="CustomToggleButton">
+        <item name="android:background">@drawable/toggle_enabled_red</item>
+        <item name="android:textOff">@string/mute</item>
+        <item name="android:textOn">@string/mute</item>
+        </style>
+    
+    <style name="AssignButton" parent="CustomToggleButton">
+        <item name="android:background">@drawable/toggle_enabled_green</item>
         <item name="android:textOff">@string/assign</item>
         <item name="android:textOn">@string/assign</item>
     </style>
 
-    <style name="PreButton">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
+    <style name="LayerButton" parent="CustomToggleButton">
+        <item name="android:background">@drawable/toggle_enabled_green</item>
+    </style>
+    
+    <style name="PreButton" parent="CustomToggleButton">
+        <item name="android:background">@drawable/toggle_enabled_green</item>
         <item name="android:textOff">@string/pre</item>
         <item name="android:textOn">@string/pre</item>
-    </style>
+        </style>
 
-    <style name="PaflButton">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
+    <style name="PaflButton" parent="CustomToggleButton">
+        <item name="android:background">@drawable/toggle_enabled_yellow</item>
         <item name="android:textOff">@string/pafl</item>
         <item name="android:textOn">@string/pafl</item>
-    </style>
+        </style>
     
     <style name="PanButton">
         <item name="android:layout_width">match_parent</item>

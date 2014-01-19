@@ -8,11 +8,16 @@
   Contributors:
       george wieggers - initial API and implementation
 -->
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:layout_weight="1"
+    android:id="@+id/scrollview1"
+    android:fillViewport="true"    
+    >
+<TableLayout 
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent"
     android:stretchColumns="*"
     tools:ignore="TooManyViews" >
 
@@ -161,8 +166,7 @@
 
         <ToggleButton
             android:id="@+id/tbLayer1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/LayerButton"
             android:textOff="@string/layer_1"
             android:textOn="@string/layer_1" />
     </TableRow>
@@ -238,8 +242,7 @@
 
         <ToggleButton
             android:id="@+id/tbLayer2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/LayerButton"
             android:textOff="@string/layer_2"
             android:textOn="@string/layer_2" />
     </TableRow>
@@ -396,7 +399,7 @@
             android:id="@+id/fader17"
             style="@style/Fader" />
     </TableRow>
-
+<!-- 
     <TableRow
         android:id="@+id/tableRow6"
         android:layout_width="wrap_content"
@@ -468,7 +471,9 @@
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pafl17"
-			style="@style/PaflButton" />
+			style="@style/PaflButton" />              
     </TableRow>
+    -->
 
 </TableLayout>
+</HorizontalScrollView>

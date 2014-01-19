@@ -33,7 +33,7 @@ public class Fader extends View {
 	private String mChannelName;
 	
 	private static final int mMargin = 50;
-	private static final int mDesiredWidth = 50;
+	private static final int mDesiredWidth = 30;
 	private static final int mDesiredHeight = 300;
 
 	private static Bitmap mKnobBmp = null;
@@ -53,12 +53,12 @@ public class Fader extends View {
 		initMap.put(0x7F, "10");
 		initMap.put(0x72, "5");
 		initMap.put(0x60, "0");
-		initMap.put(0x4D, "5");
-		initMap.put(0x3D, "10");
-		initMap.put(0x2E, "20");
-		initMap.put(0x1F, "30");
-		initMap.put(0x0F, "40");
-		initMap.put(0, "∞");
+		initMap.put(0x4D, "-5");
+		initMap.put(0x3D, "-10");
+		initMap.put(0x2E, "-20");
+		initMap.put(0x1F, "-30");
+		initMap.put(0x0F, "-40");
+		initMap.put(0, "-∞");
 		faderLevels = initMap;
 	}
 	
@@ -107,7 +107,7 @@ public class Fader extends View {
 			mKnobHeight = mKnobBmp.getHeight();
 		}
 
-		mCenterX = (getWidth() / 2) + 8; 
+		mCenterX = (getWidth() / 2); // + 8; 
 		mFaderKnobX1 = mCenterX - mKnobWidth / 2;			// left value of fader knob
 		mFaderKnobX2 = mCenterX + mKnobWidth / 2;																
 		
@@ -122,10 +122,25 @@ public class Fader extends View {
 		mPaint.setColor(Color.WHITE);
 		mPaint.setAlpha(255);
 		
-		if (mChannelName != null) {
-			mPaint.setTextAlign(Paint.Align.CENTER);
-			canvas.drawText (mChannelName, mCenterX, 14, mPaint);
+		mPaint.setTextAlign(Paint.Align.CENTER);
+		mPaint.setTextSize((float)16.0);
+		
+		if (mIsActive) {
+			int value = mProgress + 8;
+			while (value >= 0) {
+				if (faderLevels.containsKey(value)) {
+					String level = faderLevels.get(value);
+					canvas.drawText(level, mCenterX, 20, mPaint);
+					canvas.drawText(level, mCenterX, getHeight() - 20, mPaint);
+					break;
+				}
+				--value;
+			}
+		} else if (mChannelName != null) {			
+			canvas.drawText (mChannelName, mCenterX, 20, mPaint);
 		}
+
+		mPaint.setTextSize((float)12.0);
 
 		// draw the DB scale with corresponding text labels
 		mPaint.setTextAlign(Paint.Align.RIGHT);
@@ -135,8 +150,9 @@ public class Fader extends View {
 			int levelY = mFaderKnobMaxY1 - (int)(factorLevel * (double)mFaderKnobRangeY) + (mKnobHeight / 2);
 
 			canvas.drawRect (mLevelX1, levelY - 1, mLevelX2, levelY, mPaint);
-			canvas.drawText (entry.getValue(), mLevelX1 - 4, levelY + 3, mPaint);
+			//canvas.drawText (entry.getValue(), mLevelX1 - 4, levelY + 3, mPaint);
 		}
+		
 
 		// draw the long vertical rectangle (in which our virtual fader can slide)
 		canvas.drawRect(mCenterX - 3, mMargin, mCenterX + 3, getHeight() - mMargin, mPaint);
@@ -220,6 +236,9 @@ public class Fader extends View {
 				&& startY >= mFaderKnobY1
 				&& startY <= mFaderKnobY2);
 			
+			if (mIsActive)
+				getParent().requestDisallowInterceptTouchEvent(true);
+			
 			mixerValueStart = mProgress;
 			safeInvalidate();
 			break;
@@ -243,10 +262,10 @@ public class Fader extends View {
 		case MotionEvent.ACTION_UP:
 		case MotionEvent.ACTION_CANCEL:
 			mIsActive = false;
+			getParent().requestDisallowInterceptTouchEvent(false);
 			safeInvalidate ();
 			break;
-		}
-		
+		}		
 		
 		return true;
 	}

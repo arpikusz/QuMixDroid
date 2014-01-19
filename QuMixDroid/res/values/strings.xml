@@ -33,7 +33,7 @@
  which accompanies this distribution, and is available at
  http://www.gnu.org/licenses/gpl.html</string>
     <string-array name="mixes">
-        <item>LR</item>
+        <item>Main L/R</item>
         <item>FX 1</item>
         <item>FX 2</item>
         <item>Mix 1</item>
@@ -47,7 +47,7 @@
 
     
     
-    	<string name="mono_01">1</string>
+    <string name="mono_01">1</string>
 	<string name="mono_02">2</string>
 	<string name="mono_03">3</string>
 	<string name="mono_04">4</string>
@@ -74,13 +74,13 @@
 	<string name="fx_send_1">FxS 1</string>
 	<string name="fx_send_2">FxS 2</string>
 
-	<string name="mix_1">Mix 1</string> 
-	<string name="mix_2">Mix 2</string> 
-	<string name="mix_3">Mix 3</string> 
-	<string name="mix_4">Mix 4</string> 
-	<string name="mix_5_6">Mix 5-6</string> 
-	<string name="mix_7_8">Mix 7-8</string> 
-	<string name="mix_9_10">Mix 9-10</string>
+	<string name="mix_1">Mx1</string> 
+	<string name="mix_2">Mx2</string> 
+	<string name="mix_3">Mx3</string> 
+	<string name="mix_4">Mx4</string> 
+	<string name="mix_5_6">Mx5-6</string> 
+	<string name="mix_7_8">Mx7-8</string> 
+	<string name="mix_9_10">Mx9-10</string>
 	
-	<string name="lr">L/R</string>
+	<string name="lr">Main L/R</string>
 </resources>
