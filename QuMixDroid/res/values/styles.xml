@@ -27,4 +27,43 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <style name="MuteButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textOff">@string/mute</item>
+        <item name="android:textOn">@string/mute</item>
+    </style>
+    
+    <style name="AssignButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textOff">@string/assign</item>
+        <item name="android:textOn">@string/assign</item>
+    </style>
+
+    <style name="PreButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textOff">@string/pre</item>
+        <item name="android:textOn">@string/pre</item>
+    </style>
+
+    <style name="PaflButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textOff">@string/pafl</item>
+        <item name="android:textOn">@string/pafl</item>
+    </style>
+    
+    <style name="PanButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">3dp</item>
+    </style>
+    
+    <style name="Fader">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>        
+    </style>
+    
 </resources>

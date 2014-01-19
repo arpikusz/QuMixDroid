@@ -23,122 +23,71 @@
 
         <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
             android:id="@+id/mute1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/mute"
-            android:textOn="@string/mute" />
+            style="@style/MuteButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
             android:id="@+id/mute2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/mute"
-            android:textOn="@string/mute" />
+            style="@style/MuteButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
             android:id="@+id/mute3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/mute"
-            android:textOn="@string/mute" />
+            style="@style/MuteButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
             android:id="@+id/mute4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/mute"
-            android:textOn="@string/mute" />
+            style="@style/MuteButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
             android:id="@+id/mute5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/mute"
-            android:textOn="@string/mute" />
+            style="@style/MuteButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
             android:id="@+id/mute6"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/mute"
-            android:textOn="@string/mute" />
+            style="@style/MuteButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
             android:id="@+id/mute7"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/mute"
-            android:textOn="@string/mute" />
+            style="@style/MuteButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
             android:id="@+id/mute8"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/mute"
-            android:textOn="@string/mute" />
+            style="@style/MuteButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
             android:id="@+id/mute9"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/mute"
-            android:textOn="@string/mute" />
+            style="@style/MuteButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
             android:id="@+id/mute10"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/mute"
-            android:textOn="@string/mute" />
+            style="@style/MuteButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
             android:id="@+id/mute11"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/mute"
-            android:textOn="@string/mute" />
+            style="@style/MuteButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
             android:id="@+id/mute12"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/mute"
-            android:textOn="@string/mute" />
+            style="@style/MuteButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
             android:id="@+id/mute13"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/mute"
-            android:textOn="@string/mute" />
+            style="@style/MuteButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
             android:id="@+id/mute14"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/mute"
-            android:textOn="@string/mute" />
+            style="@style/MuteButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
             android:id="@+id/mute15"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/mute"
-            android:textOn="@string/mute" />
+            style="@style/MuteButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
             android:id="@+id/mute16"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/mute"
-            android:textOn="@string/mute" />
+            style="@style/MuteButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMuteToggleButton
             android:id="@+id/mute17"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/mute"
-            android:textOn="@string/mute" />
+            style="@style/MuteButton" />
     </TableRow>
 
     <TableRow
@@ -148,115 +97,67 @@
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/assign1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/assign"
-            android:textOn="@string/assign" />
-
+			style="@style/AssignButton" />
+        
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/assign2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/assign"
-            android:textOn="@string/assign" />
-
+			style="@style/AssignButton" />
+        
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/assign3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/assign"
-            android:textOn="@string/assign" />
+			style="@style/AssignButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/assign4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/assign"
-            android:textOn="@string/assign" />
+			style="@style/AssignButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/assign5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/assign"
-            android:textOn="@string/assign" />
+			style="@style/AssignButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/assign6"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/assign"
-            android:textOn="@string/assign" />
+			style="@style/AssignButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/assign7"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/assign"
-            android:textOn="@string/assign" />
+			style="@style/AssignButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/assign8"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/assign"
-            android:textOn="@string/assign" />
+			style="@style/AssignButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/assign9"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/assign"
-            android:textOn="@string/assign" />
+			style="@style/AssignButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/assign10"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/assign"
-            android:textOn="@string/assign" />
+			style="@style/AssignButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/assign11"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/assign"
-            android:textOn="@string/assign" />
+			style="@style/AssignButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/assign12"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/assign"
-            android:textOn="@string/assign" />
+			style="@style/AssignButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/assign13"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/assign"
-            android:textOn="@string/assign" />
+			style="@style/AssignButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/assign14"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/assign"
-            android:textOn="@string/assign" />
+			style="@style/AssignButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/assign15"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/assign"
-            android:textOn="@string/assign" />
+			style="@style/AssignButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/assign16"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/assign"
-            android:textOn="@string/assign" />
+			style="@style/AssignButton" />
 
         <ToggleButton
             android:id="@+id/tbLayer1"
@@ -273,116 +174,67 @@
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pre1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pre"
-            android:textOn="@string/pre" />
+			style="@style/PreButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pre2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pre"
-            android:textOn="@string/pre" />
+			style="@style/PreButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pre3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pre"
-            android:textOn="@string/pre" />
+			style="@style/PreButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pre4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pre"
-            android:textOn="@string/pre" />
+			style="@style/PreButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pre5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pre"
-            android:textOn="@string/pre" />
+			style="@style/PreButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pre6"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pre"
-            android:textOn="@string/pre" />
+			style="@style/PreButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pre7"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pre"
-            android:textOn="@string/pre" />
+			style="@style/PreButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pre8"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pre"
-            android:textOn="@string/pre" />
+			style="@style/PreButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pre9"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pre"
-            android:textOn="@string/pre" />
+			style="@style/PreButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pre10"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pre"
-            android:textOn="@string/pre" />
+			style="@style/PreButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pre11"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pre"
-            android:textOn="@string/pre" />
+			style="@style/PreButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pre12"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pre"
-            android:textOn="@string/pre" />
+			style="@style/PreButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pre13"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pre"
-            android:textOn="@string/pre" />
+			style="@style/PreButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pre14"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pre"
-            android:textOn="@string/pre" />
+			style="@style/PreButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pre15"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pre"
-            android:textOn="@string/pre" />
+			style="@style/PreButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pre16"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/pre"
-            android:textOff="@string/pre"
-            android:textOn="@string/pre" />
+			style="@style/PreButton" />
 
         <ToggleButton
             android:id="@+id/tbLayer2"
@@ -399,99 +251,67 @@
 
         <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
             android:id="@+id/pan1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp" />
+            style="@style/PanButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
             android:id="@+id/pan2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp" />
+            style="@style/PanButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
             android:id="@+id/pan3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp" />
+            style="@style/PanButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
             android:id="@+id/pan4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp" />
+            style="@style/PanButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
             android:id="@+id/pan5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp" />
+            style="@style/PanButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
             android:id="@+id/pan6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp" />
+            style="@style/PanButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
             android:id="@+id/pan7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp" />
+            style="@style/PanButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
             android:id="@+id/pan8"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp" />
+            style="@style/PanButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
             android:id="@+id/pan9"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp" />
+            style="@style/PanButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
             android:id="@+id/pan10"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp" />
+            style="@style/PanButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
             android:id="@+id/pan11"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp" />
+            style="@style/PanButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
             android:id="@+id/pan12"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp" />
+            style="@style/PanButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
             android:id="@+id/pan13"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp" />
+            style="@style/PanButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
             android:id="@+id/pan14"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp" />
+            style="@style/PanButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
             android:id="@+id/pan15"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp" />
+            style="@style/PanButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
             android:id="@+id/pan16"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp" />
+            style="@style/PanButton" />
 
         <Spinner
             android:id="@+id/spMix"
@@ -510,88 +330,71 @@
 
         <org.wieggers.qu_apps.controls.bound.BoundMixFader
             android:id="@+id/fader1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            style="@style/Fader" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixFader
             android:id="@+id/fader2"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            style="@style/Fader" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixFader
             android:id="@+id/fader3"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            style="@style/Fader" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixFader
             android:id="@+id/fader4"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            style="@style/Fader" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixFader
             android:id="@+id/fader5"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            style="@style/Fader" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixFader
             android:id="@+id/fader6"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            style="@style/Fader" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixFader
             android:id="@+id/fader7"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            style="@style/Fader" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixFader
             android:id="@+id/fader8"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            style="@style/Fader" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixFader
             android:id="@+id/fader9"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            style="@style/Fader" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixFader
             android:id="@+id/fader10"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            style="@style/Fader" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixFader
             android:id="@+id/fader11"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            style="@style/Fader" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixFader
             android:id="@+id/fader12"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            style="@style/Fader" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixFader
             android:id="@+id/fader13"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            style="@style/Fader" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixFader
             android:id="@+id/fader14"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            style="@style/Fader" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixFader
             android:id="@+id/fader15"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            style="@style/Fader" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixFader
             android:id="@+id/fader16"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            style="@style/Fader" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixFader
             android:id="@+id/fader17"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            style="@style/Fader" />
     </TableRow>
 
     <TableRow
@@ -601,124 +404,71 @@
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pafl1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pafl"
-            android:textOn="@string/pafl" />
+			style="@style/PaflButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pafl2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pafl"
-            android:textOn="@string/pafl" />
+			style="@style/PaflButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pafl3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pafl"
-            android:textOn="@string/pafl" />
+			style="@style/PaflButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pafl4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pafl"
-            android:textOn="@string/pafl" />
+			style="@style/PaflButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pafl5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pafl"
-            android:textOn="@string/pafl" />
+			style="@style/PaflButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pafl6"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pafl"
-            android:textOn="@string/pafl" />
+			style="@style/PaflButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pafl7"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pafl"
-            android:textOn="@string/pafl" />
+			style="@style/PaflButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pafl8"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pafl"
-            android:textOn="@string/pafl" />
+			style="@style/PaflButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pafl9"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pafl"
-            android:textOn="@string/pafl" />
+			style="@style/PaflButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pafl10"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pafl"
-            android:textOn="@string/pafl" />
+			style="@style/PaflButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pafl11"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pafl"
-            android:textOn="@string/pafl" />
+			style="@style/PaflButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pafl12"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pafl"
-            android:textOn="@string/pafl" />
+			style="@style/PaflButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pafl13"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pafl"
-            android:textOn="@string/pafl" />
+			style="@style/PaflButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pafl14"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pafl"
-            android:textOn="@string/pafl" />
+			style="@style/PaflButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pafl15"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOff="@string/pafl"
-            android:textOn="@string/pafl" />
+			style="@style/PaflButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pafl16"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/pafl"
-            android:textOff="@string/pafl"
-            android:textOn="@string/pafl" />
+			style="@style/PaflButton" />
 
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/pafl17"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/pafl"
-            android:textOff="@string/pafl"
-            android:textOn="@string/pafl" />
+			style="@style/PaflButton" />
     </TableRow>
 
 </TableLayout>
