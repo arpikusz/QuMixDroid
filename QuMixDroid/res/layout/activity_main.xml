@@ -163,12 +163,14 @@
         <org.wieggers.qu_apps.controls.bound.BoundMixToggleButton
             android:id="@+id/assign16"
 			style="@style/AssignButton" />
-
-        <ToggleButton
-            android:id="@+id/tbLayer1"
-            style="@style/LayerButton"
-            android:textOff="@string/layer_1"
-            android:textOn="@string/layer_1" />
+        
+        <Spinner
+            android:id="@+id/spMix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/mixes"
+            android:spinnerMode="dropdown" />
+        
     </TableRow>
 
     <TableRow
@@ -241,10 +243,10 @@
 			style="@style/PreButton" />
 
         <ToggleButton
-            android:id="@+id/tbLayer2"
+            android:id="@+id/tbLayer1"
             style="@style/LayerButton"
-            android:textOff="@string/layer_2"
-            android:textOn="@string/layer_2" />
+            android:textOff="@string/layer_1"
+            android:textOn="@string/layer_1" />
     </TableRow>
 
     <TableRow
@@ -316,12 +318,12 @@
             android:id="@+id/pan16"
             style="@style/PanButton" />
 
-        <Spinner
-            android:id="@+id/spMix"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:entries="@array/mixes"
-            android:spinnerMode="dropdown" />
+                
+        <ToggleButton
+            android:id="@+id/tbLayer2"
+            style="@style/LayerButton"
+            android:textOff="@string/layer_2"
+            android:textOn="@string/layer_2" />
 
     </TableRow>
 

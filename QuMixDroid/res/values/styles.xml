@@ -14,14 +14,10 @@
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="AppBaseTheme" parent="android:Theme.NoTitleBar">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
+    <style name="AppBaseTheme" parent="android:Theme.DeviceDefault">
+        <!-- API 14 theme customizations can go here. -->
     </style>
-
+    
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
@@ -37,27 +33,32 @@
     
     <style name="MuteButton" parent="CustomToggleButton">
         <item name="android:background">@drawable/toggle_enabled_red</item>
+        <item name="android:textColor">#ff000000</item>
         <item name="android:textOff">@string/mute</item>
         <item name="android:textOn">@string/mute</item>
         </style>
     
     <style name="AssignButton" parent="CustomToggleButton">
         <item name="android:background">@drawable/toggle_enabled_green</item>
+        <item name="android:textColor">#ff000000</item>
         <item name="android:textOff">@string/assign</item>
         <item name="android:textOn">@string/assign</item>
     </style>
 
     <style name="LayerButton" parent="CustomToggleButton">
+        <item name="android:textColor">#ff000000</item>
         <item name="android:background">@drawable/toggle_enabled_green</item>
     </style>
     
     <style name="PreButton" parent="CustomToggleButton">
+        <item name="android:textColor">#ff000000</item>
         <item name="android:background">@drawable/toggle_enabled_green</item>
         <item name="android:textOff">@string/pre</item>
         <item name="android:textOn">@string/pre</item>
         </style>
 
     <style name="PaflButton" parent="CustomToggleButton">
+        <item name="android:textColor">#ff000000</item>
         <item name="android:background">@drawable/toggle_enabled_yellow</item>
         <item name="android:textOff">@string/pafl</item>
         <item name="android:textOn">@string/pafl</item>
@@ -67,6 +68,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">3dp</item>
+        <item name="android:visibility">gone</item>
     </style>
     
     <style name="Fader">

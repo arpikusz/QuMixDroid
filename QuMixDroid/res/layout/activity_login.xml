@@ -9,78 +9,72 @@
   Contributors:
       george wieggers - initial API and implementation
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:padding="30dp" >
+    <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" 
+        android:columnCount="3"
+        android:rowCount="4"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        >
 
-    <TextView
-        android:id="@+id/lblConnect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="10dp"
-        android:text="@string/connect_to_qu_16"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal" >
+        <TextView
+            android:id="@+id/lblConnect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginBottom="10dp"
+            android:text="@string/connect_to_qu_16"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_columnSpan="3" />
 
         <TextView
             android:id="@+id/lblIPAddress"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_marginRight="10dp"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
+            android:layout_height="wrap_content"
             android:text="@string/connect_ip_address"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <EditText
             android:id="@+id/txtIPAddress"
-            android:layout_width="200dp"
-            android:layout_height="fill_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
             android:inputType="phone"
-            android:singleLine="true" />
+            android:singleLine="true" >
 
-    </LinearLayout>
+            <requestFocus />
+        </EditText>
 
-    <Button
-        android:id="@+id/btnOk"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="5dp"
-        android:text="@string/connect" />
+        <Button
+            android:id="@+id/btnOk"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="@string/connect" />
 
-    <TextView
-        android:id="@+id/lblTryDemo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:paddingTop="30dp"
-        android:text="@string/try_demo_mode"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        <TextView
+            android:id="@+id/lblTryDemo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/try_demo_mode"
+            android:layout_columnSpan="2"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <Button
-        android:id="@+id/btnDemo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:text="@string/demo_mode" />
+        <Button
+            android:id="@+id/btnDemo"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="@string/demo_mode" />
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/copyright" />
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/copyright"
+            android:layout_gravity="bottom"
+            android:layout_columnSpan="3" />
 
-</LinearLayout>
+    </GridLayout>

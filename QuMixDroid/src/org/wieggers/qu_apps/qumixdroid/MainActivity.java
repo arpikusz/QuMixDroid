@@ -54,7 +54,7 @@ public class MainActivity extends Activity implements IMixerListener,
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
 
 		Intent intent = getIntent();
@@ -67,7 +67,7 @@ public class MainActivity extends Activity implements IMixerListener,
 
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
 				this, R.array.mixes, android.R.layout.simple_spinner_item);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spMix.setAdapter(adapter);
 		spMix.setOnItemSelectedListener(this);
 
