@@ -18,7 +18,7 @@
     <string name="connect_to_qu_16">Connect to Qu16 mixer</string>
     <string name="connect">Connect</string>
     <string name="connect_ip_address">IP:</string>
-    <string name="try_demo_mode">Try the app in offline mode.</string>
+    <string name="try_demo_mode">Or use offline.</string>
     <string name="demo_mode">Offline</string>
     <string name="mute">Mute</string>
     <string name="assign">On</string>

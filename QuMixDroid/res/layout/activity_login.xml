@@ -37,7 +37,7 @@
 
         <EditText
             android:id="@+id/txtIPAddress"
-            android:layout_width="wrap_content"
+            android:layout_width="182dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="phone"
