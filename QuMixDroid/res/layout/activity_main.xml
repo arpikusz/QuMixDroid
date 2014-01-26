@@ -254,67 +254,67 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 
-        <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
+        <org.wieggers.qu_apps.controls.bound.BoundMixRotaryKnob 
             android:id="@+id/pan1"
             style="@style/PanButton" />
 
-        <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
+        <org.wieggers.qu_apps.controls.bound.BoundMixRotaryKnob 
             android:id="@+id/pan2"
             style="@style/PanButton" />
 
-        <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
+        <org.wieggers.qu_apps.controls.bound.BoundMixRotaryKnob 
             android:id="@+id/pan3"
             style="@style/PanButton" />
 
-        <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
+        <org.wieggers.qu_apps.controls.bound.BoundMixRotaryKnob 
             android:id="@+id/pan4"
             style="@style/PanButton" />
 
-        <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
+        <org.wieggers.qu_apps.controls.bound.BoundMixRotaryKnob 
             android:id="@+id/pan5"
             style="@style/PanButton" />
 
-        <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
+        <org.wieggers.qu_apps.controls.bound.BoundMixRotaryKnob 
             android:id="@+id/pan6"
             style="@style/PanButton" />
 
-        <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
+        <org.wieggers.qu_apps.controls.bound.BoundMixRotaryKnob 
             android:id="@+id/pan7"
             style="@style/PanButton" />
 
-        <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
+        <org.wieggers.qu_apps.controls.bound.BoundMixRotaryKnob 
             android:id="@+id/pan8"
             style="@style/PanButton" />
 
-        <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
+        <org.wieggers.qu_apps.controls.bound.BoundMixRotaryKnob 
             android:id="@+id/pan9"
             style="@style/PanButton" />
 
-        <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
+        <org.wieggers.qu_apps.controls.bound.BoundMixRotaryKnob 
             android:id="@+id/pan10"
             style="@style/PanButton" />
 
-        <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
+        <org.wieggers.qu_apps.controls.bound.BoundMixRotaryKnob 
             android:id="@+id/pan11"
             style="@style/PanButton" />
 
-        <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
+        <org.wieggers.qu_apps.controls.bound.BoundMixRotaryKnob 
             android:id="@+id/pan12"
             style="@style/PanButton" />
 
-        <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
+        <org.wieggers.qu_apps.controls.bound.BoundMixRotaryKnob 
             android:id="@+id/pan13"
             style="@style/PanButton" />
 
-        <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
+        <org.wieggers.qu_apps.controls.bound.BoundMixRotaryKnob 
             android:id="@+id/pan14"
             style="@style/PanButton" />
 
-        <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
+        <org.wieggers.qu_apps.controls.bound.BoundMixRotaryKnob 
             android:id="@+id/pan15"
             style="@style/PanButton" />
 
-        <org.wieggers.qu_apps.controls.bound.BoundMixSeekbar
+        <org.wieggers.qu_apps.controls.bound.BoundMixRotaryKnob 
             android:id="@+id/pan16"
             style="@style/PanButton" />
 

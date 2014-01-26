@@ -11,14 +11,17 @@ import android.view.View;
 
 public class RotaryKnob extends View {
 
-	private static final int mDesiredWidth = 50;
-	private static final int mDesiredHeight = 50;
+	private static final int mDesiredWidth = 40;
+	private static final int mDesiredHeight = 40;
 
 	private float angle = 180f;
 	private float resultAngle = 180f;
 	private byte mMaxValue = 127;
 	private Paint mPaint;
 	private RectF mRect;
+	private int mSize;
+	private int mCenterW;
+	private int mCenterH;
 
 	public RotaryKnob(Context context) {
 		super(context);
@@ -64,6 +67,8 @@ public class RotaryKnob extends View {
 
 				switch (event.getAction() & MotionEvent.ACTION_MASK) {
 				case MotionEvent.ACTION_POINTER_DOWN:
+				case MotionEvent.ACTION_DOWN:
+					getParent().requestDisallowInterceptTouchEvent(true);
 					break;
 				case MotionEvent.ACTION_MOVE:
 					invalidate();
@@ -73,6 +78,10 @@ public class RotaryKnob extends View {
 					if (resultAngle <= 90f && resultAngle >= 45f) resultAngle = 45f;
 					
 					onRotaryValueChanged(getProgress());
+					break;
+				case MotionEvent.ACTION_CANCEL:
+				case MotionEvent.ACTION_UP:
+					getParent().requestDisallowInterceptTouchEvent(false);
 					break;
 				}
 				return true;
@@ -126,9 +135,9 @@ public class RotaryKnob extends View {
 	}
 	
 	protected void onDraw(Canvas c) {
-		c.rotate(90 + resultAngle, getWidth() / 2, getHeight() / 2);
+		c.rotate(90 + resultAngle, mCenterW, mCenterH);
 		mPaint.setStyle(Paint.Style.STROKE);
-		c.drawCircle(getWidth() / 2, getHeight() / 2, getWidth() / 2 - 2, mPaint);
+		c.drawCircle(mCenterW, mCenterH, (mSize / 2) - 2, mPaint);
 		
 		mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
 		c.drawRoundRect(mRect, 2, 2, mPaint);
@@ -138,8 +147,10 @@ public class RotaryKnob extends View {
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
-		int center = w/2;
-		mRect = new RectF(center - 2, 7, center + 2, center);
+		mSize = Math.min(w, h);
+		mCenterW = w/2;
+		mCenterH = h/2;
+		mRect = new RectF(mCenterW - 2, 7, mCenterW + 2, mCenterH);
 	}
 	
 	private float transformAngle(float input) {

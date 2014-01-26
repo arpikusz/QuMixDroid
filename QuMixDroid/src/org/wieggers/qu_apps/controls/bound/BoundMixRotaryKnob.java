@@ -28,7 +28,7 @@ public class BoundMixRotaryKnob extends RotaryKnob implements IMixValueListener 
 
 	private void initialize()
 	{
-		setMaxValue((byte)127);
+		setMaxValue((byte)74);
 	}
 	
 	@Override
