@@ -186,6 +186,13 @@ public class Qu16_Mixer implements IDeviceListener, IMidiListener {
 			singleMidiCommand(this, null, bytes);
 		}
 		
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		mParent.initialSyncComplete();
 	}
 	

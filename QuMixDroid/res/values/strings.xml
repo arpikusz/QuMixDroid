@@ -83,4 +83,6 @@
 	<string name="mix_9_10">Mx9-10</string>
 	
 	<string name="lr">Main L/R</string>
+	
+	<string name="connecting_please_wait">Connecting, please wait</string>
 </resources>
