@@ -23,6 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.wieggers.qu_apps.communication.Connected_Device;
 import org.wieggers.qu_apps.communication.Connected_Device.IDeviceListener;
+import org.wieggers.qu_apps.qu16.Qu16_MeteringValues.IMeteringValueListener;
 import org.wieggers.qu_apps.qu16.Qu16_Midi_Parser.IMidiListener;
 import org.wieggers.qu_apps.qu16.Qu16_MixValue.IMixValueListener;
 import org.wieggers.qu_apps.qu16.midi.Qu16_GEQ_Bands;
@@ -54,7 +55,7 @@ public class Qu16_Mixer implements IDeviceListener, IMidiListener {
 	private String mRemoteIp;
 	private int mRemotePort;
 	
-	public Qu16_MeteringValues MeteringValues;
+	private Qu16_MeteringValues mMeteringValues;
 
 	// access is as follows:
 	// mMixValues[0x90][fader][0][0] for mute command
@@ -80,7 +81,7 @@ public class Qu16_Mixer implements IDeviceListener, IMidiListener {
 		mRemotePort = port;
 		mDemoMode = demoMode;
 		
-		MeteringValues = new Qu16_MeteringValues();
+		mMeteringValues = new Qu16_MeteringValues();
 	}
 	
 	public void start() {
@@ -174,6 +175,10 @@ public class Qu16_Mixer implements IDeviceListener, IMidiListener {
 		
 		Qu16_MixValue channelValue = getMixValue(Qu16_Mixer.Channel, channel.getValue(), command.getValue(), band.getValue(), false);
 		listener.connect(channelValue);
+	}
+	
+	public void connect(IMeteringValueListener listener, int index) {
+		mMeteringValues.addListener(index, listener);
 	}
 	
 	public void readScene(InputStream is) throws NumberFormatException, IOException 
