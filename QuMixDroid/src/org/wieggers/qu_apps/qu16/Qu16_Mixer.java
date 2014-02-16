@@ -53,6 +53,8 @@ public class Qu16_Mixer implements IDeviceListener, IMidiListener {
 	private Boolean mDemoMode;
 	private String mRemoteIp;
 	private int mRemotePort;
+	
+	public Qu16_MeteringValues MeteringValues;
 
 	// access is as follows:
 	// mMixValues[0x90][fader][0][0] for mute command
@@ -76,7 +78,9 @@ public class Qu16_Mixer implements IDeviceListener, IMidiListener {
 		
 		mRemoteIp = remoteIp;
 		mRemotePort = port;
-		mDemoMode = demoMode;					
+		mDemoMode = demoMode;
+		
+		MeteringValues = new Qu16_MeteringValues();
 	}
 	
 	public void start() {
@@ -120,9 +124,11 @@ public class Qu16_Mixer implements IDeviceListener, IMidiListener {
 					&& data[10] == (byte) 0xF7) {
 						mParent.initialSyncComplete();
 					}
+					if (data[9] == 0x13) {
+						mMeteringValues.NewValues(data);
+					}
 				}
-			}
-			
+			}			
 		} else { // nope, it came from somewhere else, send it to Qu-16
 			
 			if (mQu16 != null) {
