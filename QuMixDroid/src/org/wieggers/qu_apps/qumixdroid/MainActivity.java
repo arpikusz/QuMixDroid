@@ -12,32 +12,17 @@ package org.wieggers.qu_apps.qumixdroid;
 
 import java.io.InputStream;
 
-import org.wieggers.qu_apps.controls.bound.BoundMixFader;
-import org.wieggers.qu_apps.qu16.IMixValueListener;
-import org.wieggers.qu_apps.qu16.IMixerListener;
 import org.wieggers.qu_apps.qu16.Qu16_Mixer;
-import org.wieggers.qu_apps.qu16.Qu16_UI;
-import org.wieggers.qu_apps.qu16.midi.Qu16_Id_Parameters;
-import org.wieggers.qu_apps.qu16.midi.Qu16_Input_Channels;
-import org.wieggers.qu_apps.qu16.midi.Qu16_VX_Buses;
+import org.wieggers.qu_apps.qu16.Qu16_Mixer.IMixerListener;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 public class MainActivity extends Activity implements IMixerListener
 {

@@ -1,8 +1,8 @@
 package org.wieggers.qu_apps.controls.bound;
 
 import org.wieggers.qu_apps.controls.RotaryKnob;
-import org.wieggers.qu_apps.qu16.IMixValueListener;
 import org.wieggers.qu_apps.qu16.Qu16_MixValue;
+import org.wieggers.qu_apps.qu16.Qu16_MixValue.IMixValueListener;
 
 import android.content.Context;
 import android.util.AttributeSet;

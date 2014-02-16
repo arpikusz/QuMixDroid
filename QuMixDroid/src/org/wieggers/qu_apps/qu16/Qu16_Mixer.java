@@ -22,7 +22,9 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.wieggers.qu_apps.communication.Connected_Device;
-import org.wieggers.qu_apps.communication.IDeviceListener;
+import org.wieggers.qu_apps.communication.Connected_Device.IDeviceListener;
+import org.wieggers.qu_apps.qu16.Qu16_Midi_Parser.IMidiListener;
+import org.wieggers.qu_apps.qu16.Qu16_MixValue.IMixValueListener;
 import org.wieggers.qu_apps.qu16.midi.Qu16_GEQ_Bands;
 import org.wieggers.qu_apps.qu16.midi.Qu16_Id_Parameters;
 import org.wieggers.qu_apps.qu16.midi.Qu16_Input_Channels;
@@ -273,5 +275,10 @@ public class Qu16_Mixer implements IDeviceListener, IMidiListener {
 	        hexChars[j * 2 + 1] = hexArray[v & 0x0F];
 	    }
 	    return new String(hexChars);
+	}
+	
+	public interface IMixerListener {
+		void errorOccurred(Exception exception);
+		void initialSyncComplete();
 	}
 }

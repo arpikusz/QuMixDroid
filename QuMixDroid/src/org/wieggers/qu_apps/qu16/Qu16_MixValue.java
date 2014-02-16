@@ -12,6 +12,8 @@ package org.wieggers.qu_apps.qu16;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import org.wieggers.qu_apps.qu16.Qu16_Midi_Parser.IMidiListener;
+
 public class Qu16_MixValue {
 
 	private byte[] mCommand;
@@ -90,5 +92,10 @@ public class Qu16_MixValue {
 				break;
 			}
 		}
-	}	
+	}
+	
+	public interface IMixValueListener {
+		void connect(Qu16_MixValue value);
+		void valueChanged(byte value);
+	}
 }

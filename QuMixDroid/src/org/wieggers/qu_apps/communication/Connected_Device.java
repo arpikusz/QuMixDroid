@@ -161,4 +161,9 @@ public class Connected_Device {
 			}
 		}
 	}
+	
+	public interface IDeviceListener {
+		void receivedMessage(byte[] message);
+		void errorOccurred(Exception exception);
+	}
 }

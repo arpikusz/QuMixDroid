@@ -139,4 +139,8 @@ class Qu16_Midi_Parser {
 		start_channel_command,
 		in_channel_command
 	}
+	
+	public interface IMidiListener {
+		void singleMidiCommand(Object sender, Object origin, byte[] midiCommand);
+	}
 }

@@ -12,7 +12,7 @@
 package org.wieggers.qu_apps.qumixdroid;
 
 import org.wieggers.qu_apps.controls.bound.BoundMixFader;
-import org.wieggers.qu_apps.qu16.IMixValueListener;
+import org.wieggers.qu_apps.qu16.Qu16_MixValue.IMixValueListener;
 import org.wieggers.qu_apps.qu16.Qu16_Mixer;
 import org.wieggers.qu_apps.qu16.Qu16_UI;
 import org.wieggers.qu_apps.qu16.midi.Qu16_Id_Parameters;
