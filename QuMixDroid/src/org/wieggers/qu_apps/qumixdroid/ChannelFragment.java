@@ -83,7 +83,7 @@ public class ChannelFragment extends Fragment implements StandardChannelListener
 			channel.deselect();
 		}
 		caller.select();
-		getActivity().setTitle(caller.getName());
+		getActivity().setTitle("Channel: " + caller.getName());
 	}
 	
 	private void showLayer() {
