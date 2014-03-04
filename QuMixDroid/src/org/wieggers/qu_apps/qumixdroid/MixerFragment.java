@@ -14,6 +14,7 @@ package org.wieggers.qu_apps.qumixdroid;
 import org.wieggers.qu_apps.controls.bound.BoundMixFader;
 import org.wieggers.qu_apps.qu16.Qu16_MixValue.IMixValueListener;
 import org.wieggers.qu_apps.qu16.Qu16_Mixer;
+import org.wieggers.qu_apps.qu16.Qu16_Mixer.IMixerConnector;
 import org.wieggers.qu_apps.qu16.Qu16_UI;
 import org.wieggers.qu_apps.qu16.midi.Qu16_Id_Parameters;
 import org.wieggers.qu_apps.qu16.midi.Qu16_Input_Channels;
@@ -33,7 +34,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.ToggleButton;
 
-public class MixerFragment extends Fragment implements OnCheckedChangeListener, OnItemSelectedListener {
+public class MixerFragment extends Fragment implements OnCheckedChangeListener, OnItemSelectedListener, IMixerConnector {
 
 	private int mCurrentLayer;
 	private Qu16_Mixer mMixer;
@@ -166,5 +167,18 @@ public class MixerFragment extends Fragment implements OnCheckedChangeListener, 
 						Qu16_Id_Parameters.Chn_PAFL_Sw, Qu16_VX_Buses.LR);
 			}
 		}
+	}
+
+	@Override
+	public void connectToMixer(Qu16_Mixer mixer, Qu16_VX_Buses bus,
+			Qu16_Input_Channels channel) {
+		mMixer = mixer;
+		
+	}
+
+	@Override
+	public void disconnectFromMixer() {
+		// TODO Auto-generated method stub
+		
 	}
 }

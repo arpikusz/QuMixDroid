@@ -15,6 +15,8 @@ import java.io.InputStream;
 import org.wieggers.qu_apps.qu16.Qu16_Mixer;
 import org.wieggers.qu_apps.qu16.Qu16_Mixer.IMixerListener;
 
+import android.app.ActionBar;
+import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -22,9 +24,10 @@ import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-public class MainActivity extends Activity implements IMixerListener
+public class MainActivity extends Activity implements IMixerListener, OnNavigationListener
 {
 
 	private final int mRemotePort = 51325;
@@ -46,14 +49,23 @@ public class MainActivity extends Activity implements IMixerListener
 
 		getFragmentManager()
 		.beginTransaction()
-		.add(R.id.main_frame, new ConnectingFragment(), "main")
+		.add(R.id.main_frame, new ChannelFragment(), "main")
 		.commit();
+	
+		final ActionBar actionBar = getActionBar();
+		//actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+				this, R.array.mixes, android.R.layout.simple_spinner_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		actionBar.setListNavigationCallbacks(adapter, this);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+		//getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 
@@ -124,6 +136,7 @@ public class MainActivity extends Activity implements IMixerListener
 			@Override
 			public void run() {
 				
+				/*
 				MixerFragment fragment = new MixerFragment();
 				fragment.SetMixer(mMixer);
 				
@@ -131,6 +144,7 @@ public class MainActivity extends Activity implements IMixerListener
 					.beginTransaction()
 					.replace(R.id.main_frame, fragment, "main")
 					.commit();
+					*/
 			}
 		});
 	}
@@ -139,6 +153,12 @@ public class MainActivity extends Activity implements IMixerListener
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+	}
+
+	@Override
+	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		// TODO Auto-generated method stub
+		return false;
 	}	
 
 

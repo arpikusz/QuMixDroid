@@ -292,4 +292,9 @@ public class Qu16_Mixer implements IDeviceListener, IMidiListener {
 		void errorOccurred(Exception exception);
 		void initialSyncComplete();
 	}
+	
+	public interface IMixerConnector {
+		void connectToMixer(Qu16_Mixer mixer, Qu16_VX_Buses bus, Qu16_Input_Channels channel);
+		void disconnectFromMixer();
+	}
 }

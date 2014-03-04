@@ -32,7 +32,7 @@ public class Fader extends View {
 	private int mMaxValue, mProgress;
 	private String mChannelName;
 	
-	private static final int mMargin = 50;
+	private static final int mMargin = 35;
 	private static final int mDesiredWidth = 30;
 	private static final int mDesiredHeight = 300;
 
@@ -130,14 +130,14 @@ public class Fader extends View {
 			while (value >= 0) {
 				if (faderLevels.containsKey(value)) {
 					String level = faderLevels.get(value);
-					canvas.drawText(level, mCenterX, 20, mPaint);
+					//canvas.drawText(level, mCenterX, 20, mPaint);
 					canvas.drawText(level, mCenterX, getHeight() - 20, mPaint);
 					break;
 				}
 				--value;
 			}
 		} else if (mChannelName != null) {			
-			canvas.drawText (mChannelName, mCenterX, 20, mPaint);
+			//canvas.drawText (mChannelName, mCenterX, 20, mPaint);
 		}
 
 		mPaint.setTextSize((float)12.0);
