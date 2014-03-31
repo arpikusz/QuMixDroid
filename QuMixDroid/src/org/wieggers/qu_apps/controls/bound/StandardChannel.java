@@ -1,5 +1,9 @@
 package org.wieggers.qu_apps.controls.bound;
 
+import org.wieggers.qu_apps.qu16.Qu16_Mixer;
+import org.wieggers.qu_apps.qu16.midi.Qu16_Id_Parameters;
+import org.wieggers.qu_apps.qu16.midi.Qu16_Input_Channels;
+import org.wieggers.qu_apps.qu16.midi.Qu16_VX_Buses;
 import org.wieggers.qu_apps.qumixdroid.R;
 
 import android.content.Context;
@@ -14,6 +18,7 @@ import android.widget.LinearLayout;
 public class StandardChannel extends LinearLayout {
 
 	StandardChannelListener mParent = null;
+	Qu16_VX_Buses mCurrentbus;
 	
 	public StandardChannel(Context context) {
 		super(context);
@@ -71,11 +76,55 @@ public class StandardChannel extends LinearLayout {
 	
 	public void deselect()
 	{
-		setBackgroundColor(Color.BLACK);
+		if (mCurrentbus == Qu16_VX_Buses.LR)
+			setBackgroundColor(Color.BLACK);
+		else if (mCurrentbus == Qu16_VX_Buses.FX1 || mCurrentbus == Qu16_VX_Buses.FX2)
+			setBackgroundColor(Color.rgb(50, 0, 0));
+		else
+			setBackgroundColor(Color.rgb(0, 0, 50));
+	}
+	
+	public void connect(Qu16_Mixer mixer, Qu16_Input_Channels channel, Qu16_VX_Buses bus)
+	{
+		mCurrentbus = bus;
+		
+		BoundMuteToggleButton btnMute = (BoundMuteToggleButton) findViewById(R.id.boundMuteToggleButton1);
+		BoundMixToggleButton btnAssign = (BoundMixToggleButton) findViewById(R.id.boundMixToggleButton1);
+		BoundMixToggleButton btnPre = (BoundMixToggleButton) findViewById(R.id.boundMixToggleButton2);
+		BoundMixRotaryKnob btnPan = (BoundMixRotaryKnob) findViewById(R.id.boundMixRotaryKnob1);
+		BoundMixFader fader = (BoundMixFader) findViewById(R.id.boundMixFader1);
+		
+		mixer.connect(btnMute, channel);
+		mixer.connect(btnPre, channel, Qu16_Id_Parameters.Chn_Pre_Post_Sw, bus);
+		mixer.connect(btnPan, channel, Qu16_Id_Parameters.Chn_Pan, bus);		
+		
+		if (bus == Qu16_VX_Buses.LR) {		
+			mixer.connect(btnAssign, channel, Qu16_Id_Parameters.Chn_Assign_LR_Sw, bus);
+			mixer.connect(fader, channel, Qu16_Id_Parameters.Chn_Output_LR, bus);
+		} else {
+			mixer.connect(btnAssign, channel, Qu16_Id_Parameters.Chn_Assign_Mix_Sw, bus);
+			mixer.connect(fader, channel, Qu16_Id_Parameters.Chn_Output_Mix, bus);
+		}
+		deselect();
+	}
+	
+	public void disconnect()
+	{
+		BoundMuteToggleButton btnMute = (BoundMuteToggleButton) findViewById(R.id.boundMuteToggleButton1);
+		BoundMixToggleButton btnAssign = (BoundMixToggleButton) findViewById(R.id.boundMixToggleButton1);
+		BoundMixToggleButton btnPre = (BoundMixToggleButton) findViewById(R.id.boundMixToggleButton2);
+		BoundMixRotaryKnob btnPan = (BoundMixRotaryKnob) findViewById(R.id.boundMixRotaryKnob1);
+		BoundMixFader fader = (BoundMixFader) findViewById(R.id.boundMixFader1);
+		
+		btnMute.connect(null);
+		btnAssign.connect(null);
+		btnPre.connect(null);
+		btnPan.connect(null);
+		fader.connect(null);
 	}
 	
 	public interface StandardChannelListener
 	{
 		void Channel_Selected(StandardChannel caller);
-	}
+	}	
 }

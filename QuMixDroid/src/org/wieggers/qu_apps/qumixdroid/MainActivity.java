@@ -14,6 +14,7 @@ import java.io.InputStream;
 
 import org.wieggers.qu_apps.qu16.Qu16_Mixer;
 import org.wieggers.qu_apps.qu16.Qu16_Mixer.IMixerListener;
+import org.wieggers.qu_apps.qu16.midi.Qu16_VX_Buses;
 
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
@@ -49,7 +50,7 @@ public class MainActivity extends Activity implements IMixerListener, OnNavigati
 
 		getFragmentManager()
 		.beginTransaction()
-		.add(R.id.main_frame, new ChannelFragment(), "main")
+		.add(R.id.main_frame, new ConnectingFragment(), "main")
 		.commit();
 	
 		final ActionBar actionBar = getActionBar();
@@ -136,15 +137,13 @@ public class MainActivity extends Activity implements IMixerListener, OnNavigati
 			@Override
 			public void run() {
 				
-				/*
-				MixerFragment fragment = new MixerFragment();
-				fragment.SetMixer(mMixer);
+				ChannelFragment fragment = new ChannelFragment();
+				fragment.connect(mMixer, Qu16_VX_Buses.LR, 1);
 				
 				getFragmentManager()
 					.beginTransaction()
 					.replace(R.id.main_frame, fragment, "main")
 					.commit();
-					*/
 			}
 		});
 	}
@@ -157,9 +156,38 @@ public class MainActivity extends Activity implements IMixerListener, OnNavigati
 
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-		// TODO Auto-generated method stub
+		Qu16_VX_Buses bus = Qu16_VX_Buses.LR;
+		switch (itemPosition) {
+			case 0:	
+			default:
+				break;
+			case 1: bus = Qu16_VX_Buses.FX1; break;
+			case 2: bus = Qu16_VX_Buses.FX2; break;
+			case 3: bus = Qu16_VX_Buses.Mix_1; break;
+			case 4: bus = Qu16_VX_Buses.Mix_2; break;
+			case 5: bus = Qu16_VX_Buses.Mix_3; break;
+			case 6: bus = Qu16_VX_Buses.Mix_4; break;
+			case 7: bus = Qu16_VX_Buses.Mix_5_6; break;
+			case 8: bus = Qu16_VX_Buses.Mix_7_8; break;
+			case 9: bus = Qu16_VX_Buses.Mix_9_10; break;			
+		}
+		
+		int layer = 1;
+		
+		try {
+			ChannelFragment currentFragment = (ChannelFragment) getFragmentManager().findFragmentByTag("main");
+			layer = currentFragment.getLayer();
+		}
+		catch (Exception e) {}
+		
+		ChannelFragment fragment = new ChannelFragment();
+		fragment.connect(mMixer, bus, layer);
+		
+		getFragmentManager()
+			.beginTransaction()
+			.replace(R.id.main_frame, fragment, "main")
+			.commit();
+		
 		return false;
-	}	
-
-
+	}
 }

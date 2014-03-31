@@ -4,8 +4,11 @@ import java.util.ArrayList;
 
 import org.wieggers.qu_apps.controls.bound.StandardChannel;
 import org.wieggers.qu_apps.controls.bound.StandardChannel.StandardChannelListener;
+import org.wieggers.qu_apps.qu16.Qu16_Mixer;
 import org.wieggers.qu_apps.qu16.Qu16_UI;
+import org.wieggers.qu_apps.qu16.midi.Qu16_Id_Parameters;
 import org.wieggers.qu_apps.qu16.midi.Qu16_Input_Channels;
+import org.wieggers.qu_apps.qu16.midi.Qu16_VX_Buses;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -25,11 +28,11 @@ public class ChannelFragment extends Fragment implements StandardChannelListener
 	ArrayList<StandardChannel> mChannels;	
 	LinearLayout mLayout;
 	
-	int mCurrentBus = 0;
+	Qu16_Mixer mMixer;
+	Qu16_VX_Buses mCurrentBus;
 	int mCurrentLayer = 1;
 	
 	public ChannelFragment() {
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -59,8 +62,22 @@ public class ChannelFragment extends Fragment implements StandardChannelListener
 	}
 	
 	@Override
+	public void onDestroyView() {
+		for (StandardChannel channel:mChannels) {
+			channel.disconnect();
+		}
+
+		super.onDestroyView();
+	}
+	
+	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.channels, menu);
+		
+		switch (mCurrentLayer) {
+			case 1: menu.findItem(R.id.layer1).setChecked(true); break;
+			case 2: menu.findItem(R.id.layer2).setChecked(true); break;
+		}
 	}
 
 	@Override
@@ -83,22 +100,47 @@ public class ChannelFragment extends Fragment implements StandardChannelListener
 			channel.deselect();
 		}
 		caller.select();
-		getActivity().setTitle("Channel: " + caller.getName());
+		//getActivity().setTitle("Chn: " + caller.getName());
+	}
+	
+	public void connect(Qu16_Mixer mixer, Qu16_VX_Buses bus, int layer) {
+		mMixer = mixer;
+		mCurrentBus = bus;
+		mCurrentLayer = layer;
+	}
+	
+	public int getLayer()
+	{
+		return mCurrentLayer;
 	}
 	
 	private void showLayer() {
+		for (StandardChannel channel:mChannels) {
+			channel.disconnect();
+		}
 		mLayout.removeAllViews();
 		
 		for (int i = 1; i <= 17; ++i) {
 			Qu16_Input_Channels inputChannel = Qu16_UI.Mixer_Channel_Layout.get(mCurrentLayer).get(i);
 			
+			if (i == 17)
+				inputChannel = Qu16_VX_Buses.MasterChannel(mCurrentBus);
+			
+			Qu16_VX_Buses outputBus = Qu16_VX_Buses.OutputBusForChannel(
+					inputChannel, mCurrentBus);
+		
+			String channelName = getString(Qu16_UI.Channel_String_Ids.get(inputChannel.getValue()));			
+			
 			StandardChannel channel = new StandardChannel(this.getActivity());
 			
-			String channelName = getString(Qu16_UI.Channel_String_Ids.get(inputChannel.getValue()));			
-			channel.setName(channelName);
-			
 			mLayout.addView(channel);
+
+			channel.setName(channelName);
 			channel.SetParent(this);
+			
+			if (mMixer != null)
+				channel.connect(mMixer, inputChannel, outputBus);
+			
 			mChannels.add(channel);
 		}
 	}	
