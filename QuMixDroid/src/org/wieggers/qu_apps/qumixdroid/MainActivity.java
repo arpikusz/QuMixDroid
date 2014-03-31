@@ -172,13 +172,16 @@ public class MainActivity extends Activity implements IMixerListener, OnNavigati
 			case 9: bus = Qu16_VX_Buses.Mix_9_10; break;			
 		}
 		
-		int layer = 1;
+		int layer = -1;
 		
 		try {
 			ChannelFragment currentFragment = (ChannelFragment) getFragmentManager().findFragmentByTag("main");
 			layer = currentFragment.getLayer();
 		}
 		catch (Exception e) {}
+		
+		if (layer == -1)
+			return false;
 		
 		ChannelFragment fragment = new ChannelFragment();
 		fragment.connect(mMixer, bus, layer);
