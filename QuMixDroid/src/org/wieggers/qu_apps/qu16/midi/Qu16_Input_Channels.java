@@ -28,9 +28,25 @@ public enum Qu16_Input_Channels {
 	Mono_15(0x2E),
 	Mono_16(0x2F),
 
+	// Qu-24 only
+	Mono_17(0x30),
+	Mono_18(0x31),
+	Mono_19(0x32),
+	Mono_20(0x33),
+	Mono_21(0x34),
+	Mono_22(0x35),
+	Mono_23(0x36),
+	Mono_24(0x37),
+	// ---------------
+
 	Stereo_1(0x40),
 	Stereo_2(0x41),
 	Stereo_3(0x42),
+	
+	// Qu-24 only
+	Group_1_2(0x68),
+	Group_3_4(0x69),
+	// ---------------
 
 	FX_Return_1(0x08),
 	FX_Return_2(0x09),
@@ -49,6 +65,11 @@ public enum Qu16_Input_Channels {
 	Mix_9_10(0x66),
 	LR(0x67),
 
+	// Qu-24 only
+	Matrix_1_2(0x6C),
+	Matrix_3_4(0x6D),
+	// ---------------
+	
 	Unknown_02(0x02),
 	Unknown_03(0x03),
 	
@@ -56,15 +77,7 @@ public enum Qu16_Input_Channels {
 	Unknown_11(0x11),
 	Unknown_12(0x12),
 	Unknown_13(0x13),
-
-	Unknown_30(0x30),
-	Unknown_31(0x31),
-	Unknown_32(0x32),
-	Unknown_33(0x33),
-	Unknown_34(0x34),
-	Unknown_35(0x35),
-	Unknown_36(0x36),
-	Unknown_37(0x37),
+	
 	Unknown_38(0x38),
 	Unknown_39(0x39),
 	Unknown_3A(0x3A),
@@ -78,8 +91,8 @@ public enum Qu16_Input_Channels {
 	Unknown_69(0x69),
 	Unknown_6A(0x6A),
 	Unknown_6B(0x6B),
-	Unknown_6C(0x6C),
-	Unknown_6D(0x6D),
+	//Unknown_6C(0x6C),
+	//Unknown_6D(0x6D),
 	Unknown_6E(0x6E),
 	Unknown_6F(0x6F);
 		

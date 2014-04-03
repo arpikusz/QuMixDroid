@@ -22,7 +22,14 @@ public enum Qu16_VX_Buses {
 	LR(0x07),
 	
 	FX1(0x10),
-	FX2(0x11);
+	FX2(0x11),
+	
+	// Qu-24 only
+	Group_1_2(0x08),
+	Group_3_4(0x09),
+	Matrix_1_2(0x0C),
+	Matrix_3_4(0x0D);
+	/////////////////
 
 	private byte mValue;
 	
@@ -45,6 +52,10 @@ public enum Qu16_VX_Buses {
 			case Mix_5_6:
 			case Mix_7_8:
 			case Mix_9_10:
+			case Group_1_2:
+			case Group_3_4:
+			case Matrix_1_2:
+			case Matrix_3_4:
 				return Qu16_VX_Buses.LR;
 			default:
 				return bus;
@@ -63,6 +74,10 @@ public enum Qu16_VX_Buses {
 		case Mix_5_6: return Qu16_Input_Channels.Mix_5_6;
 		case Mix_7_8: return Qu16_Input_Channels.Mix_7_8;
 		case Mix_9_10: return Qu16_Input_Channels.Mix_9_10;
+		case Group_1_2: return Qu16_Input_Channels.Group_1_2;
+		case Group_3_4: return Qu16_Input_Channels.Group_3_4;
+		case Matrix_1_2: return Qu16_Input_Channels.Matrix_1_2;
+		case Matrix_3_4: return Qu16_Input_Channels.Matrix_3_4;
 		default: return Qu16_Input_Channels.LR;		
 		}
 	}

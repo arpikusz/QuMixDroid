@@ -107,7 +107,7 @@ public class MixerFragment extends Fragment implements OnCheckedChangeListener, 
 		Spinner spMix = (Spinner) parent.findViewById(R.id.spMix);
 		int currentMixNumber = spMix.getSelectedItemPosition();
 
-		Qu16_VX_Buses currentBus = Qu16_UI.Mixer_Bus_Layout
+		Qu16_VX_Buses currentBus = Qu16_UI.Qu16_Bus_Layout
 				.get(currentMixNumber);
 		Qu16_Id_Parameters assignCommand = Qu16_VX_Buses
 				.Assign_Command(currentBus);
@@ -116,7 +116,7 @@ public class MixerFragment extends Fragment implements OnCheckedChangeListener, 
 		String packageName = getActivity().getPackageName();
 
 		for (int i = 1; i <= 17; ++i) {
-			Qu16_Input_Channels channel = Qu16_UI.Mixer_Channel_Layout.get(
+			Qu16_Input_Channels channel = Qu16_UI.Qu16_Channel_Layout.get(
 					mCurrentLayer).get(i);
 			if (i == 17) { // master channel?
 				channel = Qu16_VX_Buses.MasterChannel(currentBus);

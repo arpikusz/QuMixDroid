@@ -17,11 +17,72 @@ import org.wieggers.qu_apps.qu16.midi.Qu16_VX_Buses;
 import org.wieggers.qu_apps.qumixdroid.R;
 
 public class Qu16_UI {
-	public static final HashMap<Integer, HashMap<Integer, Qu16_Input_Channels>> Mixer_Channel_Layout;
+	public static final HashMap<Integer, HashMap<Integer, Qu16_Input_Channels>> Qu16_Channel_Layout;
+	public static final HashMap<Integer, Qu16_VX_Buses> Qu16_Bus_Layout;
 	public static final HashMap<Byte, Integer> Channel_String_Ids;
-	public static final HashMap<Integer, Qu16_VX_Buses> Mixer_Bus_Layout;
+
+	public static final HashMap<Integer, HashMap<Integer, Qu16_Input_Channels>> Qu24_Channel_Layout;
+	public static final HashMap<Integer, Qu16_VX_Buses> Qu24_Bus_Layout;
 
 	static {
+		
+		HashMap<Byte, Integer> ids = new HashMap<Byte, Integer>(); 
+		ids.put(Qu16_Input_Channels.Mono_01.getValue(), R.string.mono_01);
+		ids.put(Qu16_Input_Channels.Mono_02.getValue(), R.string.mono_02);
+		ids.put(Qu16_Input_Channels.Mono_03.getValue(), R.string.mono_03);
+		ids.put(Qu16_Input_Channels.Mono_04.getValue(), R.string.mono_04);
+		ids.put(Qu16_Input_Channels.Mono_05.getValue(), R.string.mono_05);
+		ids.put(Qu16_Input_Channels.Mono_06.getValue(), R.string.mono_06);
+		ids.put(Qu16_Input_Channels.Mono_07.getValue(), R.string.mono_07);
+		ids.put(Qu16_Input_Channels.Mono_08.getValue(), R.string.mono_08);
+		ids.put(Qu16_Input_Channels.Mono_09.getValue(), R.string.mono_09);
+		ids.put(Qu16_Input_Channels.Mono_10.getValue(), R.string.mono_10);
+		ids.put(Qu16_Input_Channels.Mono_11.getValue(), R.string.mono_11);
+		ids.put(Qu16_Input_Channels.Mono_12.getValue(), R.string.mono_12);
+		ids.put(Qu16_Input_Channels.Mono_13.getValue(), R.string.mono_13);
+		ids.put(Qu16_Input_Channels.Mono_14.getValue(), R.string.mono_14);
+		ids.put(Qu16_Input_Channels.Mono_15.getValue(), R.string.mono_15);
+		ids.put(Qu16_Input_Channels.Mono_16.getValue(), R.string.mono_16);
+		ids.put(Qu16_Input_Channels.Mono_17.getValue(), R.string.mono_17);
+		ids.put(Qu16_Input_Channels.Mono_18.getValue(), R.string.mono_18);
+		ids.put(Qu16_Input_Channels.Mono_19.getValue(), R.string.mono_19);
+		ids.put(Qu16_Input_Channels.Mono_20.getValue(), R.string.mono_20);
+		ids.put(Qu16_Input_Channels.Mono_21.getValue(), R.string.mono_21);
+		ids.put(Qu16_Input_Channels.Mono_22.getValue(), R.string.mono_22);
+		ids.put(Qu16_Input_Channels.Mono_23.getValue(), R.string.mono_23);
+		ids.put(Qu16_Input_Channels.Mono_24.getValue(), R.string.mono_24);
+		
+		ids.put(Qu16_Input_Channels.Stereo_1.getValue(), R.string.stereo_1);
+		ids.put(Qu16_Input_Channels.Stereo_2.getValue(), R.string.stereo_2);
+		ids.put(Qu16_Input_Channels.Stereo_3.getValue(), R.string.stereo_3);
+
+		ids.put(Qu16_Input_Channels.FX_Return_1.getValue(), R.string.fx_ret_1);
+		ids.put(Qu16_Input_Channels.FX_Return_2.getValue(), R.string.fx_ret_2);
+		ids.put(Qu16_Input_Channels.FX_Return_3.getValue(), R.string.fx_ret_3);
+		ids.put(Qu16_Input_Channels.FX_Return_4.getValue(), R.string.fx_ret_4);
+
+		ids.put(Qu16_Input_Channels.FX_Send_1.getValue(), R.string.fx_send_1);
+		ids.put(Qu16_Input_Channels.FX_Send_2.getValue(), R.string.fx_send_2);
+
+		ids.put(Qu16_Input_Channels.Mix_1.getValue(), R.string.mix_1);
+		ids.put(Qu16_Input_Channels.Mix_2.getValue(), R.string.mix_2);
+		ids.put(Qu16_Input_Channels.Mix_3.getValue(), R.string.mix_3);
+		ids.put(Qu16_Input_Channels.Mix_4.getValue(), R.string.mix_4);
+		ids.put(Qu16_Input_Channels.Mix_5_6.getValue(), R.string.mix_5_6);
+		ids.put(Qu16_Input_Channels.Mix_7_8.getValue(), R.string.mix_7_8);
+		ids.put(Qu16_Input_Channels.Mix_9_10.getValue(), R.string.mix_9_10);
+
+		ids.put(Qu16_Input_Channels.LR.getValue(), R.string.lr);
+		
+		ids.put(Qu16_Input_Channels.Group_1_2.getValue(), R.string.group_1_2);
+		ids.put(Qu16_Input_Channels.Group_3_4.getValue(), R.string.group_3_4);
+
+		ids.put(Qu16_Input_Channels.Matrix_1_2.getValue(), R.string.matrix_1_2);
+		ids.put(Qu16_Input_Channels.Matrix_3_4.getValue(), R.string.matrix_3_4);
+		
+		Channel_String_Ids = ids;
+		
+		
 		// Init mixer layout layers		
 		HashMap<Integer, HashMap<Integer, Qu16_Input_Channels>> init_Layout = new HashMap<Integer, HashMap<Integer, Qu16_Input_Channels>>();
 		init_Layout.put(2, new HashMap<Integer, Qu16_Input_Channels>());
@@ -59,49 +120,29 @@ public class Qu16_UI {
 		layer2.put(idx, Qu16_Input_Channels.LR);
 		init_Layout.put(2, layer2);
 		
-		Mixer_Channel_Layout = init_Layout;
+		Qu16_Channel_Layout = new HashMap<Integer, HashMap<Integer, Qu16_Input_Channels>>(init_Layout);
+
+		// Qu-24 specific input channels:
+		// Layer 1
+		idx = 17;
+		for (byte i = Qu16_Input_Channels.Mono_17.getValue(); i <= Qu16_Input_Channels.Mono_24.getValue(); ++i) {
+			layer1.put((int) idx, Qu16_Input_Channels.fromValue(i));
+			++idx;
+		}	
 		
-		HashMap<Byte, Integer> ids = new HashMap<Byte, Integer>(); 
-		ids.put(Qu16_Input_Channels.Mono_01.getValue(), R.string.mono_01);
-		ids.put(Qu16_Input_Channels.Mono_02.getValue(), R.string.mono_02);
-		ids.put(Qu16_Input_Channels.Mono_03.getValue(), R.string.mono_03);
-		ids.put(Qu16_Input_Channels.Mono_04.getValue(), R.string.mono_04);
-		ids.put(Qu16_Input_Channels.Mono_05.getValue(), R.string.mono_05);
-		ids.put(Qu16_Input_Channels.Mono_06.getValue(), R.string.mono_06);
-		ids.put(Qu16_Input_Channels.Mono_07.getValue(), R.string.mono_07);
-		ids.put(Qu16_Input_Channels.Mono_08.getValue(), R.string.mono_08);
-		ids.put(Qu16_Input_Channels.Mono_09.getValue(), R.string.mono_09);
-		ids.put(Qu16_Input_Channels.Mono_10.getValue(), R.string.mono_10);
-		ids.put(Qu16_Input_Channels.Mono_11.getValue(), R.string.mono_11);
-		ids.put(Qu16_Input_Channels.Mono_12.getValue(), R.string.mono_12);
-		ids.put(Qu16_Input_Channels.Mono_13.getValue(), R.string.mono_13);
-		ids.put(Qu16_Input_Channels.Mono_14.getValue(), R.string.mono_14);
-		ids.put(Qu16_Input_Channels.Mono_15.getValue(), R.string.mono_15);
-		ids.put(Qu16_Input_Channels.Mono_16.getValue(), R.string.mono_16);
+		// Layer 2
+		idx = 17;
+		for (byte i = Qu16_Input_Channels.Group_1_2.getValue(); i <= Qu16_Input_Channels.Group_3_4.getValue(); ++i) {
+			layer2.put((int) idx, Qu16_Input_Channels.fromValue(i));
+			++idx;
+		}
+		for (byte i = Qu16_Input_Channels.Matrix_1_2.getValue(); i <= Qu16_Input_Channels.Matrix_3_4.getValue(); ++i) {
+			layer2.put((int) idx, Qu16_Input_Channels.fromValue(i));
+			++idx;
+		}
 		
-		ids.put(Qu16_Input_Channels.Stereo_1.getValue(), R.string.stereo_1);
-		ids.put(Qu16_Input_Channels.Stereo_2.getValue(), R.string.stereo_2);
-		ids.put(Qu16_Input_Channels.Stereo_3.getValue(), R.string.stereo_3);
-
-		ids.put(Qu16_Input_Channels.FX_Return_1.getValue(), R.string.fx_ret_1);
-		ids.put(Qu16_Input_Channels.FX_Return_2.getValue(), R.string.fx_ret_2);
-		ids.put(Qu16_Input_Channels.FX_Return_3.getValue(), R.string.fx_ret_3);
-		ids.put(Qu16_Input_Channels.FX_Return_4.getValue(), R.string.fx_ret_4);
-
-		ids.put(Qu16_Input_Channels.FX_Send_1.getValue(), R.string.fx_send_1);
-		ids.put(Qu16_Input_Channels.FX_Send_2.getValue(), R.string.fx_send_2);
-
-		ids.put(Qu16_Input_Channels.Mix_1.getValue(), R.string.mix_1);
-		ids.put(Qu16_Input_Channels.Mix_2.getValue(), R.string.mix_2);
-		ids.put(Qu16_Input_Channels.Mix_3.getValue(), R.string.mix_3);
-		ids.put(Qu16_Input_Channels.Mix_4.getValue(), R.string.mix_4);
-		ids.put(Qu16_Input_Channels.Mix_5_6.getValue(), R.string.mix_5_6);
-		ids.put(Qu16_Input_Channels.Mix_7_8.getValue(), R.string.mix_7_8);
-		ids.put(Qu16_Input_Channels.Mix_9_10.getValue(), R.string.mix_9_10);
-
-		ids.put(Qu16_Input_Channels.LR.getValue(), R.string.lr);
-		
-		Channel_String_Ids = ids;
+		Qu24_Channel_Layout = new HashMap<Integer, HashMap<Integer, Qu16_Input_Channels>>(init_Layout);
+		////////////////////////////////////////
 		
 		HashMap<Integer, Qu16_VX_Buses> bus = new HashMap<Integer, Qu16_VX_Buses>();
 		bus.put(0, Qu16_VX_Buses.LR);
@@ -115,6 +156,15 @@ public class Qu16_UI {
 		bus.put(8, Qu16_VX_Buses.Mix_7_8);
 		bus.put(9, Qu16_VX_Buses.Mix_9_10);
 				
-		Mixer_Bus_Layout = bus;
+		Qu16_Bus_Layout = new HashMap<Integer, Qu16_VX_Buses>(bus);
+		
+		// Qu-24 specific buses:
+		bus.put(10, Qu16_VX_Buses.Group_1_2);
+		bus.put(11, Qu16_VX_Buses.Group_3_4);
+		bus.put(12, Qu16_VX_Buses.Matrix_1_2);
+		bus.put(13, Qu16_VX_Buses.Matrix_3_4);
+		
+		Qu24_Bus_Layout = new HashMap<Integer, Qu16_VX_Buses>(bus);
+		////////////////////////////////////////////////////////////
 	}
 }

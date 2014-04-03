@@ -6,7 +6,6 @@ import org.wieggers.qu_apps.controls.bound.StandardChannel;
 import org.wieggers.qu_apps.controls.bound.StandardChannel.StandardChannelListener;
 import org.wieggers.qu_apps.qu16.Qu16_Mixer;
 import org.wieggers.qu_apps.qu16.Qu16_UI;
-import org.wieggers.qu_apps.qu16.midi.Qu16_Id_Parameters;
 import org.wieggers.qu_apps.qu16.midi.Qu16_Input_Channels;
 import org.wieggers.qu_apps.qu16.midi.Qu16_VX_Buses;
 
@@ -121,7 +120,7 @@ public class ChannelFragment extends Fragment implements StandardChannelListener
 		mLayout.removeAllViews();
 		
 		for (int i = 1; i <= 17; ++i) {
-			Qu16_Input_Channels inputChannel = Qu16_UI.Mixer_Channel_Layout.get(mCurrentLayer).get(i);
+			Qu16_Input_Channels inputChannel = Qu16_UI.Qu16_Channel_Layout.get(mCurrentLayer).get(i);
 			
 			if (i == 17)
 				inputChannel = Qu16_VX_Buses.MasterChannel(mCurrentBus);
