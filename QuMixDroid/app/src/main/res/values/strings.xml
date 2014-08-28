@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2013 george wieggers.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the GNU Public License v3.0
+  which accompanies this distribution, and is available at
+  http://www.gnu.org/licenses/gpl.html
+  
+  Contributors:
+      george wieggers - initial API and implementation
+-->
+<resources>
+
+    <string name="app_name">QuMixDroid</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_login">QuMixDroid</string>
+    <string name="connect_to_qu_16">Connect to Qu16 mixer</string>
+    <string name="connect">Connect</string>
+    <string name="connect_ip_address">IP:</string>
+    <string name="try_demo_mode">Or use offline.</string>
+    <string name="demo_mode">Offline</string>
+    <string name="mute">Mute</string>
+    <string name="assign">On</string>
+    <string name="layer_1">Layer 1</string>
+    <string name="layer_2">Layer 2</string>
+    <string name="PAFL">PAFL</string>
+    <string name="pre">Pre</string>
+    <string name="pafl">PAFL</string>
+    <string name="copyright">Copyright &#169; 2013 George Wieggers.
+ All rights reserved. This program and the accompanying materials
+ are made available under the terms of the GNU Public License v3.0
+ which accompanies this distribution, and is available at
+ http://www.gnu.org/licenses/gpl.html</string>
+    <string-array name="mixes">
+        <item>Main L/R</item>
+        <item>FX 1</item>
+        <item>FX 2</item>
+        <item>Mix 1</item>
+        <item>Mix 2</item>
+        <item>Mix 3</item>
+        <item>Mix 4</item>
+        <item>Mix 5-6</item>
+        <item>Mix 7-8</item>
+        <item>Mix 9-10</item>
+    </string-array>
+
+    
+    
+    <string name="mono_01">1</string>
+	<string name="mono_02">2</string>
+	<string name="mono_03">3</string>
+	<string name="mono_04">4</string>
+	<string name="mono_05">5</string>
+	<string name="mono_06">6</string>
+	<string name="mono_07">7</string>
+	<string name="mono_08">8</string>
+	<string name="mono_09">9</string>
+	<string name="mono_10">10</string>
+	<string name="mono_11">11</string>
+	<string name="mono_12">12</string>
+	<string name="mono_13">13</string>
+	<string name="mono_14">14</string>
+	<string name="mono_15">15</string>
+	<string name="mono_16">16</string>
+	<string name="mono_17">17</string>
+	<string name="mono_18">18</string>
+	<string name="mono_19">19</string>
+	<string name="mono_20">20</string>
+	<string name="mono_21">21</string>
+	<string name="mono_22">22</string>
+	<string name="mono_23">23</string>
+	<string name="mono_24">24</string>
+			
+	<string name="stereo_1">St 1</string>
+	<string name="stereo_2">St 2</string>
+	<string name="stereo_3">St 3</string>
+	<string name="fx_ret_1">FxR 1</string>
+	<string name="fx_ret_2">FxR 2</string>
+	<string name="fx_ret_3">FxR 3</string>
+	<string name="fx_ret_4">FxR 4</string>
+	<string name="fx_send_1">FxS 1</string>
+	<string name="fx_send_2">FxS 2</string>
+
+	<string name="mix_1">Mx1</string> 
+	<string name="mix_2">Mx2</string> 
+	<string name="mix_3">Mx3</string> 
+	<string name="mix_4">Mx4</string> 
+	<string name="mix_5_6">Mx5-6</string> 
+	<string name="mix_7_8">Mx7-8</string> 
+	<string name="mix_9_10">Mx9-10</string>
+
+	<string name="group_1_2">Gr1-2</string> 
+	<string name="group_3_4">Gr3-4</string> 
+	<string name="matrix_1_2">Mt1-2</string>
+	<string name="matrix_3_4">Mt3-4</string>
+			
+	<string name="lr">Main L/R</string>
+	
+	<string name="connecting_please_wait">Connecting, please wait</string>
+</resources>
